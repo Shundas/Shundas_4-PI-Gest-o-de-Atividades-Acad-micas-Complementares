@@ -19,8 +19,8 @@ yarn start
 
 # Contribuidores
 
-[Felipe Annunziato](https://github.com/felipe-annunziato)
-[Bruno Santos](https://github.com/00crono00)
+[Felipe Annunziato](https://github.com/felipe-annunziato) <br />
+[Bruno Santos](https://github.com/00crono00) <br />
 [Breno Felipe de Bairros](https://github.com/breno-felipe)
 
 Feito com 💜 por Shundas
