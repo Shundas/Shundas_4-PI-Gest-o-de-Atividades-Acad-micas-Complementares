@@ -19,7 +19,7 @@ export default function Header({
         <Background src={image} alt={text} />
 
         <button
-          class="navbar-toggler btn"
+          className="navbar-toggler btn"
           type="button"
           data-toggle="collapse"
           data-target="#menuCollapse"
@@ -28,63 +28,63 @@ export default function Header({
           <MdMenu size={30} color="#fff" />
         </button>
 
-        <div class="collapse navbar-collapse" id="menuCollapse">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
+        <div className="collapse navbar-collapse" id="menuCollapse">
+          <ul className="navbar-nav mr-auto">
+            <li className="nav-item">
               <button
                 type="button"
-                class="btn btn-lg btn-secondary"
+                className="btn btn-lg btn-secondary"
                 data-toggle="popover"
-                title={`Você possui 40h validadas nesta modalidade`}
-                data-content=""
+                title="Horas Validadas"
+                data-content={`Você tem 40h validadas nessa modalidade`}
               >
                 {ensino}
               </button>
             </li>
-            <li class="nav-item">
+            <li className="nav-item">
               <button
                 type="button"
-                class="btn btn-lg btn-secondary"
+                className="btn btn-lg btn-secondary"
                 data-toggle="popover"
-                title={`Você possui 45h validadas nesta modalidade`}
-                data-content=""
+                title="Horas Validadas"
+                data-content={`Você tem 40h validadas nessa modalidade`}
               >
                 {pesquisa}
               </button>
             </li>
-            <li class="nav-item">
+            <li className="nav-item">
               <button
                 type="button"
-                class="btn btn-lg btn-secondary"
+                className="btn btn-lg btn-secondary"
                 data-toggle="popover"
-                title={`Você possui 60h validadas nesta modalidade`}
-                data-content=""
+                title="Horas Validadas"
+                data-content={`Você tem 40h validadas nessa modalidade`}
               >
                 {extencao}
               </button>
             </li>
 
-            <li class="nav-item">
+            <li className="nav-item">
               <button
                 type="button"
-                class="btn btn-lg btn-warning war"
+                className="btn btn-lg btn-secondary"
                 data-toggle="popover"
-                title={`Você possui 60h validadas nesta modalidade`}
-                data-content=""
+                title="Total de Horas Validadas"
+                data-content={`Você tem 40h validadas nessa modalidade`}
               >
                 {total}
               </button>
             </li>
           </ul>
 
-          <ul class="nav justify-content-end">
-            <li class="nav-item">
-              <button type="button" class="btn btn-success" id="btnLogin">
+          <ul className="nav justify-content-end">
+            <li className="nav-item">
+              <button type="button" className="btn btn-success" id="btnLogin">
                 <FiUser size={20} />
               </button>
             </li>
-            <li class="nav-item">
-              <button type="button" class="btn btn-success" id="btnLogin">
+            <li className="nav-item">
+              <button type="button" className="btn btn-success" id="btnLogin">
                 <FiPower size={20} color="#e12" />
               </button>
             </li>
