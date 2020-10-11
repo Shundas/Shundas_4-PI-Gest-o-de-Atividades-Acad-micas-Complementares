@@ -1,11 +1,8 @@
 import React from 'react';
-
 import Header from '../../components/Header';
 import Cards from '../../components/Cards';
-
 import logo from '../../images/logo.svg';
-
-export default function Study() {
+export default function AlunoHome() {
   return (
     <>
       <Header
