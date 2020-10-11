@@ -9,6 +9,8 @@ import {
   ContainerHistory,
   Spnat,
   Hero,
+  History,
+  Grid,
 } from './styled';
 
 export default function Cards() {
@@ -37,7 +39,10 @@ export default function Cards() {
             <Spnat>Fale Conosco</Spnat>
           </ListChild>
         </List>
-        <ContainerHistory>
+      </Container>
+      <ContainerHistory>
+        <History>Criados Recentemente</History>
+        <Grid>
           <div className="card" style={{ width: '18rem' }}>
             <div className="card-body">
               <h5 className="card-title">Curso de Inglês</h5>
@@ -52,8 +57,53 @@ export default function Cards() {
               </a>
             </div>
           </div>
-        </ContainerHistory>
-      </Container>
+
+          <div className="card" style={{ width: '18rem' }}>
+            <div className="card-body">
+              <h5 className="card-title">Curso de Inglês</h5>
+              <h6 className="card-subtitle mb-2 text-muted">4h</h6>
+              <p className="card-text">Status: Em andamento</p>
+              <p className="card-text">Responsável: Shundas Cleysso</p>
+              <a href="#" className="card-link">
+                Visualizar
+              </a>
+              <a href="#" className="card-link">
+                Comentário
+              </a>
+            </div>
+          </div>
+
+          <div className="card" style={{ width: '18rem' }}>
+            <div className="card-body">
+              <h5 className="card-title">Curso de Inglês</h5>
+              <h6 className="card-subtitle mb-2 text-muted">4h</h6>
+              <p className="card-text">Status: Em andamento</p>
+              <p className="card-text">Responsável: Shundas Cleysso</p>
+              <a href="#" className="card-link">
+                Visualizar
+              </a>
+              <a href="#" className="card-link">
+                Comentário
+              </a>
+            </div>
+          </div>
+
+          <div className="card" style={{ width: '18rem' }}>
+            <div className="card-body">
+              <h5 className="card-title">Curso de Inglês</h5>
+              <h6 className="card-subtitle mb-2 text-muted">4h</h6>
+              <p className="card-text">Status: Em andamento</p>
+              <p className="card-text">Responsável: Shundas Cleysso</p>
+              <a href="#" className="card-link">
+                Visualizar
+              </a>
+              <a href="#" className="card-link">
+                Comentário
+              </a>
+            </div>
+          </div>
+        </Grid>
+      </ContainerHistory>
     </>
   );
 }
