@@ -1,40 +1,45 @@
 import React from 'react';
-import { FiPlus } from 'react-icons/fi';
+import { MdSearch, MdContentPaste } from 'react-icons/md';
+import { FaPlus, FaFacebookMessenger } from 'react-icons/fa';
 import {
   Container,
   List,
   ListChild,
-  ContainerList,
   ContainerHistory,
+  Spnat,
+  Hero,
 } from './styled';
 
 export default function Cards() {
   return (
-    <Container>
-      <ContainerList>
+    <>
+      <Hero>Página Inicial</Hero>
+      <Container>
         <List>
           <ListChild>
-            <FiPlus />
-            <span>Adicionar Certificado</span>
+            <FaPlus size={25} color="blue" />
+            <Spnat>Adicionar Certificado</Spnat>
           </ListChild>
 
           <ListChild>
-            <FiPlus />
+            <MdSearch size={25} color="blue" />
+            <Spnat>Consultar Atividades</Spnat>
           </ListChild>
 
           <ListChild>
-            <FiPlus />
-            <span>Fale Conosco</span>
+            <MdContentPaste size={25} color="blue" />
+            <Spnat>Consultar Regras</Spnat>
           </ListChild>
 
           <ListChild>
-            <FiPlus />
+            <FaFacebookMessenger size={25} color="blue" />
+            <Spnat>Fale Conosco</Spnat>
           </ListChild>
         </List>
-      </ContainerList>
-      <ContainerHistory>
-        <h1>History</h1>
-      </ContainerHistory>
-    </Container>
+        <ContainerHistory>
+          <h1>History</h1>
+        </ContainerHistory>
+      </Container>
+    </>
   );
 }
