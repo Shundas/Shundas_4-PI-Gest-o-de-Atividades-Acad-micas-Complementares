@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   padding: 1rem 4%;
   margin-top: 3em;
@@ -23,6 +23,7 @@ export const List = styled.ul`
 
 export const ListChild = styled.li`
   border: 1px solid #fff;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   padding: 1rem;
@@ -53,4 +54,10 @@ export const Spnat = styled.span`
   padding-left: 0.7rem;
 `;
 
-export const ContainerHistory = styled.div``;
+export const ContainerHistory = styled.div`
+  .card {
+    border: 1px solid #fff;
+    border-radius: 6px;
+    box-shadow: -1px 1px 16px -9px rgba(0, 0, 0, 0.65);
+  }
+`;

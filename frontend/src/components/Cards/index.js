@@ -1,4 +1,5 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.css';
 import { MdSearch, MdContentPaste } from 'react-icons/md';
 import { FaPlus, FaFacebookMessenger } from 'react-icons/fa';
 import {
@@ -37,7 +38,20 @@ export default function Cards() {
           </ListChild>
         </List>
         <ContainerHistory>
-          <h1>History</h1>
+          <div className="card" style={{ width: '18rem' }}>
+            <div className="card-body">
+              <h5 className="card-title">Curso de Inglês</h5>
+              <h6 className="card-subtitle mb-2 text-muted">4h</h6>
+              <p className="card-text">Status: Em andamento</p>
+              <p className="card-text">Responsável: Shundas Cleysso</p>
+              <a href="#" className="card-link">
+                Visualizar
+              </a>
+              <a href="#" className="card-link">
+                Comentário
+              </a>
+            </div>
+          </div>
         </ContainerHistory>
       </Container>
     </>
