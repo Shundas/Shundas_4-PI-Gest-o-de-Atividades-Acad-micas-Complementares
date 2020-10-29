@@ -32,33 +32,30 @@ export default function Header({
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
               <button
-                type="button"
-                className="btn btn-lg btn-secondary"
-                data-toggle="popover"
-                title="Horas Validadas"
-                data-content={`Você tem 40h validadas nessa modalidade`}
+                className="btn btn-secondary"
+                data-toggle="tooltip"
+                data-placement="top"
+                title={`Você tem 40h validadas nessa modalidade`}
               >
                 {ensino}
               </button>
             </li>
             <li className="nav-item">
               <button
-                type="button"
-                className="btn btn-lg btn-secondary"
-                data-toggle="popover"
-                title="Horas Validadas"
-                data-content={`Você tem 40h validadas nessa modalidade`}
+                className="btn btn-secondary"
+                data-toggle="tooltip"
+                data-placement="top"
+                title={`Você tem 40h validadas nessa modalidade`}
               >
                 {pesquisa}
               </button>
             </li>
             <li className="nav-item">
               <button
-                type="button"
-                className="btn btn-lg btn-secondary"
-                data-toggle="popover"
-                title="Horas Validadas"
-                data-content={`Você tem 40h validadas nessa modalidade`}
+                className="btn btn-secondary"
+                data-toggle="tooltip"
+                data-placement="top"
+                title={`Você tem 40h validadas nessa modalidade`}
               >
                 {extencao}
               </button>
@@ -66,11 +63,10 @@ export default function Header({
 
             <li className="nav-item">
               <button
-                type="button"
-                className="btn btn-lg btn-secondary"
-                data-toggle="popover"
-                title="Total de Horas Validadas"
-                data-content={`Você tem 40h validadas nessa modalidade`}
+                className="btn btn-secondary"
+                data-toggle="tooltip"
+                data-placement="top"
+                title={`Você tem 40h validadas nessa modalidade`}
               >
                 {total}
               </button>
