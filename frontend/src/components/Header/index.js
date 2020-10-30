@@ -15,7 +15,7 @@ export default function Header({
 }) {
   return (
     <HeaderWrapper>
-      <nav className="navbar navbar-expand-md navbar-success fixed-top bg-success menu">
+      <nav className="navbar navbar-expand-md navbar-success bg-success menu">
         <Background src={image} alt={text} />
 
         <button

@@ -1,6 +1,8 @@
 import React from 'react';
 import logo from '../../images/logo.svg';
 import Header from '../../components/Header';
+
+import { Title, Container } from './styled';
 export default function AlunoEvento() {
   return (
     <>
@@ -13,6 +15,10 @@ export default function AlunoEvento() {
         extencao="Extenção"
         total="Total"
       />
+
+      <Title>Adicionar Atividade</Title>
+
+      <Container></Container>
     </>
   );
 }
