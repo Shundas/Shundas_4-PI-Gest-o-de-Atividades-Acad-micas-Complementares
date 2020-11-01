@@ -92,7 +92,7 @@ export default function AlunoEvento() {
                 <input
                   type="file"
                   id="name"
-                  className="form-control"
+                  className="form-control-file"
                   placeholder="Nome da Instituição"
                 />
               </div>
