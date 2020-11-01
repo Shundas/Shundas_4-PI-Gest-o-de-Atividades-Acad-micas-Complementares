@@ -59,6 +59,71 @@ export default function AlunoConsultaAtividades() {
           </div>
         </form>
       </Container>
+
+      <Container className="container-fluid">
+        <table className="table">
+          <thead className="bg-success">
+            <tr>
+              <th scope="col" style={{ color: '#fff' }}>
+                ID
+              </th>
+              <th scope="col" style={{ color: '#fff' }}>
+                Atividade Complementar
+              </th>
+              <th scope="col" style={{ color: '#fff' }}>
+                Modalidade/Atividade
+              </th>
+              <th scope="col" style={{ color: '#fff' }}>
+                Status
+              </th>
+              <th scope="col" style={{ color: '#fff' }}>
+                Responsavel
+              </th>
+              <th scope="col" style={{ color: '#fff' }}>
+                Ações
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>111</td>
+              <td>Curso de Inglês</td>
+              <td>Ensino</td>
+              <td>Em andamento</td>
+              <td>Jubyscleison</td>
+              <td>
+                <a href="#" className="btn btn-success">
+                  Vizualizar
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td>111</td>
+              <td>Curso de Inglês</td>
+              <td>Ensino</td>
+              <td>Em andamento</td>
+              <td>Jubyscleison</td>
+              <td>
+                <a href="#" className="btn btn-success">
+                  Vizualizar
+                </a>
+              </td>
+            </tr>
+            <tr>
+              <td>111</td>
+              <td>Curso de Inglês</td>
+              <td>Ensino</td>
+              <td>Em andamento</td>
+              <td>Jubyscleison</td>
+              <td>
+                <a href="#" className="btn btn-success">
+                  Vizualizar
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </Container>
     </>
   );
 }
