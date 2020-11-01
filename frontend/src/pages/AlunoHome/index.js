@@ -15,7 +15,9 @@ export default function AlunoHome() {
         total="Total"
       />
 
-      <Cards />
+      <div className="container">
+        <Cards />
+      </div>
     </>
   );
 }

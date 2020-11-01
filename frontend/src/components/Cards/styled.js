@@ -11,14 +11,25 @@ export const Container = styled.div`
 
 export const Hero = styled.h1`
   text-align: center;
-  margin-top: 8rem;
+  margin-top: 4rem;
   font-family: 'Poppins', sans-serif;
+
+  @media (max-width: 800px) {
+    font-size: 30px;
+  }
 `;
 
 export const List = styled.ul`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 60px;
+
+  @media (max-width: 800px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 export const ListChild = styled.li`
@@ -91,6 +102,13 @@ export const Grid = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;
+
+  @media (max-width: 800px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 export const History = styled.h1`
@@ -98,4 +116,8 @@ export const History = styled.h1`
   margin-top: 1rem;
   margin-bottom: 1rem;
   font-family: 'Poppins', sans-serif;
+
+  @media (max-width: 800px) {
+    font-size: 30px;
+  }
 `;
