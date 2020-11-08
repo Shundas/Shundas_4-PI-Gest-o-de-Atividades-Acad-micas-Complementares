@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { MdMenu } from 'react-icons/md';
 import { FiPower, FiUser } from 'react-icons/fi';
 
-import { Background, HeaderWrapper } from './styled';
+import { Background, HeroTitle, HeaderWrapper } from './styled';
 
 export default function Header({
   image,
@@ -12,11 +12,13 @@ export default function Header({
   pesquisa,
   ensino,
   total,
+  title,
 }) {
   return (
     <HeaderWrapper>
       <nav className="navbar navbar-expand-md navbar-success bg-success menu">
         <Background src={image} alt={text} />
+        <HeroTitle>Atividades Complementares</HeroTitle>
 
         <button
           className="navbar-toggler btn"
@@ -31,58 +33,28 @@ export default function Header({
         <div className="collapse navbar-collapse" id="menuCollapse">
           <ul className="navbar-nav mr-auto">
             <li className="nav-item">
-              <button
-                className="btn btn-secondary"
-                data-toggle="tooltip"
-                data-placement="top"
-                title={`Você tem 40h validadas nessa modalidade`}
-              >
+              <span className="nav-link">
                 {ensino}
-              </button>
+                <h5 class="badge badge-ligth">40h</h5>
+              </span>
             </li>
             <li className="nav-item">
-              <button
-                className="btn btn-secondary"
-                data-toggle="tooltip"
-                data-placement="top"
-                title={`Você tem 40h validadas nessa modalidade`}
-              >
+              <span className="nav-link">
                 {pesquisa}
-              </button>
+                <h5 class="badge badge-ligth">40h</h5>
+              </span>
             </li>
             <li className="nav-item">
-              <button
-                className="btn btn-secondary"
-                data-toggle="tooltip"
-                data-placement="top"
-                title={`Você tem 40h validadas nessa modalidade`}
-              >
+              <span className="nav-link">
                 {extencao}
-              </button>
+                <h5 class="badge badge-ligth">40h</h5>
+              </span>
             </li>
-
             <li className="nav-item">
-              <button
-                className="btn btn-secondary"
-                data-toggle="tooltip"
-                data-placement="top"
-                title={`Você tem 40h validadas nessa modalidade`}
-              >
+              <span className="nav-link">
                 {total}
-              </button>
-            </li>
-          </ul>
-
-          <ul className="nav justify-content-end">
-            <li className="nav-item">
-              <button type="button" className="btn btn-success" id="btnLogin">
-                <FiUser size={20} />
-              </button>
-            </li>
-            <li className="nav-item">
-              <button type="button" className="btn btn-success" id="btnLogin">
-                <FiPower size={20} color="#e12" />
-              </button>
+                <h5 class="badge badge-ligth">40h</h5>
+              </span>
             </li>
           </ul>
         </div>

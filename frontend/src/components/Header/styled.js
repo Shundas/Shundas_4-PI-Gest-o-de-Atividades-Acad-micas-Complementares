@@ -1,34 +1,15 @@
 import styled from 'styled-components';
 
 export const HeaderWrapper = styled.header`
+  width: 100vw;
   .menu {
     display: flex;
-    justify-content: space-between;
-  }
-
-  .btn {
-    border: 0;
-    outline: none;
-    background: none;
-    font-size: 1rem;
-  }
-
-  .d-sp {
-    background: #fff;
-  }
-
-  #menuCollapse {
-    margin-left: 2rem;
-  }
-
-  .cont-btns {
-    display: flex;
     align-items: center;
-    justify-content: center;
+    flex-direction: column;
   }
 
-  .war {
-    color: yellow;
+  .ul-r {
+    color: '#fff';
   }
 `;
 
@@ -39,4 +20,5 @@ export const Background = styled.img`
 export const HeroTitle = styled.h5`
   font-size: 1.4rem;
   margin-left: 1rem;
+  color: #fff;
 `;
