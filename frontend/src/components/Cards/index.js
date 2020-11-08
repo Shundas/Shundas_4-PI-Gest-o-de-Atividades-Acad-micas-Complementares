@@ -20,25 +20,33 @@ export default function Cards() {
         <Hero>Página Inicial</Hero>
         <Container className="container">
           <List>
-            <ListChild>
-              <FaPlus size={25} color="blue" />
-              <Spnat>Adicionar Certificado</Spnat>
-            </ListChild>
+            <div className="card" style={{ width: '18rem' }}>
+              <div className="card-body">
+                <h5 className="card-title">Adicionar Certificado</h5>
+                <FaPlus size={25} color="blue" className="icon" />
+              </div>
+            </div>
 
-            <ListChild>
-              <MdSearch size={25} color="blue" />
-              <Spnat>Consultar Atividades</Spnat>
-            </ListChild>
+            <div className="card" style={{ width: '18rem' }}>
+              <div className="card-body">
+                <h5 className="card-title">Consultar Atividades</h5>
+                <MdSearch size={25} color="blue" className="icon" />
+              </div>
+            </div>
 
-            <ListChild>
-              <MdContentPaste size={25} color="blue" />
-              <Spnat>Consultar Regras</Spnat>
-            </ListChild>
+            <div className="card" style={{ width: '18rem' }}>
+              <div className="card-body">
+                <h5 className="card-title">Consultar Regras</h5>
+                <MdContentPaste size={25} color="blue" className="icon" />
+              </div>
+            </div>
 
-            <ListChild>
-              <FaFacebookMessenger size={25} color="blue" />
-              <Spnat>Fale Conosco</Spnat>
-            </ListChild>
+            <div className="card" style={{ width: '18rem' }}>
+              <div className="card-body">
+                <h5 className="card-title">Fale Conosco</h5>
+                <FaFacebookMessenger size={25} color="blue" className="icon" />
+              </div>
+            </div>
           </List>
         </Container>
         <ContainerHistory>

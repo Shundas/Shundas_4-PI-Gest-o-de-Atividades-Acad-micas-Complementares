@@ -24,38 +24,35 @@ export const List = styled.ul`
   grid-template-columns: 1fr 1fr;
   gap: 60px;
 
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &:hover {
+      animation: bounce 0.5s linear;
+    }
+    @keyframes bounce {
+      20% {
+        transform: translateY(-6px);
+      }
+      40% {
+        transform: translateY(0px);
+      }
+      80% {
+        transform: translateY(-2px);
+      }
+      100% {
+        transform: translateY(0);
+      }
+    }
+  }
+
   @media (max-width: 800px) {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-  }
-`;
-
-export const ListChild = styled.li`
-  border: 1px solid #fff;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  padding: 1rem;
-  box-shadow: -1px 1px 16px -9px rgba(0, 0, 0, 0.65);
-
-  &:hover {
-    animation: bounce 0.5s linear;
-  }
-  @keyframes bounce {
-    20% {
-      transform: translateY(-6px);
-    }
-    40% {
-      transform: translateY(0px);
-    }
-    80% {
-      transform: translateY(-2px);
-    }
-    100% {
-      transform: translateY(0);
-    }
   }
 `;
 
