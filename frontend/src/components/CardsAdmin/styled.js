@@ -14,6 +14,11 @@ export const Grid = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 50px;
 
+  button {
+    border: 0;
+    outline: 0;
+  }
+
   .card-body {
     display: flex;
     flex-direction: column;
