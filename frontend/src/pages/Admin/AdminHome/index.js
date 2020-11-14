@@ -1,16 +1,16 @@
 import React, { Fragment } from 'react';
-import Header from '../../../components/Header';
-import logo from '../../../images/logo.svg';
+import Header from '../../../components/HeaderAdmin';
+import Cards from '../../../components/CardsAdmin';
 import 'bootstrap/dist/css/bootstrap.css';
 
 export default function AdminHome() {
   return (
     <Fragment>
-      <Header
-        image={logo}
-        text="Imagem da Logo"
-        title="Atividades Compementares"
-      />
+      <Header />
+
+      <div className="container">
+        <Cards />
+      </div>
     </Fragment>
   );
 }

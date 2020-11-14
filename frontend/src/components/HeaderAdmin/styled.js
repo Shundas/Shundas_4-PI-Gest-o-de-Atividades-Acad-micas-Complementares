@@ -6,6 +6,12 @@ export const HeaderContainerWrapper = styled.header`
     align-items: center;
     justify-content: space-between;
   }
+
+  .div-flex {
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
 `;
 
 export const Background = styled.img`
@@ -13,5 +19,6 @@ export const Background = styled.img`
 `;
 
 export const Title = styled.h5`
+  font-size: 18px;
   color: '#fff';
 `;

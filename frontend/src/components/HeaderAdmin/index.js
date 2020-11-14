@@ -8,8 +8,10 @@ export default function HeaderAdmin() {
   return (
     <HeaderContainerWrapper>
       <nav className="navbar navbar-expand-md navbar-success bg-success menu">
-        <Background src={logo} className="img-fluid" alt="Imagem da Logo" />
-        <Title>Atividades Complementares</Title>
+        <div className="div-flex">
+          <Background src={logo} className="img-fluid" alt="Imagem da Logo" />
+          <Title>Atividades Complementares</Title>
+        </div>
 
         <div className="btns">
           <button className="btn btn-success">
