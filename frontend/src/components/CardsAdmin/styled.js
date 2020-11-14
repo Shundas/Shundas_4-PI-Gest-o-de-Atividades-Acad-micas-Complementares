@@ -6,7 +6,7 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   padding: 1rem 4%;
-  margin-top: 3em;
+  margin-top: 5em;
 `;
 
 export const Grid = styled.div`
