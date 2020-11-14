@@ -4,10 +4,10 @@ export const HeaderWrapper = styled.header`
   .menu {
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
   }
 
-  .ul-r {
+  span h5 {
     color: '#fff';
   }
 `;

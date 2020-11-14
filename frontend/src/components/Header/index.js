@@ -30,33 +30,41 @@ export default function Header({
           <MdMenu size={30} color="#fff" />
         </button>
 
-        <div className="collapse navbar-collapse" id="menuCollapse">
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <span className="nav-link">
-                {ensino}
-                <h5 class="badge badge-ligth">40h</h5>
-              </span>
-            </li>
-            <li className="nav-item">
-              <span className="nav-link">
-                {pesquisa}
-                <h5 class="badge badge-ligth">40h</h5>
-              </span>
-            </li>
-            <li className="nav-item">
-              <span className="nav-link">
-                {extencao}
-                <h5 class="badge badge-ligth">40h</h5>
-              </span>
-            </li>
-            <li className="nav-item">
-              <span className="nav-link">
-                {total}
-                <h5 class="badge badge-ligth">40h</h5>
-              </span>
-            </li>
-          </ul>
+        <div>
+          <div
+            className="collapse navbar-collapse col-cg-ritgh"
+            id="menuCollapse"
+          >
+            <ul className="navbar-nav mr-auto">
+              <li className="nav-item">
+                <span className="nav-link">
+                  {ensino}
+                  <h5 class="badge badge-ligth">40h</h5>
+                </span>
+              </li>
+              <li className="nav-item">
+                <span className="nav-link">
+                  {pesquisa}
+                  <h5 class="badge badge-ligth">40h</h5>
+                </span>
+              </li>
+              <li className="nav-item">
+                <span className="nav-link">
+                  {extencao}
+                  <h5 class="badge badge-ligth">40h</h5>
+                </span>
+              </li>
+              <li className="nav-item">
+                <span className="nav-link">
+                  {total}
+                  <h5 class="badge badge-ligth">40h</h5>
+                </span>
+              </li>
+            </ul>
+            <button className="btn btn-success">
+              <FiUser size={25} />
+            </button>
+          </div>
         </div>
       </nav>
     </HeaderWrapper>
