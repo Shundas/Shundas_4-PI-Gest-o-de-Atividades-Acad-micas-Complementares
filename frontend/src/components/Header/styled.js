@@ -4,7 +4,7 @@ export const HeaderWrapper = styled.header`
   .menu {
     display: flex;
     align-items: center;
-    flex-direction: column;
+    justify-content: space-around;
   }
 
   .ul-r {
