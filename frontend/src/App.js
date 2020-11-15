@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import GlobalStyles from './Global/styled';
-import Student from './pages/Admin/AdminConsulta';
+import Student from './pages/Admin/AdminConsultaColaborador';
 
 function App() {
   return (
