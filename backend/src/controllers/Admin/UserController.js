@@ -4,19 +4,20 @@ const crypto = require('crypto')
 const bcrypt = require('bcryptjs')
 const nodemailer = require('nodemailer');
 
+
 module.exports = {
-  
+
   //Criação de Usuários com validação --OK
   async createAluno(request, response, next) {
     try {
       const { name, email, phone, celular } = request.body
-      const validatorName = yup.object().shape({name: yup.string().required()})
-      const validatorEmail = yup.object().shape({email: yup.string().email().required()})
-      const validatorCelular = yup.object().shape({celular: yup.string().required()})
+      const validatorName = yup.object().shape({ name: yup.string().required() })
+      const validatorEmail = yup.object().shape({ email: yup.string().email().required() })
+      const validatorCelular = yup.object().shape({ celular: yup.string().required() })
 
       const emailExiste = await knex.count("iduser as existe").from("user").where("email", email)
       var [{ existe }] = emailExiste
-      if(existe > 0){
+      if (existe > 0) {
         return response.status(400).json({ error: 'Email já cadastrado.' })
       }
 
@@ -29,8 +30,8 @@ module.exports = {
       if (!(await validatorCelular.isValid(request.body))) {
         return response.status(400).json({ error: 'Celular obrigatório.' })
       }
-      
-    
+
+
       const id = crypto.randomBytes(8).toString('hex')
       const senha = crypto.randomBytes(4).toString('hex')
       const hash = await bcrypt.hash(senha, 10)
@@ -44,7 +45,7 @@ module.exports = {
         senha: hash,
         isActive: true,
       })
-      console.log(senha)
+
       return response.json(user)
     } catch (erros) {
       return response.json({ error: erros.message })
@@ -54,13 +55,13 @@ module.exports = {
   async createColaborador(request, response, next) {
     try {
       const { name, email, phone, celular, idrole } = request.body
-      const validatorName = yup.object().shape({name: yup.string().required()})
-      const validatorEmail = yup.object().shape({email: yup.string().email().required()})
-      const validatorCelular = yup.object().shape({celular: yup.string().required()})
+      const validatorName = yup.object().shape({ name: yup.string().required() })
+      const validatorEmail = yup.object().shape({ email: yup.string().email().required() })
+      const validatorCelular = yup.object().shape({ celular: yup.string().required() })
 
       const emailExiste = await knex.count("iduserSenai as existe").from("userSenai").where("email", email)
       var [{ existe }] = emailExiste
-      if(existe > 0){
+      if (existe > 0) {
         return response.status(400).json({ error: 'Email já cadastrado.' })
       }
 
@@ -184,21 +185,9 @@ module.exports = {
     }
   },
 
-  async resetSenhaAluno(request, response){
-
-    try{
-
-       
-
-    }catch(erros){
-
-    }
-  },
-
-
   //Listagem de Usuários --OK
   async indexAluno(request, response) {
-    try{
+    try {
       const results = await knex.select("*").from("user").orderBy("iduser");
       return response.json(results);
 
@@ -208,7 +197,7 @@ module.exports = {
   },
 
   async indexColaborador(request, response) {
-    try{
+    try {
       const results = await knex.select("*").from("userSenai").orderBy("iduserSenai");
       return response.json(results);
 
@@ -224,7 +213,7 @@ module.exports = {
       const pesquisaUserUnico = await knex("user").where("iduser", id).first();
 
       if (!pesquisaUserUnico) {
-        return response.json({ msg: "Usuário não encontrado" }); 
+        return response.json({ msg: "Usuário não encontrado" });
       } else {
         return response.json(pesquisaUserUnico);
       }
@@ -239,7 +228,7 @@ module.exports = {
       const pesquisaUserUnico = await knex("userSenai").where("iduserSenai", id).first();
 
       if (!pesquisaUserUnico) {
-        return response.json({ msg: "Usuário não encontrado" }); 
+        return response.json({ msg: "Usuário não encontrado" });
       } else {
         return response.json(pesquisaUserUnico);
       }
@@ -247,4 +236,23 @@ module.exports = {
       return response.json({ error: erros.message })
     }
   },
+
+  async consultaAlunos(request, response){
+    try{
+      const { page =1 } = request.query
+      const [count] = await knex("user").count("*")
+      const alunos = await knex("user")
+      .limit(5)
+      .offset((page -1)*5)      
+      .select("name,email,phone,celular,cpf,isActive");
+
+      response.shape("X-Total-Count", count['count(*)'])      
+
+      return response.json(alunos);
+
+    }catch(erros){
+
+    }
+  }
+
 }

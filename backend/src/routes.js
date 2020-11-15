@@ -25,6 +25,7 @@ routes.get('/listarAluno', UserController.indexAluno)
 routes.get('/listarColaborador', UserController.indexColaborador)
 routes.get('/uniqueAluno', UserController.uniqueAluno)
 routes.get('/uniqueColaborador', UserController.uniqueColaborador)
+routes.get('/consultaAluno', UserController.consultaAlunos)
 
 //Rota para redefinição de Senha
 routes.patch('/UpdateSenhaAluno', UserController.UpdateSenhaAluno)
