@@ -186,17 +186,26 @@ module.exports = {
   },
 
   //Listagem de Usuários --OK
-  async indexAluno(request, response) {
-    try {
-      const results = await knex.select("*").from("user").orderBy("iduser");
-      return response.json(results);
+  async consultaAlunos(request, response){
+    try{
+      const { page =1 } = request.query
+      const [count] = await knex("user").count("*")
+      const alunos = await knex("user")
+      .limit(5)
+      .offset((page -1)*5)      
+      .select("name","email","phone","celular","cpf","isActive");
+      
+      response.header("X-Total-Count", count['count(*)'])      
 
-    } catch (erros) {
+      return response.json(alunos);
+
+    }catch(erros){
+
       return response.json({ error: erros.message })
     }
   },
 
-  async indexColaborador(request, response) {
+  async consultaColaborador(request, response) {
     try {
       const results = await knex.select("*").from("userSenai").orderBy("iduserSenai");
       return response.json(results);
@@ -205,54 +214,4 @@ module.exports = {
       return response.json({ error: erros.message })
     }
   },
-
-  //Listagem de usuário específico --OK
-  async uniqueAluno(request, response, next) {
-    try {
-      const { id } = request.query;
-      const pesquisaUserUnico = await knex("user").where("iduser", id).first();
-
-      if (!pesquisaUserUnico) {
-        return response.json({ msg: "Usuário não encontrado" });
-      } else {
-        return response.json(pesquisaUserUnico);
-      }
-    } catch (error) {
-      return response.json({ error: erros.message })
-    }
-  },
-
-  async uniqueColaborador(request, response, next) {
-    try {
-      const { id } = request.query;
-      const pesquisaUserUnico = await knex("userSenai").where("iduserSenai", id).first();
-
-      if (!pesquisaUserUnico) {
-        return response.json({ msg: "Usuário não encontrado" });
-      } else {
-        return response.json(pesquisaUserUnico);
-      }
-    } catch (error) {
-      return response.json({ error: erros.message })
-    }
-  },
-
-  async consultaAlunos(request, response){
-    try{
-      const { page =1 } = request.query
-      const [count] = await knex("user").count("*")
-      const alunos = await knex("user")
-      .limit(5)
-      .offset((page -1)*5)      
-      .select("name,email,phone,celular,cpf,isActive");
-
-      response.shape("X-Total-Count", count['count(*)'])      
-
-      return response.json(alunos);
-
-    }catch(erros){
-
-    }
-  }
-
 }

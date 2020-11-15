@@ -21,10 +21,7 @@ routes.put('/updateAluno', UserController.updateAluno)
 routes.put('/updateColaborador', UserController.updateColaborador)
 
 //Rotas para listar Usuários
-routes.get('/listarAluno', UserController.indexAluno)
-routes.get('/listarColaborador', UserController.indexColaborador)
-routes.get('/uniqueAluno', UserController.uniqueAluno)
-routes.get('/uniqueColaborador', UserController.uniqueColaborador)
+routes.get('/consultaColaborador', UserController.consultaColaborador)
 routes.get('/consultaAluno', UserController.consultaAlunos)
 
 //Rota para redefinição de Senha
