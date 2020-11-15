@@ -189,12 +189,14 @@ module.exports = {
   async consultaAlunos(request, response){
     try{
       const { page =1 } = request.query
+      const { name } = request.body
       const [count] = await knex("user").count("*")
       const alunos = await knex("user")
       .limit(5)
       .offset((page -1)*5)      
-      .select("name","email","phone","celular","cpf","isActive");
-      
+      .select("iduser","name","email","phone","celular","cpf","isActive")
+      .whereRaw('name like \'%??%\'', [name]);
+      console.log(alunos)
       response.header("X-Total-Count", count['count(*)'])      
 
       return response.json(alunos);
