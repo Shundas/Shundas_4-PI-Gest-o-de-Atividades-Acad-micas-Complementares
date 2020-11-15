@@ -8,22 +8,28 @@ module.exports = {
   //Criação de Usuários com validação --OK
   async createAluno(request, response, next) {
     try {
-      const { name, email, phone, celular, isActive } = request.body
-      const validator = yup.object().shape({
-        name: yup.string().required(),
-        email: yup.string().email().required(),
-        celular: yup.string().required(),
-      })
+      const { name, email, phone, celular } = request.body
+      const validatorName = yup.object().shape({name: yup.string().required()})
+      const validatorEmail = yup.object().shape({email: yup.string().email().required()})
+      const validatorCelular = yup.object().shape({celular: yup.string().required()})
 
-      const emailExiste = await knex.select("*").from("user").where("email", email).count()
-      console.log(emailExiste)
-      if(emailExiste > 0){
-        return response.status(400).json({ error: 'Email já cadastrado' })
+      const emailExiste = await knex.count("iduser as existe").from("user").where("email", email)
+      var [{ existe }] = emailExiste
+      console.log(existe)
+      if(existe > 0){
+        return response.status(400).json({ error: 'Email já cadastrado.' })
       }
 
-      if (!(await validator.isValid(request.body))) {
-        return response.status(400).json({ error: 'shunda' })
+      if (!(await validatorName.isValid(request.body))) {
+        return response.status(400).json({ error: 'Nome é campo obrigatório.' })
       }
+      if (!(await validatorEmail.isValid(request.body))) {
+        return response.status(400).json({ error: 'Email inválido.' })
+      }
+      if (!(await validatorCelular.isValid(request.body))) {
+        return response.status(400).json({ error: 'Celular obrigatório.' })
+      }
+      
     
       const id = crypto.randomBytes(8).toString('hex')
       const senha = crypto.randomBytes(4).toString('hex')
