@@ -1,18 +1,33 @@
 import React, { Fragment } from 'react';
+import styled from 'styled-components';
 import Header from '../../../components/HeaderAdmin';
 import 'bootstrap/dist/css/bootstrap.css';
 
-export default function AdminCadastroUser() {
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .btns {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .btns button:nth-child(1) {
+    margin-bottom: 1rem;
+  }
+`;
+
+export default function AdminCadastroColab() {
   return (
     <Fragment>
       <Header />
+      <h2 style={{ marginTop: '2em' }} className="text-center">
+        Cadastro de Colaborador
+      </h2>
       <div className="container">
-        <h2 style={{ marginTop: '2em' }} className="text-center">
-          Cadastro de Usuário
-        </h2>
-
-        <div className="container">
-          <form>
+        <Container>
+          <form className="form">
             <div className="form-group">
               <label htmlFor="name">Nome</label>
               <input className="form-control" type="text" id="name" />
@@ -22,16 +37,18 @@ export default function AdminCadastroUser() {
               <input className="form-control" type="text" id="telefone" />
               <label htmlFor="celular">Celular</label>
               <input className="form-control" type="text" id="celular" />
-              <label htmlFor="select">Tipo de Usuário</label>
+              <label htmlFor="select">Perfil</label>
               <select id="perfil" className="form-control">
-                <option value="1">Aluno</option>
                 <option value="2">Colaborador</option>
+                <option value="1">Aluno</option>
               </select>
             </div>
-            <button className="btn btn-primary">Enviar</button>
-            <button className="btn btn-secondary">Voltar</button>
+            <div className="btns">
+              <button className="btn btn-primary">Enviar</button>
+              <button className="btn btn-secondary">Voltar</button>
+            </div>
           </form>
-        </div>
+        </Container>
       </div>
     </Fragment>
   );
