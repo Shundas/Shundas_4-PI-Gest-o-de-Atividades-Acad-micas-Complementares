@@ -16,14 +16,14 @@ export default function AdminCadastroUser() {
             <div className="form-group">
               <label htmlFor="name">Nome</label>
               <input className="form-control" type="text" id="name" />
-              <label htmlFor="name">E-mail</label>
-              <input className="form-control" type="email" id="name" />
-              <label htmlFor="name">Telefone</label>
-              <input className="form-control" type="text" id="name" />
-              <label htmlFor="name">Celular</label>
-              <input className="form-control" type="text" id="name" />
+              <label htmlFor="email">E-mail</label>
+              <input className="form-control" type="email" id="email" />
+              <label htmlFor="telefone">Telefone</label>
+              <input className="form-control" type="text" id="telefone" />
+              <label htmlFor="celular">Celular</label>
+              <input className="form-control" type="text" id="celular" />
               <label htmlFor="select">Tipo de Usuário</label>
-              <select id="select" className="form-control">
+              <select id="perfil" className="form-control">
                 <option value="1">Aluno</option>
                 <option value="2">Colaborador</option>
               </select>
