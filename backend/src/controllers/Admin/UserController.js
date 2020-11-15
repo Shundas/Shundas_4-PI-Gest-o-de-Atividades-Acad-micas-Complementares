@@ -23,7 +23,7 @@ module.exports = {
       const hash = await bcrypt.hash(senha, 10)
 
       const user = await knex('user').insert({
-        id,
+        iduser: id,
         name,
         email,
         phone,
