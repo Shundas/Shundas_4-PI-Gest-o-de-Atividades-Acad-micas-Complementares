@@ -7,7 +7,7 @@ module.exports = {
   //Criação do usuário com validação --OK
   async createAluno(request, response, next) {
     try {
-      const { name, email, telefone, celular } = request.body
+      const { name, email, phone, celular } = request.body
       const validator = yup.object().shape({
         name: yup.string().required(),
         email: yup.string().email().required(),
@@ -26,7 +26,7 @@ module.exports = {
         id,
         name,
         email,
-        telefone,
+        phone,
         celular,
         senha: hash,
       })
