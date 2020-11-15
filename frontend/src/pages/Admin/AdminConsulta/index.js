@@ -88,9 +88,8 @@ export default function AdminConsulta() {
               <td>Em andamento</td>
               <td>Jubyscleison</td>
               <td>
-                <a href="#" className="btn btn-success">
-                  Vizualizar
-                </a>
+                <button className="btn btn-outline-success">Vizualizar</button>
+                <button className="btn btn-outline-primary">Editar</button>
               </td>
             </tr>
             <tr>
@@ -100,9 +99,8 @@ export default function AdminConsulta() {
               <td>Em andamento</td>
               <td>Jubyscleison</td>
               <td>
-                <a href="#" className="btn btn-success">
-                  Vizualizar
-                </a>
+                <button className="btn btn-outline-success">Vizualizar</button>
+                <button className="btn btn-outline-primary">Editar</button>
               </td>
             </tr>
             <tr>
@@ -112,9 +110,8 @@ export default function AdminConsulta() {
               <td>Em andamento</td>
               <td>Jubyscleison</td>
               <td>
-                <a href="#" className="btn btn-success">
-                  Vizualizar
-                </a>
+                <button className="btn btn-outline-success">Vizualizar</button>
+                <button className="btn btn-outline-primary">Editar</button>
               </td>
             </tr>
           </tbody>
