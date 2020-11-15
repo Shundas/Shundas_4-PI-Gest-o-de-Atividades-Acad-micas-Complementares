@@ -11,8 +11,7 @@ module.exports = {
             const { path } = request.file
 
             const { iduser } = request.query
-            
-            console.log(iduser)
+
             const { iduserSenai, idactivity, idcategory, institutionName, date_end, workload, attachment, activityName, status } = request.body
             const validator = yup.object().shape({
             institutionName: yup.string().required(),
@@ -44,6 +43,15 @@ module.exports = {
             return response.json({ error: erros.message })
         }
     },
+
+    async createAtividadeSenai(request, response) {
+        try{
+            const { iduserSenai, idactivity, idcategory, institutionName, date_end, workload, attachment, activityName, status } = request.body
+
+        } catch (erros) {
+            return response.json({ error: erros.message })
+        }
+    }
 
     
 }

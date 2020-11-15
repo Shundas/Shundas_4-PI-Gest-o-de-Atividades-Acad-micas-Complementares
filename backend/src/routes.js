@@ -32,12 +32,6 @@ routes.patch('/UpdateSenhaAluno', UserController.UpdateSenhaAluno)
 //Criar Atividade
 routes.post('/criarAtividade', multer(multerconfig).single('file'), AlunoController.createAtividade)
 
-// //Rota para Upload de Arquivos
-// routes.post('/upload', multer(multerconfig).single('file'), (req, res) => {
-//     console.log(req.file);
-//     return res.json({ msg: "alou" });
-// });
-
 
 
 module.exports = routes;
