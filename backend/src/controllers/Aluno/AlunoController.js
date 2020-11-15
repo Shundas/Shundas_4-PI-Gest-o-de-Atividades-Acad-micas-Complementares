@@ -1,13 +1,19 @@
 const knex = require('../../database/connection')
 const yup = require('yup')
 const crypto = require('crypto')
-const bcrypt = require('bcryptjs')
+
 
 module.exports = {
 
     async createAtividade(request, response) {
         try {
-            const { iduser, iduserSenai, idactivity, idcategory, institutionName, date_end, workload, attachment, activityName, status } = request.body
+
+            const { path } = request.file
+
+            const { iduser } = request.query
+            
+            console.log(iduser)
+            const { iduserSenai, idactivity, idcategory, institutionName, date_end, workload, attachment, activityName, status } = request.body
             const validator = yup.object().shape({
             institutionName: yup.string().required(),
         })
@@ -27,7 +33,7 @@ module.exports = {
             institutionName,
             date_end,
             workload,
-            attachment,
+            attachment: path,
             activityName,
             status,
         })
@@ -37,5 +43,7 @@ module.exports = {
         } catch (erros) {
             return response.json({ error: erros.message })
         }
-    }
+    },
+
+    
 }

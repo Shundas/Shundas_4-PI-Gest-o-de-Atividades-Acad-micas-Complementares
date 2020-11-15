@@ -1,4 +1,8 @@
 const { Router } = require('express');
+
+const multer = require("multer");
+const multerconfig = require('./config/multer');
+
 const UserController = require('./controllers/Admin/UserController');
 const AlunoController = require('./controllers/Aluno/AlunoController');
 const routes = Router();
@@ -26,7 +30,13 @@ routes.get('/uniqueColaborador', UserController.uniqueColaborador)
 routes.patch('/UpdateSenhaAluno', UserController.UpdateSenhaAluno)
 
 //Criar Atividade
-routes.post('/criarAtividade', AlunoController.createAtividade)
+routes.post('/criarAtividade', multer(multerconfig).single('file'), AlunoController.createAtividade)
+
+// //Rota para Upload de Arquivos
+// routes.post('/upload', multer(multerconfig).single('file'), (req, res) => {
+//     console.log(req.file);
+//     return res.json({ msg: "alou" });
+// });
 
 
 
