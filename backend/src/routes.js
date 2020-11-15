@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const UserController = require('./controllers/Admin/UserController');
+const AlunoController = require('./controllers/Aluno/AlunoController');
 const routes = Router();
 
 
@@ -23,6 +24,9 @@ routes.get('/uniqueColaborador', UserController.uniqueColaborador)
 
 //Rota para redefinição de Senha
 routes.patch('/UpdateSenhaAluno', UserController.UpdateSenhaAluno)
+
+//Criar Atividade
+routes.post('/criarAtividade', AlunoController.createAtividade)
 
 
 
