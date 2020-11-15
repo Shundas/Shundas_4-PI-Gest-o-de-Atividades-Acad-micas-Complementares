@@ -1,4 +1,5 @@
-const { Router } = require('express')
+const { Router } = require('express');
+const UserController = require('./controllers/Admin/UserController');
 const routes = Router();
 
 
@@ -12,8 +13,8 @@ routes.get('/listarAtividade', (req, res) => {
     res.send("oi");
 });
 
-// Rota para criar atividade
-routes.post('/criarAtividade')
+// Rota para criar Aluno
+routes.post('/criarAluno', UserController.createAluno)
 
 // Rota para editar atividade
 routes.put('/')
