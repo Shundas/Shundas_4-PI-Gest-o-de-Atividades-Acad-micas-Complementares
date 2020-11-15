@@ -39,15 +39,15 @@ export default function AdminConsulta() {
             <input className="form-control" type="text" id="id1" />
           </div>
           <div className="form-column">
-            <label htmlFor="id1">Perfil</label>
-            <input className="form-control" type="text" id="id1" />
-          </div>
-          <div className="form-column">
             <label htmlFor="id1">E-mail</label>
             <input className="form-control" type="text" id="id1" />
           </div>
           <div className="form-column">
-            <label htmlFor="id1">Telefone</label>
+            <label htmlFor="id1">CPF</label>
+            <input className="form-control" type="text" id="id1" />
+          </div>
+          <div className="form-column">
+            <label htmlFor="id1">Ativo</label>
             <input className="form-control" type="text" id="id1" />
           </div>
           <div className="btns">
