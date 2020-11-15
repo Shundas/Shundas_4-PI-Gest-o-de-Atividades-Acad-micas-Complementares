@@ -2,7 +2,6 @@ const knex = require('../../database/connection')
 const yup = require('yup')
 const crypto = require('crypto')
 const bcrypt = require('bcryptjs')
-const jwt = require('')
 
 module.exports = {
   //Criação do usuário com validação --OK
