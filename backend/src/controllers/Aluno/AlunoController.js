@@ -46,7 +46,9 @@ module.exports = {
 
     async createAtividadeSenai(request, response) {
         try{
-            const { iduserSenai, idactivity, idcategory, institutionName, date_end, workload, attachment, activityName, status } = request.body
+
+            const { iduser } = request.query
+            const { iduserSenai, idactivity, idcategory } = request.body
 
         } catch (erros) {
             return response.json({ error: erros.message })
