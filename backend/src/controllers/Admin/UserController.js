@@ -15,10 +15,16 @@ module.exports = {
         celular: yup.string().required(),
       })
 
+      const emailExiste = await knex.select("*").from("user").where("email", email).count()
+      console.log(emailExiste)
+      if(emailExiste > 0){
+        return response.status(400).json({ error: 'Email já cadastrado' })
+      }
+
       if (!(await validator.isValid(request.body))) {
         return response.status(400).json({ error: 'shunda' })
       }
-
+    
       const id = crypto.randomBytes(8).toString('hex')
       const senha = crypto.randomBytes(4).toString('hex')
       const hash = await bcrypt.hash(senha, 10)
@@ -64,6 +70,7 @@ module.exports = {
         celular,
         idrole,
         senha: hash,
+        isActive: true
       })
 
       return response.json(user)
@@ -136,17 +143,17 @@ module.exports = {
       if (senhaAtual === novaSenha) {
         return response
           .status(400)
-          .json({ error: 'Senha atual e nova iguais! Seu boca moli.' })
+          .json({ error: 'Senha atual e nova iguais!' })
       }
       if (!result) {
         return response
           .status(400)
-          .json({ error: 'Senha atual incorreta! Seu boca moli.' })
+          .json({ error: 'Senha atual incorreta!' })
       }
       if (novaSenha !== confirmaSenha) {
         return response
           .status(400)
-          .json({ error: 'Senhas não conferem! Seu boca moli.' })
+          .json({ error: 'Senhas não conferem!' })
       }
 
       const hash = await bcrypt.hash(novaSenha, 10)
@@ -158,6 +165,17 @@ module.exports = {
       return response.json(updateSenha)
     } catch (erros) {
       return response.json({ error: erros.message })
+    }
+  },
+
+  async resetSenhaAluno(request, response){
+
+    try{
+
+       
+
+    }catch(erros){
+
     }
   },
 
