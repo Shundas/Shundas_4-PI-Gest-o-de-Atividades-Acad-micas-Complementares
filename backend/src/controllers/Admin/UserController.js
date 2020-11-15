@@ -4,7 +4,8 @@ const crypto = require('crypto')
 const bcrypt = require('bcryptjs')
 
 module.exports = {
-  //Criação do usuário com validação --OK
+  
+  //Criação de Usuários com validação --OK
   async createAluno(request, response, next) {
     try {
       const { name, email, phone, celular, isActive } = request.body
@@ -71,6 +72,8 @@ module.exports = {
     }
   },
 
+
+  //Alteração de Usuários com validação --OK
   async updateAluno(request, response) {
     try {
       const { name, email, phone, celular } = request.body
@@ -154,6 +157,59 @@ module.exports = {
 
       return response.json(updateSenha)
     } catch (erros) {
+      return response.json({ error: erros.message })
+    }
+  },
+
+
+  //Listagem de Usuários --OK
+  async indexAluno(request, response) {
+    try{
+      const results = await knex.select("*").from("user").orderBy("iduser");
+      return response.json(results);
+
+    } catch (erros) {
+      return response.json({ error: erros.message })
+    }
+  },
+
+  async indexColaborador(request, response) {
+    try{
+      const results = await knex.select("*").from("userSenai").orderBy("iduserSenai");
+      return response.json(results);
+
+    } catch (erros) {
+      return response.json({ error: erros.message })
+    }
+  },
+
+  //Listagem de usuário específico --OK
+  async uniqueAluno(request, response, next) {
+    try {
+      const { id } = request.query;
+      const pesquisaUserUnico = await knex("user").where("iduser", id).first();
+
+      if (!pesquisaUserUnico) {
+        return response.json({ msg: "Usuário não encontrado" }); 
+      } else {
+        return response.json(pesquisaUserUnico);
+      }
+    } catch (error) {
+      return response.json({ error: erros.message })
+    }
+  },
+
+  async uniqueColaborador(request, response, next) {
+    try {
+      const { id } = request.query;
+      const pesquisaUserUnico = await knex("userSenai").where("iduserSenai", id).first();
+
+      if (!pesquisaUserUnico) {
+        return response.json({ msg: "Usuário não encontrado" }); 
+      } else {
+        return response.json(pesquisaUserUnico);
+      }
+    } catch (error) {
       return response.json({ error: erros.message })
     }
   },
