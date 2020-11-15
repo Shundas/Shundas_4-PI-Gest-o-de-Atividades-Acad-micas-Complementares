@@ -29,7 +29,7 @@ module.exports = {
         phone,
         celular,
         senha: hash,
-        isActive: true
+        isActive: true,
       })
       console.log(senha)
       return response.json(user)
@@ -85,8 +85,8 @@ module.exports = {
       }
 
       const updateUser = await knex('user')
-        .update({ "name": name, "email": email, "celular": celular, "phone": phone })
-        .where("iduser", id)
+        .update({ name: name, email: email, celular: celular, phone: phone })
+        .where('iduser', id)
 
       return response.json(updateUser)
     } catch (erros) {
@@ -108,7 +108,8 @@ module.exports = {
       }
 
       const updateUser = await knex('userSenai')
-        .update({ "name": name, "email": email, "celular": celular, "phone": phone }).where("iduserSenai", id)
+        .update({ name: name, email: email, celular: celular, phone: phone })
+        .where('iduserSenai', id)
 
       return response.json(updateUser)
     } catch (erros) {
@@ -116,37 +117,44 @@ module.exports = {
     }
   },
 
-  async UpdateSenhaAluno(request, response){
-
-    try{
-      
+  async UpdateSenhaAluno(request, response) {
+    try {
       const { senhaAtual, novaSenha, confirmaSenha } = request.body
       const { id } = request.query
-      const senhaBd = await knex.select("senha").from("user").where("iduser", id)
-      var [ { senha } ] = senhaBd
+      const senhaBd = await knex
+        .select('senha')
+        .from('user')
+        .where('iduser', id)
+      var [{ senha }] = senhaBd
       console.log(senha)
       const result = await bcrypt.compare(senhaAtual, senha)
       console.log(result)
 
-      if(senhaAtual === novaSenha){
-        return response.status(400).json({ error: 'Senha atual e nova iguais! Seu boca moli.' })
+      if (senhaAtual === novaSenha) {
+        return response
+          .status(400)
+          .json({ error: 'Senha atual e nova iguais! Seu boca moli.' })
       }
-      if(!result){
-        return response.status(400).json({ error: 'Senha atual incorreta! Seu boca moli.' })
+      if (!result) {
+        return response
+          .status(400)
+          .json({ error: 'Senha atual incorreta! Seu boca moli.' })
       }
-      if(novaSenha !== confirmaSenha){
-        return response.status(400).json({ error: 'Senhas não conferem! Seu boca moli.' })
+      if (novaSenha !== confirmaSenha) {
+        return response
+          .status(400)
+          .json({ error: 'Senhas não conferem! Seu boca moli.' })
       }
-      
+
       const hash = await bcrypt.hash(novaSenha, 10)
 
-      const updateSenha = await knex("user").update({"senha": hash}).where("iduser", id)
+      const updateSenha = await knex('user')
+        .update({ senha: hash })
+        .where('iduser', id)
 
-      return response.json(updateSenha);
-      
-    }catch(erros){
+      return response.json(updateSenha)
+    } catch (erros) {
       return response.json({ error: erros.message })
     }
-
-  }
+  },
 }
