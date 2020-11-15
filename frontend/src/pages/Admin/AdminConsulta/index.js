@@ -39,15 +39,15 @@ export default function AdminConsulta() {
             <input className="form-control" type="text" id="id1" />
           </div>
           <div className="form-column">
-            <label htmlFor="id1">Perfil</label>
-            <input className="form-control" type="text" id="id1" />
-          </div>
-          <div className="form-column">
             <label htmlFor="id1">E-mail</label>
             <input className="form-control" type="text" id="id1" />
           </div>
           <div className="form-column">
-            <label htmlFor="id1">Telefone</label>
+            <label htmlFor="id1">CPF</label>
+            <input className="form-control" type="text" id="id1" />
+          </div>
+          <div className="form-column">
+            <label htmlFor="id1">Ativo</label>
             <input className="form-control" type="text" id="id1" />
           </div>
           <div className="btns">
@@ -88,9 +88,8 @@ export default function AdminConsulta() {
               <td>Em andamento</td>
               <td>Jubyscleison</td>
               <td>
-                <a href="#" className="btn btn-success">
-                  Vizualizar
-                </a>
+                <button className="btn btn-outline-success">Vizualizar</button>
+                <button className="btn btn-outline-primary">Editar</button>
               </td>
             </tr>
             <tr>
@@ -100,9 +99,8 @@ export default function AdminConsulta() {
               <td>Em andamento</td>
               <td>Jubyscleison</td>
               <td>
-                <a href="#" className="btn btn-success">
-                  Vizualizar
-                </a>
+                <button className="btn btn-outline-success">Vizualizar</button>
+                <button className="btn btn-outline-primary">Editar</button>
               </td>
             </tr>
             <tr>
@@ -112,9 +110,8 @@ export default function AdminConsulta() {
               <td>Em andamento</td>
               <td>Jubyscleison</td>
               <td>
-                <a href="#" className="btn btn-success">
-                  Vizualizar
-                </a>
+                <button className="btn btn-outline-success">Vizualizar</button>
+                <button className="btn btn-outline-primary">Editar</button>
               </td>
             </tr>
           </tbody>
