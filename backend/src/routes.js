@@ -32,7 +32,7 @@ routes.patch('/UpdateSenhaAluno', UserController.UpdateSenhaAluno)
 
 //Criar Atividade
 routes.post('/criarAtividade', multer(multerconfig).single('file'), AlunoController.createAtividade)
-
+routes.post('/criarAtividadeSenai', AlunoController.createAtividadeSenai)
 
 
 module.exports = routes;

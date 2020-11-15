@@ -48,7 +48,29 @@ module.exports = {
         try{
 
             const { iduser } = request.query
-            const { iduserSenai, idactivity, idcategory } = request.body
+            const { iduserSenai, idactivity, idcategory, date_end, activityName } = request.body
+
+            const validator = yup.object().shape({
+                activityName: yup.string().required(),
+            })
+
+            if (!(await validator.isValid(request.body))) {
+                return response.status(400).json({ error: 'shunda' })
+            }
+    
+            const id = crypto.randomBytes(8).toString('hex')
+    
+            const formAtividadeSenai = await knex('form').insert({
+                idform: id,
+                iduser,
+                iduserSenai,
+                idactivity,
+                idcategory,
+                date_end,
+                activityName,
+            })
+    
+            return response.json(formAtividadeSenai)    
 
         } catch (erros) {
             return response.json({ error: erros.message })
