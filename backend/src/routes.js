@@ -16,7 +16,9 @@ routes.get('/listarAtividade', (req, res) => {
 // Rota para criar Aluno
 routes.post('/criarAluno', UserController.createAluno)
 routes.post('/criarColaborador', UserController.createColaborador)
-routes.post('/updateAluno', UserController.updateAluno)
+routes.put('/updateAluno', UserController.updateAluno)
+routes.put('/updateColaborador', UserController.updateColaborador)
+routes.patch('/UpdateSenhaAluno', UserController.UpdateSenhaAluno)
 
 // Rota para editar atividade
 routes.put('/')
