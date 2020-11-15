@@ -75,6 +75,29 @@ module.exports = {
         } catch (erros) {
             return response.json({ error: erros.message })
         }
+    },
+
+    async indexAtividade(request, response) {
+        try{
+            const { idform, idcategory, idactivity, status, iduserSenai, iduser } = request.query;
+
+            const atividades = await knex('form')
+                .join('point_items', 'points.id', '=', 'point_items.point_id')
+                .where('idform', idform)
+                .where('idcategory', idcategory)
+                .where('idactivity', idactivity)
+                .where('status', status)
+                .where('iduserSenai', iduserSenai)
+                .distinct()
+                .select('form.*');
+
+            return response.json({
+                result: atividades
+            })
+
+        } catch (erros) {
+            return response.json({ error: erros.message })
+        }
     }
 
     
