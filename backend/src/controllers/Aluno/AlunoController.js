@@ -79,21 +79,41 @@ module.exports = {
 
     async indexAtividade(request, response) {
         try{
-            const { idform, idcategory, idactivity, status, iduserSenai, iduser } = request.query;
+            const { idform, idcategory, idactivity, status, iduserSenai } = request.query;
 
-            const atividades = await knex('form')
-                .join('point_items', 'points.id', '=', 'point_items.point_id')
+            // && idcategory != null && idactivity != null && status != null && iduserSenai != null 
+            
+            //Condição para todos os filtros
+            if( idform != null ) {
+                const atividades = await knex('form')
+                .join('category', 'form.idcategory', '=', 'category.idcategory')
+                .join('activity', 'form.idactivity', '=', 'activity.idactivity')
+                .join('userSenai', 'form.iduserSenai', '=', 'userSenai.iduserSenai')
                 .where('idform', idform)
-                .where('idcategory', idcategory)
-                .where('idactivity', idactivity)
-                .where('status', status)
-                .where('iduserSenai', iduserSenai)
-                .distinct()
-                .select('form.*');
+                // .where('idcategory', idcategory)            
+                // .where('idactivity', idactivity)
+                // .where('status', status)
+                // .where('iduserSenai', iduserSenai)            
+                .select('form.idform', 'category.name', 'activity.description', 'form.status', 'userSenai.name');
 
-            return response.json({
-                result: atividades
-            })
+                return response.json({
+                    result: atividades
+                })
+            }
+
+            //Condição para nenhum filtro
+            if( idform == null && idcategory == null && idactivity == null && status == null && iduserSenai == null ) {
+                const atividades = await knex('form')
+                .join('category', 'form.idcategory', '=', 'category.idcategory')
+                .join('activity', 'form.idactivity', '=', 'activity.idactivity')
+                .join('userSenai', 'form.iduserSenai', '=', 'userSenai.iduserSenai')          
+                .select('form.idform', 'category.name', 'activity.description', 'form.status', 'userSenai.name');
+
+                return response.json({
+                    result: atividades
+                })
+            }
+          
 
         } catch (erros) {
             return response.json({ error: erros.message })

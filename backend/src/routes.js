@@ -31,6 +31,9 @@ routes.patch('/UpdateSenhaAluno', UserController.UpdateSenhaAluno)
 routes.post('/criarAtividade', multer(multerconfig).single('file'), AlunoController.createAtividade)
 routes.post('/criarAtividadeSenai', AlunoController.createAtividadeSenai)
 
+//Rota para listar Atividades com Filtro
+routes.get('/listarAtividade', AlunoController.indexAtividade)
+
 
 module.exports = routes;
 
