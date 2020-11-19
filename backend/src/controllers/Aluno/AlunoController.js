@@ -94,31 +94,45 @@ module.exports = {
                 // .where('idactivity', idactivity)
                 // .where('status', status)
                 // .where('iduserSenai', iduserSenai)            
-                .select('form.idform', 'category.name', 'activity.description', 'form.status', 'userSenai.name');
+                .select('form.idform', 'category.name_cat', 'activity.description', 'form.status', 'userSenai.name');
 
-                return response.json({
-                    result: atividades
-                })
+                return response.json(atividades)
             }
 
             //Condição para nenhum filtro
             if( idform == null && idcategory == null && idactivity == null && status == null && iduserSenai == null ) {
                 const atividades = await knex('form')
+                .select('form.idform', 'category.name_cat', 'activity.description', 'form.status', 'userSenai.name')
                 .join('category', 'form.idcategory', '=', 'category.idcategory')
                 .join('activity', 'form.idactivity', '=', 'activity.idactivity')
                 .join('userSenai', 'form.iduserSenai', '=', 'userSenai.iduserSenai')          
-                .select('form.idform', 'category.name', 'activity.description', 'form.status', 'userSenai.name');
 
-                return response.json({
-                    result: atividades
-                })
+                return response.json(atividades)
             }
           
 
         } catch (erros) {
             return response.json({ error: erros.message })
         }
-    }
+    },
 
+    async visualizarAtividade(request, response) {
+        try{
+            const { iduser, idform } = request.query
+
+            const atividades = await knex('form')
+                .select('form.institutionName', 'form.activityName', 'category.name_cat', 'activity.description', 'form.workload', 'form.date_end', 'form.attachment','form.status','userSenai.name')
+                .join('category', 'form.idcategory', '=', 'category.idcategory')
+                .join('activity', 'form.idactivity', '=', 'activity.idactivity')
+                .join('userSenai', 'form.iduserSenai', '=', 'userSenai.iduserSenai')
+                .where('idform', idform)          
+
+                return response.json(atividades)
+
+        } catch (erros) {
+            return response.json({ error: erros.message })
+        }
+
+    }
     
 }

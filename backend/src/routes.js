@@ -33,6 +33,7 @@ routes.post('/criarAtividadeSenai', AlunoController.createAtividadeSenai)
 
 //Rota para listar Atividades com Filtro
 routes.get('/listarAtividade', AlunoController.indexAtividade)
+routes.get('/visualizarAtividade', AlunoController.visualizarAtividade)
 
 
 module.exports = routes;
