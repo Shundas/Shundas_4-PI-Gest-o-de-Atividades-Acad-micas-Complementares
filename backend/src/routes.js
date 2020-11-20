@@ -35,6 +35,8 @@ routes.post('/criarAtividadeSenai', AlunoController.createAtividadeSenai)
 routes.get('/listarAtividade', AlunoController.indexAtividade)
 routes.get('/visualizarAtividade', AlunoController.visualizarAtividade)
 
+//Rota para criar comentário
+routes.post('/criarComentarioAluno', AlunoController.createComentarioAluno)
 
 module.exports = routes;
 
