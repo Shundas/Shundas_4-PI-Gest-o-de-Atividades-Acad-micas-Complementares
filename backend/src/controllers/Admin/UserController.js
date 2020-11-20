@@ -3,6 +3,7 @@ const yup = require('yup')
 const crypto = require('crypto')
 const bcrypt = require('bcryptjs')
 const nodemailer = require('nodemailer');
+const { orWhereRaw, orWhere } = require('../../database/connection');
 
 
 module.exports = {
@@ -189,14 +190,13 @@ module.exports = {
   async consultaAlunos(request, response){
     try{
       const { page =1 } = request.query
-      const { name } = request.body
+      
       const [count] = await knex("user").count("*")
-      const alunos = await knex("user")
+      const alunos = await knex("user")      
       .limit(5)
       .offset((page -1)*5)      
       .select("iduser","name","email","phone","celular","cpf","isActive")
-      .whereRaw('name like \'%??%\'', [name]);
-      console.log(alunos)
+ 
       response.header("X-Total-Count", count['count(*)'])      
 
       return response.json(alunos);
@@ -209,8 +209,18 @@ module.exports = {
 
   async consultaColaborador(request, response) {
     try {
-      const results = await knex.select("*").from("userSenai").orderBy("iduserSenai");
-      return response.json(results);
+      
+      const { page =1 } = request.query
+      
+      const [count] = await knex("user").count("*")
+      const alunos = await knex("user")      
+      .limit(5)
+      .offset((page -1)*5)      
+      .select("iduser","name","email","phone","celular","cpf","isActive")
+ 
+      response.header("X-Total-Count", count['count(*)'])      
+
+      return response.json(alunos);
 
     } catch (erros) {
       return response.json({ error: erros.message })
