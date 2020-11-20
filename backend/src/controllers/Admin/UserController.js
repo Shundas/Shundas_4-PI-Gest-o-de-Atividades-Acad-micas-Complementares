@@ -11,10 +11,11 @@ module.exports = {
   //Criação de Usuários com validação --OK
   async createAluno(request, response, next) {
     try {
-      const { name, email, phone, celular } = request.body
+      const { name, email, phone, celular, cpf } = request.body
       const validatorName = yup.object().shape({ name: yup.string().required() })
       const validatorEmail = yup.object().shape({ email: yup.string().email().required() })
       const validatorCelular = yup.object().shape({ celular: yup.string().required() })
+      const validatorCpf = yup.object().shape({ cpf: yup.string().required() })
 
       const emailExiste = await knex.count("iduser as existe").from("user").where("email", email)
       var [{ existe }] = emailExiste
@@ -30,6 +31,10 @@ module.exports = {
       }
       if (!(await validatorCelular.isValid(request.body))) {
         return response.status(400).json({ error: 'Celular obrigatório.' })
+      }
+
+      if (!(await validatorCpf.isValid(request.body))) {
+        return response.status(400).json({ error: 'CPF obrigatório.' })
       }
 
 
@@ -55,10 +60,11 @@ module.exports = {
 
   async createColaborador(request, response, next) {
     try {
-      const { name, email, phone, celular, idrole } = request.body
+      const { name, email, phone, celular, idrole, cpf } = request.body
       const validatorName = yup.object().shape({ name: yup.string().required() })
       const validatorEmail = yup.object().shape({ email: yup.string().email().required() })
       const validatorCelular = yup.object().shape({ celular: yup.string().required() })
+      const validatorCpf = yup.object().shape({ cpf: yup.string().required() })
 
       const emailExiste = await knex.count("iduserSenai as existe").from("userSenai").where("email", email)
       var [{ existe }] = emailExiste
@@ -74,6 +80,9 @@ module.exports = {
       }
       if (!(await validatorCelular.isValid(request.body))) {
         return response.status(400).json({ error: 'Celular obrigatório.' })
+      }
+      if (!(await validatorCpf.isValid(request.body))) {
+        return response.status(400).json({ error: 'CPF obrigatório.' })
       }
 
       const id = crypto.randomBytes(8).toString('hex')
