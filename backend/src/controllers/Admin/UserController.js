@@ -215,8 +215,9 @@ module.exports = {
       const [count] = await knex("user").count("*")
       const alunos = await knex("user")      
       .limit(5)
-      .offset((page -1)*5)      
-      .select("iduser","name","email","phone","celular","cpf","isActive")
+      .offset((page -1)*5)
+      .join()      
+      .select("iduserSenai","name","email","phone","celular","cpf","isActive")
  
       response.header("X-Total-Count", count['count(*)'])      
 
