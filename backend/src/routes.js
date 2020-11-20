@@ -4,7 +4,8 @@ const multer = require("multer");
 const multerconfig = require('./config/multer');
 
 const UserController = require('./controllers/Admin/UserController');
-const AlunoController = require('./controllers/Aluno/AlunoController');
+const AtividadeController = require('./controllers/Atividade/AtividadeController');
+const ComentarioController = require('./controllers/Comentario/ComentarioController');
 const routes = Router();
 
 
@@ -28,15 +29,15 @@ routes.get('/consultaAluno', UserController.consultaAlunos)
 routes.patch('/UpdateSenhaAluno', UserController.UpdateSenhaAluno)
 
 //Criar Atividade
-routes.post('/criarAtividade', multer(multerconfig).single('file'), AlunoController.createAtividade)
-routes.post('/criarAtividadeSenai', AlunoController.createAtividadeSenai)
+routes.post('/criarAtividade', multer(multerconfig).single('file'), AtividadeController.createAtividade)
+routes.post('/criarAtividadeSenai', AtividadeController.createAtividadeSenai)
 
 //Rota para listar Atividades com Filtro
-routes.get('/listarAtividade', AlunoController.indexAtividade)
-routes.get('/visualizarAtividade', AlunoController.visualizarAtividade)
+routes.get('/listarAtividade', AtividadeController.indexAtividade)
+routes.get('/visualizarAtividade', AtividadeController.visualizarAtividade)
 
 //Rota para criar comentário
-routes.post('/criarComentarioAluno', AlunoController.createComentarioAluno)
+routes.post('/criarComentarioAluno', ComentarioController.createComentarioAluno)
 
 module.exports = routes;
 
