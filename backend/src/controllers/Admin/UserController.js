@@ -212,16 +212,16 @@ module.exports = {
       
       const { page =1 } = request.query
       
-      const [count] = await knex("user").count("*")
-      const alunos = await knex("user")      
+      const [count] = await knex("userSenai").count("*")
+      const result = await knex("userSenai")      
       .limit(5)
       .offset((page -1)*5)
-      .join()      
-      .select("iduserSenai","name","email","phone","celular","cpf","isActive")
+      .join('role','userSenai.idrole', '=', 'role.idrole')      
+      .select("userSenai.iduserSenai","role.name","userSenai.email","userSenai.phone","userSenai.celular","userSenai.cpf","userSenai.isActive")
  
       response.header("X-Total-Count", count['count(*)'])      
 
-      return response.json(alunos);
+      return response.json(result);
 
     } catch (erros) {
       return response.json({ error: erros.message })
