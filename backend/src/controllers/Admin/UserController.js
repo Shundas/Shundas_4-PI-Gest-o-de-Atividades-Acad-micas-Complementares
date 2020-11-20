@@ -47,6 +47,7 @@ module.exports = {
         name,
         email,
         phone,
+        cpf,
         celular,
         senha: hash,
         isActive: true,
