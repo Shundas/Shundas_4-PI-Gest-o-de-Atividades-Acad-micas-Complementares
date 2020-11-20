@@ -6,6 +6,8 @@ const multerconfig = require('./config/multer');
 const UserController = require('./controllers/Admin/UserController');
 const AtividadeController = require('./controllers/Atividade/AtividadeController');
 const ComentarioController = require('./controllers/Comentario/ComentarioController');
+const AlunoController = require('./controllers/Aluno/AlunoController');
+const ColaboradorController = require('./controllers/Colaborador/ColaboradorController');
 const routes = Router();
 
 
@@ -18,15 +20,15 @@ routes.post('/criarAluno', UserController.createAluno)
 routes.post('/criarColaborador', UserController.createColaborador)
 
 //Rotas para alteração de Usuários
-routes.put('/updateAluno', UserController.updateAluno)
-routes.put('/updateColaborador', UserController.updateColaborador)
+routes.put('/updateAluno', AlunoController.updateAluno)
+routes.put('/updateColaborador', ColaboradorController.updateColaborador)
 
 //Rotas para listar Usuários
 routes.get('/consultaColaborador', UserController.consultaColaborador)
 routes.get('/consultaAluno', UserController.consultaAlunos)
 
 //Rota para redefinição de Senha
-routes.patch('/UpdateSenhaAluno', UserController.UpdateSenhaAluno)
+routes.patch('/UpdateSenhaAluno', AlunoController.UpdateSenhaAluno)
 
 //Criar Atividade
 routes.post('/criarAtividade', multer(multerconfig).single('file'), AtividadeController.createAtividade)
