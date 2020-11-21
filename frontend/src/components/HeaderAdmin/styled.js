@@ -5,7 +5,7 @@ export const HeaderContainerWrapper = styled.header`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 4%;
+    padding: 20px 10px;
   }
 
   .div-flex {
@@ -23,4 +23,5 @@ export const Background = styled.img`
 export const Title = styled.h5`
   color: '#fff';
   margin-left: 8px;
+  display: flex;
 `;
