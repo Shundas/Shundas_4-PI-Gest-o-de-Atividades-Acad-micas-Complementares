@@ -47,5 +47,7 @@ routes.post('/criarComentarioAluno', ComentarioController.createComentarioAluno)
 //Rota para listar comentário
 routes.get('/listarComentario', ComentarioController.indexComentario)
 
+routes.podt('/verificaUsuario', AlunoController.usuarioAtivo)
+
 module.exports = routes;
 

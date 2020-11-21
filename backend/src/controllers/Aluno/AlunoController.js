@@ -78,6 +78,15 @@ module.exports = {
         } catch (erros) {
             return response.json({ error: erros.message })
         }
+    },
+
+    async usuarioAtivo(request, response){
+        
+        const{ email, senha } = request.body
+        const verifica = await knex.select("isActive").from("user").where("email",email);
+
+        response.json(verifica)
+
     }
 
 }
