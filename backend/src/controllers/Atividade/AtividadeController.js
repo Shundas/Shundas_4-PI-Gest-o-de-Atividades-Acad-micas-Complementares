@@ -48,6 +48,7 @@ module.exports = {
 
         let [{ hoursPerActivity, totalHour }] = selectAtividade
         let mensagem    
+        let sum
 
         console.log(selectAtividade)
         console.log(hoursPerActivity)
@@ -56,6 +57,12 @@ module.exports = {
         
         if (informedWorkload == 0) {
             return response.json({ msg: `Carga horária deve ser maior que 0h.` })  
+        }else{
+            const verificaTotal = await knex.sum("workload as workload").from("form").where("iduser", iduser).where("idactivity", idactivity).where("status", 3)
+            const [{ workloadTotal }] = verificaTotal
+            if(workloadTotal === totalHour){
+                return response.json({ msg: `Vocẽ já validou todas as horas possíveis para este tipo de atividade: ${totalHour}` })  
+            }
         }
         if(hoursPerActivity === null){
             if(informedWorkload > totalHour){
@@ -66,7 +73,6 @@ module.exports = {
                 mensagem =  `Você informou ${informedWorkload}h, porém neste tipo de atividade serão validadas no máximo ${hoursPerActivity}h por envio.` 
             } 
         }
-
         const formAtividade = await knex('form').insert({
             idform: id,
             iduser,
