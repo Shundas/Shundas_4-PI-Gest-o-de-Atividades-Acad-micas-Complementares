@@ -6,7 +6,7 @@ module.exports = {
 
     async createComentarioAluno(request, response) {
         try {
-            const { iduser, idform } = request.query
+            const { iduser, idform, iduserSenai } = request.query
             const { comment } = request.body
 
             const validator = yup.object().shape({
@@ -22,6 +22,7 @@ module.exports = {
             const comentario = await knex('comments').insert({
                 idcomments: id,
                 iduser,
+                iduserSenai,
                 idform,
                 comment,
                 public: 1,
@@ -32,5 +33,23 @@ module.exports = {
         } catch (erros) {
             return response.json({ error: erros.message })
         }
-    }
+    },
+
+    async indexComentario(request, response) {
+        try {
+            const { idform } =  request.query
+
+            const comentario = await knex('comments')
+                select('comments.comment', 'userSenai.name', 'user.name')
+                .join('userSenai', 'comments.iduserSenai', '=', 'userSenai.iduserSenai')
+                .join('user', 'comments.iduser', '=', 'user.iduser')
+                .where('idform', idform)
+                
+
+            return response.json(comentario)
+
+        } catch (erros) {
+            return response.json({ error: erros.message })
+        }
+    } 
 }

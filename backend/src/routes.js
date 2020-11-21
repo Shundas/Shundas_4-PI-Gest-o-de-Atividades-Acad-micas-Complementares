@@ -44,5 +44,8 @@ routes.put('/updateAtividade', AtividadeController.updateAtividade)
 //Rota para criar comentário
 routes.post('/criarComentarioAluno', ComentarioController.createComentarioAluno)
 
+//Rota para listar comentário
+routes.get('/listarComentario', ComentarioController.indexComentario)
+
 module.exports = routes;
 
