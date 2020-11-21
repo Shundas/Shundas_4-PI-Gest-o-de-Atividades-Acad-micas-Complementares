@@ -19,7 +19,7 @@ export default function CardsAdmin() {
             </Link>
           </div>
           <div className="card" style={{ width: '18rem' }}>
-            <Link to="/consult">
+            <Link to="/question-consult">
               <div className="card-body">
                 <h5 className="card-title">Consultar Usuários</h5>
                 <MdSearch size={25} color="blue" className="icon" />
