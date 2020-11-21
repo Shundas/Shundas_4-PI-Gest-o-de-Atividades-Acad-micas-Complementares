@@ -38,6 +38,9 @@ routes.post('/criarAtividadeSenai', AtividadeController.createAtividadeSenai)
 routes.get('/listarAtividade', AtividadeController.indexAtividade)
 routes.get('/visualizarAtividade', AtividadeController.visualizarAtividade)
 
+//Rota para alterar Atividade
+routes.put('/updateAtividade', AtividadeController.updateAtividade)
+
 //Rota para criar comentário
 routes.post('/criarComentarioAluno', ComentarioController.createComentarioAluno)
 

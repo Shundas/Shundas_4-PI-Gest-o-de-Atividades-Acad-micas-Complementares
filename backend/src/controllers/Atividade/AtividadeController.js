@@ -4,6 +4,7 @@ const crypto = require('crypto')
 
 
 module.exports = {
+
     async createAtividade(request, response) {
         try {
     
@@ -12,13 +13,28 @@ module.exports = {
             const { iduser } = request.query
     
             const { iduserSenai, idactivity, idcategory, institutionName, date_end, workload, attachment, activityName, status } = request.body
-            const validator = yup.object().shape({
-            institutionName: yup.string().required(),
-        })
-    
-        if (!(await validator.isValid(request.body))) {
-            return response.status(400).json({ error: 'shunda' })
-        }
+            
+            const validatorInstitution = yup.object().shape({ institutionName: yup.string().required() })
+            const validatorDate = yup.object().shape({ date_end: yup.date().required() })
+            const validatorWork = yup.object().shape({ workload: yup.string().required() })
+            const validatorActivity = yup.object().shape({ activityName: yup.string().required() })
+                
+        
+            if (!(await validatorInstitution.isValid(request.body))) {
+                return response.status(400).json({ error: 'Nome da Instituição é campo obrigatório.' })
+            }
+
+            if (!(await validatorDate.isValid(request.body))) {
+                return response.status(400).json({ error: 'Data é campo obrigatório.' })
+            }
+
+            if (!(await validatorWork.isValid(request.body))) {
+                return response.status(400).json({ error: 'Horas validadas é campo obrigatório.' })
+            }
+
+            if (!(await validatorActivity.isValid(request.body))) {
+                return response.status(400).json({ error: 'Nome da Atividade é campo obrigatório.' })
+            }
     
         const id = crypto.randomBytes(8).toString('hex')
     
@@ -33,7 +49,7 @@ module.exports = {
             workload,
             attachment: path,
             activityName,
-            status,
+            status: "Registrado",
         })
     
         return response.json(formAtividade)
@@ -49,12 +65,15 @@ module.exports = {
             const { iduser } = request.query
             const { iduserSenai, idactivity, idcategory, date_end, activityName } = request.body
 
-            const validator = yup.object().shape({
-                activityName: yup.string().required(),
-            })
+            const validator = yup.object().shape({ activityName: yup.string().required() })
+            const validatorDate = yup.object().shape({ date_end: yup.date().required() })
 
             if (!(await validator.isValid(request.body))) {
-                return response.status(400).json({ error: 'shunda' })
+                return response.status(400).json({ error: 'Nome da Atividade é campo obrigatório.' })
+            }
+
+            if (!(await validatorDate.isValid(request.body))) {
+                return response.status(400).json({ error: 'Data é campo obrigatório.' })
             }
     
             const id = crypto.randomBytes(8).toString('hex')
@@ -94,7 +113,7 @@ module.exports = {
 
     async visualizarAtividade(request, response) {
         try{
-            const { iduser, idform } = request.query
+            const { idform } = request.query
 
             const atividades = await knex('form')
                 .select('form.institutionName', 'form.activityName', 'category.name_cat', 'activity.description', 'form.workload', 'form.date_end', 'form.attachment','form.status','userSenai.name')
@@ -110,4 +129,44 @@ module.exports = {
         }
 
     },
+
+    async updateAtividade(request, response) {
+        
+        try {
+            const { idform } = request.query
+
+            const { iduserSenai, idactivity, idcategory, institutionName, date_end, workload, activityName, status } = request.body
+            const validatorInstitution = yup.object().shape({ institutionName: yup.string().required() })
+            const validatorDate = yup.object().shape({ date_end: yup.date().required() })
+            const validatorWork = yup.object().shape({ workload: yup.string().required() })
+            const validatorActivity = yup.object().shape({ activityName: yup.string().required() })
+                
+        
+            if (!(await validatorInstitution.isValid(request.body))) {
+                return response.status(400).json({ error: 'Nome da Instituição é campo obrigatório.' })
+            }
+
+            if (!(await validatorDate.isValid(request.body))) {
+                return response.status(400).json({ error: 'Data é campo obrigatório.' })
+            }
+
+            if (!(await validatorWork.isValid(request.body))) {
+                return response.status(400).json({ error: 'Horas validadas é campo obrigatório.' })
+            }
+
+            if (!(await validatorActivity.isValid(request.body))) {
+                return response.status(400).json({ error: 'Nome da Atividade é campo obrigatório.' })
+            }
+
+            const updateAtividade = await knex('user')
+            .update({ iduserSenai, idactivity, idcategory, institutionName, date_end, workload, activityName, status })
+            .where('idform', idform)
+    
+            return response.json(updateAtividade)
+
+        } catch (erros) {
+            return response.json({ error: erros.message })
+        }
+    
+    }
 }
