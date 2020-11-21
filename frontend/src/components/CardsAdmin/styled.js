@@ -14,14 +14,19 @@ export const Grid = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 50px;
 
-  button {
+  Link {
     border: 0;
     outline: 0;
+    text-decoration: none;
   }
 
   .card-body {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: center;
+
+    h5 {
+      margin-top: 1em;
+    }
   }
 `;
