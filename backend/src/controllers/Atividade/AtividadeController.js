@@ -12,7 +12,7 @@ module.exports = {
     
             const { iduser } = request.query
     
-            const { iduserSenai, idactivity, idcategory, institutionName, date_end, workload, attachment, activityName, status } = request.body
+            const { iduserSenai, idactivity, idcategory, institutionName, date_end, workload, attachment, activityName, idstatus } = request.body
             
             const validatorInstitution = yup.object().shape({ institutionName: yup.string().required() })
             const validatorDate = yup.object().shape({ date_end: yup.date().required() })
@@ -49,7 +49,7 @@ module.exports = {
             workload,
             attachment: path,
             activityName,
-            status: "Registrado",
+            idstatus: 1,
         })
     
         return response.json(formAtividade)
@@ -99,10 +99,11 @@ module.exports = {
         try{
            
             const atividades = await knex('form')
-            .select('form.idform', 'category.name_cat', 'activity.description', 'form.status', 'userSenai.name')
+            .select('form.idform', 'category.name_cat', 'activity.description', 'status.status', 'userSenai.name')
             .join('category', 'form.idcategory', '=', 'category.idcategory')
             .join('activity', 'form.idactivity', '=', 'activity.idactivity')
-            .join('userSenai', 'form.iduserSenai', '=', 'userSenai.iduserSenai')          
+            .join('userSenai', 'form.iduserSenai', '=', 'userSenai.iduserSenai')
+            .join('status', 'form.idstatus', '=', 'status.idstatus')
 
             return response.json(atividades)        
 
@@ -116,10 +117,11 @@ module.exports = {
             const { idform } = request.query
 
             const atividades = await knex('form')
-                .select('form.institutionName', 'form.activityName', 'category.name_cat', 'activity.description', 'form.workload', 'form.date_end', 'form.attachment','form.status','userSenai.name')
+                .select('form.institutionName', 'form.activityName', 'category.name_cat', 'activity.description', 'form.workload', 'form.date_end', 'form.attachment','status.status','userSenai.name')
                 .join('category', 'form.idcategory', '=', 'category.idcategory')
                 .join('activity', 'form.idactivity', '=', 'activity.idactivity')
                 .join('userSenai', 'form.iduserSenai', '=', 'userSenai.iduserSenai')
+                .join('status', 'form.idstatus', '=', 'status.idstatus')
                 .where('idform', idform)          
 
                 return response.json(atividades)
@@ -135,7 +137,7 @@ module.exports = {
         try {
             const { idform } = request.query
 
-            const { iduserSenai, idactivity, idcategory, institutionName, date_end, workload, activityName, status } = request.body
+            const { iduserSenai, idactivity, idcategory, institutionName, date_end, workload, activityName, idstatus } = request.body
             const validatorInstitution = yup.object().shape({ institutionName: yup.string().required() })
             const validatorDate = yup.object().shape({ date_end: yup.date().required() })
             const validatorWork = yup.object().shape({ workload: yup.string().required() })
@@ -159,7 +161,7 @@ module.exports = {
             }
 
             const updateAtividade = await knex('form')
-            .update({ iduserSenai, idactivity, idcategory, institutionName, date_end, workload, activityName, status })
+            .update({ iduserSenai, idactivity, idcategory, institutionName, date_end, workload, activityName, idstatus })
             .where('idform', idform)
     
             return response.json(updateAtividade)
