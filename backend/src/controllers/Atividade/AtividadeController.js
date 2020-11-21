@@ -16,7 +16,7 @@ module.exports = {
     
             const { iduser } = request.query
     
-            const { iduserSenai, idactivity, idcategory, institutionName, date_end, informedWorkload, attachment,  activityName} = request.body
+            const { iduserSenai, idactivity, idcategory, institutionName, date_end, informedWorkload, activityName} = request.body
             
             const validatorInstitution = yup.object().shape({ institutionName: yup.string().required() })
             const validatorDate = yup.object().shape({ date_end: yup.date().required() })
