@@ -162,4 +162,38 @@ module.exports = {
       return response.json({ error: erros.message })
     }
   },
+
+  async updateAluno(request, response) {
+    try {
+        const { name, email, phone, celular, isActive } = request.body
+        const { id } = request.query
+        const validatorName = yup.object().shape({ name: yup.string().required() })
+        const validatorEmail = yup.object().shape({ email: yup.string().email().required() })
+        const validatorCelular = yup.object().shape({ celular: yup.string().required() })
+
+
+
+        const emailExiste = await knex.count("iduser as existe").from("user").where("email", email)
+        var [{ existe }] = emailExiste
+
+        if (!(await validatorName.isValid(request.body))) {
+            return response.status(400).json({ error: 'Nome é campo obrigatório.' })
+        }
+        if (!(await validatorEmail.isValid(request.body))) {
+            return response.status(400).json({ error: 'Email inválido.' })
+        }
+        if (!(await validatorCelular.isValid(request.body))) {
+            return response.status(400).json({ error: 'Celular obrigatório.' })
+        }
+
+        const updateUser = await knex('user')
+            .update({ name: name, email: email, celular: celular, phone: phone, isActive: isActive })
+            .where('iduser', id)
+
+        return response.json(updateUser)
+    } catch (erros) {
+        return response.json({ error: erros.message })
+    }
+}
+
 }

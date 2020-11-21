@@ -21,6 +21,7 @@ routes.post('/criarColaborador', UserController.createColaborador)
 
 //Rotas para alteração de Usuários
 routes.put('/updateAluno', AlunoController.updateAluno)
+routes.put('/AdminUpdateAluno', UserController.updateAluno)
 routes.put('/updateColaborador', ColaboradorController.updateColaborador)
 
 //Rotas para listar Usuários
@@ -47,6 +48,7 @@ routes.post('/criarComentarioAluno', ComentarioController.createComentarioAluno)
 //Rota para listar comentário
 routes.get('/listarComentario', ComentarioController.indexComentario)
 
+//Verifica se usuário está ativo
 routes.post('/verificaUsuario', AlunoController.usuarioAtivo)
 
 module.exports = routes;
