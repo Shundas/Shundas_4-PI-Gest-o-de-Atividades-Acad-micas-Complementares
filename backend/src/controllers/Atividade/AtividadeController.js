@@ -12,11 +12,11 @@ module.exports = {
     
             const { iduser } = request.query
     
-            const { iduserSenai, idactivity, idcategory, institutionName, date_end, informedWorkload, attachment, activityName} = request.body
+            const { iduserSenai, idactivity, idcategory, institutionName, date_end, informedWorkload, attachment, workloadT, activityName} = request.body
             
             const validatorInstitution = yup.object().shape({ institutionName: yup.string().required() })
             const validatorDate = yup.object().shape({ date_end: yup.date().required() })
-            const validatorWork = yup.object().shape({ workload: yup.string().required() })
+            // const validatorWork = yup.object().shape({ workload: yup.string().required() })
             const validatorActivity = yup.object().shape({ activityName: yup.string().required() })
                 
         
@@ -28,9 +28,9 @@ module.exports = {
                 return response.status(400).json({ error: 'Data é campo obrigatório.' })
             }
 
-            if (!(await validatorWork.isValid(request.body))) {
-                return response.status(400).json({ error: 'Horas validadas é campo obrigatório.' })
-            }
+            // if (!(await validatorWork.isValid(request.body))) {
+            //     return response.status(400).json({ error: 'Horas validadas é campo obrigatório.' })
+            // }
 
             if (!(await validatorActivity.isValid(request.body))) {
                 return response.status(400).json({ error: 'Nome da Atividade é campo obrigatório.' })
@@ -47,27 +47,32 @@ module.exports = {
 
 
         let [{ hoursPerActivity, totalHour }] = selectAtividade
-        let workloadTratado
+        let mensagem    
 
         console.log(selectAtividade)
         console.log(hoursPerActivity)
         console.log(totalHour)    
         console.log(informedWorkload)
 
-        const verificaTotal = await knex.select("workload").from("form").where("iduser", iduser, "idactivity", idactivity);
+        const verificaTotal = await knex.sum("workload as workload").from("form").where("iduser", iduser).where("idactivity", idactivity)
+
+
         console.log(verificaTotal)
         const [{ workload }] = verificaTotal
         console.log(workload)     
-
+        
+        if (informedWorkload == 0) {
+            return response.json({ msg: `Carga horária deve ser maior que 0h.` })  
+        }
 
         if(hoursPerActivity === null){
             if(informedWorkload > totalHour){
-                return response.json({ msg: `Você informou ${workload}h, porém neste tipo de atividade serão validadas no máximo ${totalHour}h.` })    
+                mensagem = `Você informou ${informedWorkload}h, porém neste tipo de atividade serão validadas no máximo ${totalHour}h.`     
             }
         }else if(hoursPerActivity !== null){
             if(informedWorkload > hoursPerActivity){
-                return response.json({ msg: `Você informou ${workload}h, porém neste tipo de atividade serão validadas no máximo ${hoursPerActivity}h por envio.` })    
-            }
+                mensagem =  `Você informou ${informedWorkload}h, porém neste tipo de atividade serão validadas no máximo ${hoursPerActivity}h por envio.` 
+            } 
         }
 
 
@@ -84,21 +89,24 @@ module.exports = {
         // }
         // console.log(workloadTratado)
     
-        // const formAtividade = await knex('form').insert({
-        //     idform: id,
-        //     iduser,
-        //     iduserSenai,
-        //     idactivity,
-        //     idcategory,
-        //     institutionName,
-        //     date_end,
-        //     informedWorkload,
-        //     attachment: path,
-        //     activityName,
-        //     idstatus: 1,
-        // })
+        const formAtividade = await knex('form').insert({
+            idform: id,
+            iduser,
+            iduserSenai,
+            idactivity,
+            idcategory,
+            institutionName,
+            date_end,
+            informedWorkload,
+            attachment: path,
+            activityName,
+            workload: workloadT,
+            idstatus: 1,
+        })
     
-        return response.json({ msg: "éusguri"})
+        return response.json({
+            msg: mensagem
+        })
     
         } catch (erros) {
             return response.json({ error: erros.message })
