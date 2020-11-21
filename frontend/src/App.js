@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react';
 import GlobalStyles from './Global/styled';
-import Student from './pages/Admin/AdminHome';
+import Routes from './routes';
 
 function App() {
   return (
     <Fragment>
       <GlobalStyles />
-      <Student />
+      <Routes />
     </Fragment>
   );
 }

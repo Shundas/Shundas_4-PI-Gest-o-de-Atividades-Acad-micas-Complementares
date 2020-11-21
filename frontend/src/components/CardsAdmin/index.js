@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { MdSearch } from 'react-icons/md';
 import { FiPlus, FiUser, FiUserPlus } from 'react-icons/fi';
 import { Container, Grid } from './styled';
@@ -10,36 +11,36 @@ export default function CardsAdmin() {
       <div>
         <Grid>
           <div className="card" style={{ width: '18rem' }}>
-            <button>
+            <Link to="/question">
               <div className="card-body">
                 <h5 className="card-title">Criar Usuário</h5>
                 <FiPlus size={25} color="blue" className="icon" />
               </div>
-            </button>
+            </Link>
           </div>
           <div className="card" style={{ width: '18rem' }}>
-            <button>
+            <Link to="/consult">
               <div className="card-body">
                 <h5 className="card-title">Consultar Usuários</h5>
                 <MdSearch size={25} color="blue" className="icon" />
               </div>
-            </button>
+            </Link>
           </div>
           <div className="card" style={{ width: '18rem' }}>
-            <button>
+            <Link to="/profile">
               <div className="card-body">
                 <h5 className="card-title">Perfis de Usuário</h5>
                 <FiUser size={25} color="blue" className="icon" />
               </div>
-            </button>
+            </Link>
           </div>
           <div className="card" style={{ width: '18rem' }}>
-            <button>
+            <Link to="/new-profile">
               <div className="card-body">
                 <h5 className="card-title">Novo Perfil de Usuário</h5>
                 <FiUserPlus size={25} color="blue" className="icon" />
               </div>
-            </button>
+            </Link>
           </div>
         </Grid>
       </div>

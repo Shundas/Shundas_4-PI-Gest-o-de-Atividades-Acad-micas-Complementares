@@ -23,23 +23,5 @@ export const Grid = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    &:hover {
-      animation: bounce 0.5s linear;
-    }
-    @keyframes bounce {
-      20% {
-        transform: translateY(-6px);
-      }
-      40% {
-        transform: translateY(0px);
-      }
-      80% {
-        transform: translateY(-2px);
-      }
-      100% {
-        transform: translateY(0);
-      }
-    }
   }
 `;

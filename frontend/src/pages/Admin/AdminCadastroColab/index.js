@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../../../components/HeaderAdmin';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -44,8 +45,12 @@ export default function AdminCadastroColab() {
               </select>
             </div>
             <div className="btns">
-              <button className="btn btn-primary">Enviar</button>
-              <button className="btn btn-secondary">Voltar</button>
+              <button type="submit" className="btn btn-primary">
+                Enviar
+              </button>
+              <Link to="/question" className="btn btn-secondary">
+                Voltar
+              </Link>
             </div>
           </form>
         </Container>
