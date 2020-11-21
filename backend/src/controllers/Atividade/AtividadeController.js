@@ -158,7 +158,7 @@ module.exports = {
                 return response.status(400).json({ error: 'Nome da Atividade é campo obrigatório.' })
             }
 
-            const updateAtividade = await knex('user')
+            const updateAtividade = await knex('form')
             .update({ iduserSenai, idactivity, idcategory, institutionName, date_end, workload, activityName, status })
             .where('idform', idform)
     
