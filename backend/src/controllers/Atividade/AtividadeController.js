@@ -12,7 +12,7 @@ module.exports = {
     
             const { iduser } = request.query
     
-            const { iduserSenai, idactivity, idcategory, institutionName, date_end, workload, attachment, activityName} = request.body
+            const { iduserSenai, idactivity, idcategory, institutionName, date_end, informedWorkload, attachment, activityName} = request.body
             
             const validatorInstitution = yup.object().shape({ institutionName: yup.string().required() })
             const validatorDate = yup.object().shape({ date_end: yup.date().required() })
@@ -52,20 +52,37 @@ module.exports = {
         console.log(selectAtividade)
         console.log(hoursPerActivity)
         console.log(totalHour)    
-        console.log(workload)
-        
-        if (workload <= hoursPerActivity || workload < totalHour) {
-            return response.json({ error: `Carga Horária inválida, para esta modalidade é aceito ${hoursPerActivity}h por atividade, com o máximo de ${totalHour}h.` })
-        }
+        console.log(informedWorkload)
 
-        if (workload > hoursPerActivity && workload >= totalHour) {
-            if(hoursPerActivity == 0) {
-                workloadTratado = totalHour
-            } else {
-                workloadTratado = hoursPerActivity
+        const verificaTotal = await knex.select("workload").from("form").where("iduser", iduser, "idactivity", idactivity);
+        console.log(verificaTotal)
+        const [{ workload }] = verificaTotal
+        console.log(workload)     
+
+
+        if(hoursPerActivity === null){
+            if(informedWorkload > totalHour){
+                return response.json({ msg: `Você informou ${workload}h, porém neste tipo de atividade serão validadas no máximo ${totalHour}h.` })    
+            }
+        }else if(hoursPerActivity !== null){
+            if(informedWorkload > hoursPerActivity){
+                return response.json({ msg: `Você informou ${workload}h, porém neste tipo de atividade serão validadas no máximo ${hoursPerActivity}h por envio.` })    
             }
         }
-        console.log(workloadTratado)
+
+
+        // if (workload <= hoursPerActivity || workload < totalHour) {
+        //     return response.json({ error: `Carga Horária inválida, para esta modalidade é aceito ${hoursPerActivity}h por atividade, com o máximo de ${totalHour}h.` })
+        // }
+
+        // if (workload > hoursPerActivity && workload >= totalHour) {
+        //     if(hoursPerActivity == 0) {
+        //         workloadTratado = totalHour
+        //     } else {
+        //         workloadTratado = hoursPerActivity
+        //     }
+        // }
+        // console.log(workloadTratado)
     
         // const formAtividade = await knex('form').insert({
         //     idform: id,
@@ -75,7 +92,7 @@ module.exports = {
         //     idcategory,
         //     institutionName,
         //     date_end,
-        //     workload,
+        //     informedWorkload,
         //     attachment: path,
         //     activityName,
         //     idstatus: 1,
