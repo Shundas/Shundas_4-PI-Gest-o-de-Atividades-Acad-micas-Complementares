@@ -26,22 +26,6 @@ export default function CardsAdmin() {
               </div>
             </Link>
           </div>
-          <div className="card" style={{ width: '18rem' }}>
-            <Link to="/profile">
-              <div className="card-body">
-                <h5 className="card-title">Perfis de Usuário</h5>
-                <FiUser size={25} color="blue" className="icon" />
-              </div>
-            </Link>
-          </div>
-          <div className="card" style={{ width: '18rem' }}>
-            <Link to="/new-profile">
-              <div className="card-body">
-                <h5 className="card-title">Novo Perfil de Usuário</h5>
-                <FiUserPlus size={25} color="blue" className="icon" />
-              </div>
-            </Link>
-          </div>
         </Grid>
       </div>
     </Container>
