@@ -1,4 +1,6 @@
 import React, { Fragment } from 'react';
+import { Link } from 'react-router-dom';
+import { FiHome, FiArrowLeft } from 'react-icons/fi';
 import styled from 'styled-components';
 import Header from '../../../components/HeaderAdmin';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -21,6 +23,28 @@ const Container = styled.div`
   }
 `;
 
+const Nopit = styled.div`
+  position: absolute;
+
+  border: 0;
+
+  top: 90px;
+  left: 30px;
+
+  width: 38px;
+  height: 38px;
+  background: #28a745 !important;
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 10;
+
+  cursor: pointer;
+`;
+
 export default function AdminConsulta() {
   return (
     <Fragment>
@@ -31,6 +55,15 @@ export default function AdminConsulta() {
           Consulta de Usuário
         </h2>
       </div>
+
+      <Nopit>
+        <Link to="/question-consult" className="btn btn-primary button">
+          <FiArrowLeft />
+        </Link>
+        <Link to="/" className="btn btn-success button">
+          <FiHome />
+        </Link>
+      </Nopit>
 
       <Container className="container">
         <form className="form-row">
