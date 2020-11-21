@@ -87,9 +87,6 @@ export default function AdminCadastroUser() {
             </div>
             <div className="btns">
               <button className="btn btn-primary">Enviar</button>
-              <Link to="/question" className="btn btn-secondary">
-                Voltar
-              </Link>
             </div>
           </form>
         </div>

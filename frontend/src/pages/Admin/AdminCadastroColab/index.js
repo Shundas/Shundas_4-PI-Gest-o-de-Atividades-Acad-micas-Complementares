@@ -81,9 +81,6 @@ export default function AdminCadastroColab() {
               <button type="submit" className="btn btn-primary">
                 Enviar
               </button>
-              <Link to="/question" className="btn btn-secondary">
-                Voltar
-              </Link>
             </div>
           </form>
         </Container>
