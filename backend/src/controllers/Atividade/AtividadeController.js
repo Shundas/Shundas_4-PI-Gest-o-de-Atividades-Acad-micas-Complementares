@@ -12,7 +12,7 @@ module.exports = {
     
             const { iduser } = request.query
     
-            const { iduserSenai, idactivity, idcategory, institutionName, date_end, workload, attachment, activityName, idstatus } = request.body
+            const { iduserSenai, idactivity, idcategory, institutionName, date_end, workload, attachment, activityName} = request.body
             
             const validatorInstitution = yup.object().shape({ institutionName: yup.string().required() })
             const validatorDate = yup.object().shape({ date_end: yup.date().required() })
@@ -37,22 +37,51 @@ module.exports = {
             }
     
         const id = crypto.randomBytes(8).toString('hex')
+
+        //Validar Horas
+
+        const selectAtividade = await knex('activity')
+            .select('hoursPerActivity', 'totalHour')
+            .where('idactivity', idactivity)
+            .where('idcategory', idcategory)
+
+
+        let [{ hoursPerActivity, totalHour }] = selectAtividade
+        let workloadTratado
+
+        console.log(selectAtividade)
+        console.log(hoursPerActivity)
+        console.log(totalHour)    
+        console.log(workload)
+        
+        if (workload <= hoursPerActivity || workload < totalHour) {
+            return response.json({ error: `Carga Horária inválida, para esta modalidade é aceito ${hoursPerActivity}h por atividade, com o máximo de ${totalHour}h.` })
+        }
+
+        if (workload > hoursPerActivity && workload >= totalHour) {
+            if(hoursPerActivity == 0) {
+                workloadTratado = totalHour
+            } else {
+                workloadTratado = hoursPerActivity
+            }
+        }
+        console.log(workloadTratado)
     
-        const formAtividade = await knex('form').insert({
-            idform: id,
-            iduser,
-            iduserSenai,
-            idactivity,
-            idcategory,
-            institutionName,
-            date_end,
-            workload,
-            attachment: path,
-            activityName,
-            idstatus: 1,
-        })
+        // const formAtividade = await knex('form').insert({
+        //     idform: id,
+        //     iduser,
+        //     iduserSenai,
+        //     idactivity,
+        //     idcategory,
+        //     institutionName,
+        //     date_end,
+        //     workload,
+        //     attachment: path,
+        //     activityName,
+        //     idstatus: 1,
+        // })
     
-        return response.json(formAtividade)
+        return response.json({ msg: "éusguri"})
     
         } catch (erros) {
             return response.json({ error: erros.message })
