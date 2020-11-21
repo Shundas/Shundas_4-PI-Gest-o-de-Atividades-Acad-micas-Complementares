@@ -7,7 +7,11 @@ module.exports = {
 
     async createAtividade(request, response) {
         try {
-    
+            
+            if (request.file === undefined) {
+                return response.json({msg: "O envio de arquivo é obrigatório."})
+            }
+
             const { path } = request.file
     
             const { iduser } = request.query
@@ -35,6 +39,8 @@ module.exports = {
             if (!(await validatorActivity.isValid(request.body))) {
                 return response.status(400).json({ error: 'Nome da Atividade é campo obrigatório.' })
             }
+
+            
     
         const id = crypto.randomBytes(8).toString('hex')
 
@@ -58,7 +64,7 @@ module.exports = {
         if (informedWorkload == 0) {
             return response.json({ msg: `Carga horária deve ser maior que 0h.` })  
         }else{
-            const verificaTotal = await knex.sum("workload as workload").from("form").where("iduser", iduser).where("idactivity", idactivity).where("status", 3)
+            const verificaTotal = await knex.sum("workload as workload").from("form").where("iduser", iduser).where("idactivity", idactivity).where("idstatus", 3)
             const [{ workloadTotal }] = verificaTotal
             if(workloadTotal === totalHour){
                 return response.json({ msg: `Vocẽ já validou todas as horas possíveis para este tipo de atividade: ${totalHour}` })  
