@@ -5,6 +5,7 @@ import AdminHome from '../pages/Admin/AdminHome';
 import AdminTipoUser from '../pages/Admin/AdminTipoUser';
 import AdminCadastroAluno from '../pages/Admin/AdminCadastroAluno';
 import AdminCadastroColaborador from '../pages/Admin/AdminCadastroColab';
+import AdminConsulta from '../pages/Admin/AdminConsulta';
 
 export default function RoutesAplication() {
   return (
@@ -14,6 +15,7 @@ export default function RoutesAplication() {
         <Route path="/question" component={AdminTipoUser} />
         <Route path="/aluno" component={AdminCadastroAluno} />
         <Route path="/colaborador" component={AdminCadastroColaborador} />
+        <Route path="/consult" component={AdminConsulta} />
       </Switch>
     </BrowserRouter>
   );
