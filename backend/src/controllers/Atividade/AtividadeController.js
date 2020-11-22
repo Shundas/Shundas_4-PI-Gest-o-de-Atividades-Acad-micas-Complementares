@@ -16,7 +16,7 @@ module.exports = {
     
             const { iduser } = request.query
     
-            const { iduserSenai, idactivity, idcategory, institutionName, date_end, informedWorkload, activityName} = request.body
+            const { iduserSenai, idactivity, idcategory, institutionName, date_end, informedWorkload, activityName } = request.body
             
             const validatorInstitution = yup.object().shape({ institutionName: yup.string().required() })
             const validatorDate = yup.object().shape({ date_end: yup.date().required() })
@@ -224,19 +224,31 @@ module.exports = {
             let [{ hoursPerActivity, totalHour }] = selectAtividade
             let [{ workload }] = buscaWorkload
             let [{ informedWorkload }] = buscaInformedWorkload
-            let contaMat
+            let restante
 
             console.log("Horas por atividade: " + hoursPerActivity)
             console.log("Hora total: " + totalHour)
             console.log("Workload: " + workload)
 
             if (idstatus === 3) {
-                if (hoursPerActivity == null) {
-                    if(workload < totalHour){
-                       contaMat = totalHour - workload
+                if (hoursPerActivity === null) {
+                    if (workload < totalHour){
+                       restante = totalHour - workload
+                       //verificar se a subtração for igual a 0
                        const updateAtividade = await knex('form').update({workloadT: workload}).where('idform', idform)
                        response.json({ msg: `Workload atualizado para ${contaMat}` })
                     }       
+                } else {
+                    if (workload < totalHour) {
+                        restante = totalHour - workload
+                        if (restante > hoursPerActivity) {
+                            const updateAtividade = await knex('form').update({workloadT: hoursPerActivity}).where('idform', idform)
+                            response.json({ msg: `Workload atualizado para ${hoursPerActivity}` })
+                        } else if (restante < hoursPerActivity) {
+                            const updateAtividade = await knex('form').update({workloadT: restante}).where('idform', idform)
+                            response.json({ msg: `Workload atualizado para ${restante}` })
+                        }
+                    }
                 }
             }
 
