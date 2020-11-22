@@ -49,7 +49,7 @@ routes.post('/criarComentarioAluno', ComentarioController.createComentarioAluno)
 routes.get('/listarComentario', ComentarioController.indexComentario)
 
 //Verifica se usuário está ativo
-routes.post('/verificaUsuario', AlunoController.usuarioAtivo)
+routes.post('/verificaUsuario', UserController.usuarioAtivo)
 
 routes.get('/perfis', UserController.perfil)
 
