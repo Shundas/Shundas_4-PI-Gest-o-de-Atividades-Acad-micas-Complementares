@@ -125,14 +125,14 @@ module.exports = {
   async consultaAlunos(request, response){
     try{
       const { page =1 } = request.query
-      
+
       const [count] = await knex("user").count("*")
-      const alunos = await knex("user")      
+      const alunos = await knex("user")
       .limit(5)
-      .offset((page -1)*5)      
+      .offset((page -1)*5)
       .select("iduser","name","email","phone","celular","cpf","isActive")
- 
-      response.header("X-Total-Count", count['count(*)'])      
+
+      response.header("X-Total-Count", count['count(*)'])
 
       return response.json(alunos);
 
@@ -144,17 +144,17 @@ module.exports = {
 
   async consultaColaborador(request, response) {
     try {
-      
+
       const { page =1 } = request.query
-      
+
       const [count] = await knex("userSenai").count("*")
-      const result = await knex("userSenai")      
+      const result = await knex("userSenai")
       .limit(5)
       .offset((page -1)*5)
-      .join('role','userSenai.idrole', '=', 'role.idrole')      
+      .join('role','userSenai.idrole', '=', 'role.idrole')
       .select("userSenai.iduserSenai","role.name","userSenai.email","userSenai.phone","userSenai.celular","userSenai.cpf","userSenai.isActive")
- 
-      response.header("X-Total-Count", count['count(*)'])      
+
+      response.header("X-Total-Count", count['count(*)'])
 
       return response.json(result);
 
