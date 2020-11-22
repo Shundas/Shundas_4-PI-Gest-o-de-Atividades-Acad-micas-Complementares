@@ -256,9 +256,6 @@ module.exports = {
                 }
             }
 
-            
-
-
             // const updateAtividade = await knex('form')
             // .update({ iduserSenai, idactivity, idcategory, institutionName, date_end, workload, activityName, idstatus })
             // .where('idform', idform)
