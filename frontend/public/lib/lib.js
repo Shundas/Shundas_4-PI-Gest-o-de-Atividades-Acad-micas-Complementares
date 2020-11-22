@@ -9,3 +9,9 @@ $('#myModal').on('shown.bs.modal', function () {
 $(function () {
   $('[data-toggle="tooltip"]').tooltip();
 });
+
+$('#element').toast('show');
+
+$('#element').toast('hide');
+
+$('#element').toast('dispose');

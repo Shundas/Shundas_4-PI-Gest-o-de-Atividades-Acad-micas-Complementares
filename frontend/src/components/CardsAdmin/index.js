@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { MdSearch } from 'react-icons/md';
-import { FiPlus, FiUser, FiUserPlus } from 'react-icons/fi';
+import { FiPlus } from 'react-icons/fi';
 import { Container, Grid } from './styled';
 import 'bootstrap/dist/css/bootstrap.css';
 

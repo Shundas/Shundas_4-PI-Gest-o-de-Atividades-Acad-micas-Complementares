@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft, FiHome } from 'react-icons/fi';
 import api from '../../../services/api';
@@ -52,9 +52,23 @@ export default function AdminCadastroUser() {
 
   const history = useHistory();
 
+  const historyReturn = () => {
+    return history.push('/');
+  };
+
   const handleSubmit = React.useCallback(
     async e => {
       e.preventDefault();
+
+      if (
+        name === '' ||
+        email === '' ||
+        phone === '' ||
+        celular === '' ||
+        cpf === ''
+      ) {
+        return;
+      }
 
       await api.post('/criarAluno', {
         name,
@@ -64,13 +78,13 @@ export default function AdminCadastroUser() {
         cpf,
       });
       alert('Aluno Cadastrado com sucesso!');
-      history.push('/');
+      historyReturn();
     },
     [name, email, phone, celular, cpf]
   );
 
   return (
-    <Fragment>
+    <>
       <Header />
       <h2 style={{ marginTop: '2em' }} className="text-center">
         Cadastro de Usuário
@@ -145,6 +159,6 @@ export default function AdminCadastroUser() {
           </form>
         </div>
       </Container>
-    </Fragment>
+    </>
   );
 }

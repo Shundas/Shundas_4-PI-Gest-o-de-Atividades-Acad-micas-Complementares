@@ -17,6 +17,7 @@
     "no-unused-vars": "off",
     "no-unused-expressions": "off",
     "jsx-a11y/iframe-has-title": "off",
-    "eslint-disable-next-line": "off"
+    "eslint-disable-next-line": "off",
+    "array-callback-return": "off"
   }
 }
