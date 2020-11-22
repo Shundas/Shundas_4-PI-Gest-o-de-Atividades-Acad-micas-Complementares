@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft, FiHome } from 'react-icons/fi';
+import api from '../../../services/api';
 import styled from 'styled-components';
 import Header from '../../../components/HeaderAdmin';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -43,6 +44,31 @@ const Nopit = styled.div`
 `;
 
 export default function AdminCadastroUser() {
+  const [name, setName] = React.useState('');
+  const [email, setEmail] = React.useState('');
+  const [phone, setPhone] = React.useState('');
+  const [celular, setCelular] = React.useState('');
+  const [cpf, setCpf] = React.useState('');
+
+  const history = useHistory();
+
+  const handleSubmit = React.useCallback(
+    async e => {
+      e.preventDefault();
+
+      await api.post('/criarAluno', {
+        name,
+        email,
+        phone,
+        celular,
+        cpf,
+      });
+      alert('Aluno Cadastrado com sucesso!');
+      history.push('/');
+    },
+    [name, email, phone, celular, cpf]
+  );
+
   return (
     <Fragment>
       <Header />
@@ -61,18 +87,46 @@ export default function AdminCadastroUser() {
 
       <Container>
         <div>
-          <form className="form">
+          <form onSubmit={handleSubmit} className="form">
             <div className="form-group">
               <label htmlFor="name">Nome</label>
-              <input className="form-control" type="text" id="name" />
+              <input
+                className="form-control"
+                type="text"
+                id="name"
+                onChange={e => setName(e.target.value)}
+              />
               <label htmlFor="email">E-mail</label>
-              <input className="form-control" type="email" id="email" />
+              <input
+                className="form-control"
+                type="email"
+                id="email"
+                onChange={e => setEmail(e.target.value)}
+              />
+
+              <label htmlFor="telefone">CPF</label>
+              <input
+                className="form-control"
+                type="text"
+                id="telefone"
+                onChange={e => setCpf(e.target.value)}
+              />
               <label htmlFor="telefone">Telefone</label>
-              <input className="form-control" type="text" id="telefone" />
+              <input
+                className="form-control"
+                type="text"
+                id="telefone"
+                onChange={e => setPhone(e.target.value)}
+              />
               <label htmlFor="celular">Celular</label>
-              <input className="form-control" type="text" id="celular" />
-              <label htmlFor="select">Curso</label>
-              <select id="perfil" className="form-control">
+              <input
+                className="form-control"
+                type="text"
+                id="celular"
+                onChange={e => setCelular(e.target.value)}
+              />
+              {/* <label htmlFor="select">Curso</label>
+              <select id="perfil" className="form-control" onChange={}>
                 <option value="1">Analise e Desenvolvimento de Sistemas</option>
                 <option value="2">Redes de Computadores</option>
                 <option value="2">Jogos Digitais</option>
@@ -83,7 +137,7 @@ export default function AdminCadastroUser() {
                 <option value="1">Turma</option>
                 <option value="2">Redes de Computadores</option>
                 <option value="2">Jogos Digitais</option>
-              </select>
+              </select> */}
             </div>
             <div className="btns">
               <button className="btn btn-primary">Enviar</button>
