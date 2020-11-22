@@ -180,7 +180,7 @@ module.exports = {
         try {
             const { idform } = request.query
 
-            const { iduser, iduserSenai, idactivity, idcategory, institutionName, date_end, workload, activityName, idstatus } = request.body
+            const { iduser, iduserSenai, idactivity, idcategory, institutionName, date_end, workloadT, activityName, idstatus } = request.body
             const validatorInstitution = yup.object().shape({ institutionName: yup.string().required() })
             const validatorDate = yup.object().shape({ date_end: yup.date().required() })
             const validatorWork = yup.object().shape({ workload: yup.string().required() })
@@ -203,13 +203,15 @@ module.exports = {
                 return response.status(400).json({ error: 'Nome da Atividade é campo obrigatório.' })
             }
 
-            // const verificaTotal = await knex.sum("workload as workload").from("form").where("iduser", iduser).where("idactivity", idactivity)
-
 
             //Validação de Carga Horaria
 
-            //Buscando o informedWorkload registrado nas outras atividades
+            //Buscando o Workload registrado nas outras atividades
             const buscaWorkload = await knex('form').sum('workload as workload').where('iduser', iduser).where('idactivity', idactivity).where("idstatus", 3)
+
+            //Buscando o InformedWorkload na ativade que será realizado o Update
+            const buscaInformedWorkload = await knex('form').sum('informedWorkload as informedWorkload').where('idform', idform)
+
 
             //Buscando as regras de carga horaria, por atividade e categoria
             const selectAtividade = await knex('activity')
@@ -220,17 +222,25 @@ module.exports = {
             
             //Desestrurando os select
             let [{ hoursPerActivity, totalHour }] = selectAtividade
-            let [{ informedWorkload }] = buscaWorkload
+            let [{ workload }] = buscaWorkload
+            let [{ informedWorkload }] = buscaInformedWorkload
+            let contaMat
 
             console.log("Horas por atividade: " + hoursPerActivity)
             console.log("Hora total: " + totalHour)
-            console.log("InformedWorkload: " + informedWorkload)
+            console.log("Workload: " + workload)
 
-            if (hoursPerActivity == null) {
-
-                
-                 
+            if (idstatus === 3) {
+                if (hoursPerActivity == null) {
+                    if(workload < totalHour){
+                       contaMat = totalHour - workload
+                       const updateAtividade = await knex('form').update({workloadT: workload}).where('idform', idform)
+                       response.json({ msg: `Workload atualizado para ${contaMat}` })
+                    }       
+                }
             }
+
+            
 
 
             // const updateAtividade = await knex('form')
