@@ -180,7 +180,7 @@ module.exports = {
         try {
             const { idform } = request.query
 
-            const { iduserSenai, idactivity, idcategory, institutionName, date_end, workload, activityName, idstatus } = request.body
+            const { iduser, iduserSenai, idactivity, idcategory, institutionName, date_end, workload, activityName, idstatus } = request.body
             const validatorInstitution = yup.object().shape({ institutionName: yup.string().required() })
             const validatorDate = yup.object().shape({ date_end: yup.date().required() })
             const validatorWork = yup.object().shape({ workload: yup.string().required() })
@@ -203,15 +203,41 @@ module.exports = {
                 return response.status(400).json({ error: 'Nome da Atividade é campo obrigatório.' })
             }
 
+            // const verificaTotal = await knex.sum("workload as workload").from("form").where("iduser", iduser).where("idactivity", idactivity)
+
+
+            //Validação de Carga Horaria
+
+            //Buscando o informedWorkload registrado nas outras atividades
+            const buscaInformedWorkload = await knex('form').sum('informedWorkload as informedWorkload').where('iduser', iduser).where('idactivity', idactivity)
+
+            //Buscando as regras de carga horaria, por atividade e categoria
+            const selectAtividade = await knex('activity')
+                .select('hoursPerActivity', 'totalHour')
+                .where('idactivity', idactivity)
+                .where('idcategory', idcategory)
+
             
 
+            //Desestrurando os select
+            let [{ hoursPerActivity, totalHour }] = selectAtividade
+            let [{ informedWorkload }] = buscaInformedWorkload
+
+            console.log("Horas por atividade: " + hoursPerActivity)
+            console.log("Hora total: " + totalHour)
+            console.log("InformedWorkload: " + informedWorkload)
+
+            if (informedWorkload == null) {
+                
+                 
+            }
 
 
-            const updateAtividade = await knex('form')
-            .update({ iduserSenai, idactivity, idcategory, institutionName, date_end, workload, activityName, idstatus })
-            .where('idform', idform)
+            // const updateAtividade = await knex('form')
+            // .update({ iduserSenai, idactivity, idcategory, institutionName, date_end, workload, activityName, idstatus })
+            // .where('idform', idform)
     
-            return response.json(updateAtividade)
+            return response.json({ msg: "kasinoo" })
 
         } catch (erros) {
             return response.json({ error: erros.message })
