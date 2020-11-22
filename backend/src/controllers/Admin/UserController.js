@@ -241,4 +241,14 @@ module.exports = {
       return response.json({ error: erros.message })
     }
   },
+
+  async perfil (request, response){
+    try{
+      const perfis = await knex("role").select("idrole","name")
+      return response.json(perfis)
+    }catch(erros){
+      return response.json({ error: erros.message })
+    }
+  }
+
 }

@@ -51,5 +51,7 @@ routes.get('/listarComentario', ComentarioController.indexComentario)
 //Verifica se usuário está ativo
 routes.post('/verificaUsuario', AlunoController.usuarioAtivo)
 
+routes.get('/perfis', UserController.perfil)
+
 module.exports = routes;
 
