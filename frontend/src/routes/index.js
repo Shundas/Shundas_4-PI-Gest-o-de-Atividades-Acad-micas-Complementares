@@ -9,6 +9,8 @@ import AdminConsulta from '../pages/Admin/AdminConsulta';
 import AdminTipConsulta from '../pages/Admin/AdminTipoCosulta';
 import AdminConsultaColborador from '../pages/Admin/AdminConsultaColaborador';
 
+import AlunoEvento from '../pages/Aluno/AlunoEvento'
+
 export default function RoutesAplication() {
   return (
     <BrowserRouter>
@@ -20,6 +22,7 @@ export default function RoutesAplication() {
         <Route path="/question-consult" component={AdminTipConsulta} />
         <Route path="/consultaluno" component={AdminConsulta} />
         <Route path="/consultcolaborador" component={AdminConsultaColborador} />
+        <Route path="/atividade" component={AlunoEvento} />
       </Switch>
     </BrowserRouter>
   );

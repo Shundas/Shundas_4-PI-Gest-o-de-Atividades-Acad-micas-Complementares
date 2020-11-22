@@ -1,9 +1,33 @@
-import React from 'react';
-import logo from '../../images/logo.svg';
-import Header from '../../components/Header';
+import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 
+import axios from '../../../services/api';
+import logo from '../../../images/logo.svg';
+import Header from '../../../components/Header';
 import { Title, Container } from './styled';
+
 export default function AlunoEvento() {
+
+  const [category, setCategory] = useState([]);
+  const [activity, setActivity] = useState([]);
+
+  useEffect(() => {
+    axios.get('').then(response => {
+        const idCategoria = response.data.map(idCategory => category.idcategory)
+
+        setCategory(idCategoria);
+    })
+  },[])
+
+
+  useEffect(() => {
+    axios.get('').then(response => {
+        const idAtividade = response.data.map(idActivity => activity.idactivity)
+
+        setActivity(idAtividade);
+    })
+  },[])
+
+   
   return (
     <>
       <Header
@@ -44,10 +68,18 @@ export default function AlunoEvento() {
             <div className="drop-raw">
               <div className="form-group col-md-6">
                 <label htmlFor="main-text">Modalidade</label>
-                <select id="main-text-2" className="form-control">
+
+                {/* <select name="uf" id="uf" value="" onChange={handleSelectUf}>
+                    <option value="0">Selecione uma UF</option>
+                    {ufs.map(uf => (
+                        <option key={uf} value={uf}>{uf}</option>
+                    ))}
+                </select> */}
+
+                {/* <select id="main-text-2" className="form-control">
                   <option>Selecione</option>
                   <option value="">Curso de extenção</option>
-                </select>
+                </select> */}
               </div>
               <div className="form-group col-md-6">
                 <label htmlFor="main-text-2">Atividade</label>
