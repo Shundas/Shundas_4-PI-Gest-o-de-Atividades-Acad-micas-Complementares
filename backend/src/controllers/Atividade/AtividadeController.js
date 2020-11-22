@@ -209,7 +209,7 @@ module.exports = {
             //Validação de Carga Horaria
 
             //Buscando o informedWorkload registrado nas outras atividades
-            const buscaInformedWorkload = await knex('form').sum('informedWorkload as informedWorkload').where('iduser', iduser).where('idactivity', idactivity)
+            const buscaWorkload = await knex('form').sum('workload as workload').where('iduser', iduser).where('idactivity', idactivity).where("idstatus", 3)
 
             //Buscando as regras de carga horaria, por atividade e categoria
             const selectAtividade = await knex('activity')
@@ -218,16 +218,16 @@ module.exports = {
                 .where('idcategory', idcategory)
 
             
-
             //Desestrurando os select
             let [{ hoursPerActivity, totalHour }] = selectAtividade
-            let [{ informedWorkload }] = buscaInformedWorkload
+            let [{ informedWorkload }] = buscaWorkload
 
             console.log("Horas por atividade: " + hoursPerActivity)
             console.log("Hora total: " + totalHour)
             console.log("InformedWorkload: " + informedWorkload)
 
-            if (informedWorkload == null) {
+            if (hoursPerActivity == null) {
+
                 
                  
             }
