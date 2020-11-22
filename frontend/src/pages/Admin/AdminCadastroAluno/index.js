@@ -67,7 +67,7 @@ export default function AdminCadastroUser() {
         celular === '' ||
         cpf === ''
       ) {
-        return;
+        return alert('Todos os campos devem ser preenchidos!');
       }
 
       await api.post('/criarAluno', {
