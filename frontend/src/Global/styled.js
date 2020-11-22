@@ -7,6 +7,10 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
 
+  body {
+    background: #f4f4f4
+  }
+
   ::-webkit-scrollbar {
     width: 10px;
   }
