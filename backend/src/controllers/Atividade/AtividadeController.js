@@ -64,7 +64,7 @@ module.exports = {
         if (informedWorkload == 0) {
             return response.json({ msg: `Carga horária deve ser maior que 0h.` })  
         }else{
-            const verificaTotal = await knex.sum("workload as workload").from("form").where("iduser", iduser).where("idactivity", idactivity).where("idstatus", 3)
+            const verificaTotal = await knex.sum("workload as workloadTotal").from("form").where("iduser", iduser).where("idactivity", idactivity).where("idstatus", 3)
             const [{ workloadTotal }] = verificaTotal
             if(workloadTotal === totalHour){
                 return response.json({ msg: `Vocẽ já validou todas as horas possíveis para este tipo de atividade: ${totalHour}` })  
@@ -234,9 +234,13 @@ module.exports = {
                 if (hoursPerActivity === null) {
                     if (workload < totalHour){
                        restante = totalHour - workload
-                       //verificar se a subtração for igual a 0
-                       const updateAtividade = await knex('form').update({workloadT: workload}).where('idform', idform)
-                       response.json({ msg: `Workload atualizado para ${contaMat}` })
+                       if (informedWorkload <= restante) {
+                        const updateAtividade = await knex('form').update({workload: informedWorkload}).where('idform', idform)
+                        response.json({ msg: `Workload atualizado para ${informedWorkload}` })
+                       } else {
+                        const updateAtividade = await knex('form').update({workload: restante}).where('idform', idform)
+                        response.json({ msg: `Workload atualizado para ${restante}` })
+                       }
                     }       
                 } else {
                     if (workload < totalHour) {
