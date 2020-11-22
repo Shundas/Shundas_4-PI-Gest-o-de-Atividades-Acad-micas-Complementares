@@ -87,7 +87,10 @@ export default function AdminCadastroUser() {
   return (
     <>
       <Header />
-      <h2 style={{ marginTop: '2em' }} className="text-center">
+      <h2
+        style={{ marginTop: '2em', marginBottom: '1em' }}
+        className="text-center"
+      >
         Cadastro de Usuário
       </h2>
 
