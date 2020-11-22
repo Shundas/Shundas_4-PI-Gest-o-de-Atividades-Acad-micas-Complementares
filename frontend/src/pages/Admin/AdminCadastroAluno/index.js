@@ -68,15 +68,16 @@ export default function AdminCadastroUser() {
         cpf === ''
       ) {
         return alert('Todos os campos devem ser preenchidos!');
+      } else {
+        await api.post('/criarAluno', {
+          name,
+          email,
+          phone,
+          celular,
+          cpf,
+        });
       }
 
-      await api.post('/criarAluno', {
-        name,
-        email,
-        phone,
-        celular,
-        cpf,
-      });
       alert('Aluno Cadastrado com sucesso!');
       historyReturn();
     },
