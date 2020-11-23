@@ -7,25 +7,29 @@ import { Title, Container } from './styled';
 
 export default function AlunoEvento() {
 
+ 
   const [category, setCategory] = useState([]);
-  const [activity, setActivity] = useState([]);
+  
+  const [selectedCategory, setSelectedCategory] = useState('0');
 
-  useEffect(() => {
-    axios.get('').then(response => {
-        const idCategoria = response.data.map(idCategory => category.idcategory)
+  // useEffect(() => {
+  //   axios.get('/category').then(response => {
+  //     console.log(response.data)
+  //       // const idCategoria = response.data.map(idCategory => category.idcategory)
+  //       // console.log(idCategoria)
+  //       // setCategory(idCategoria);
+  //   })
+  // },[])
 
-        setCategory(idCategoria);
-    })
-  },[])
+  // axios.get('/category').then(response => {
+  //   console.log(response.data)
+  // })
 
-
-  useEffect(() => {
-    axios.get('').then(response => {
-        const idAtividade = response.data.map(idActivity => activity.idactivity)
-
-        setActivity(idAtividade);
-    })
-  },[])
+//   function handleSelectUf(event) {
+//     const categoria = event.target.value;
+//     console.log(categoria)
+//     setSelectedCategory(categoria);
+// }
 
    
   return (
@@ -71,8 +75,8 @@ export default function AlunoEvento() {
 
                 {/* <select name="uf" id="uf" value="" onChange={handleSelectUf}>
                     <option value="0">Selecione uma UF</option>
-                    {ufs.map(uf => (
-                        <option key={uf} value={uf}>{uf}</option>
+                    {category.map(idCategory => (
+                        <option key={idCategory} value={idCategory}>{idCategory}</option>
                     ))}
                 </select> */}
 

@@ -271,6 +271,7 @@ module.exports = {
     async category (response){
         try {
             const result = await knex("category").select("idcategory","name_cat")
+            console.log(result)
             return response.json(result)
         } catch (error) {
             return response.json({ error: error.message })
