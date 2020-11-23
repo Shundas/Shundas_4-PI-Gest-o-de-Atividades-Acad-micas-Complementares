@@ -22,6 +22,15 @@ const Container = styled.div`
   .raw {
     margin-top: 3em;
   }
+
+  .cen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding-left: 14px;
+    padding-right: 14px;
+  }
 `;
 
 const Nopit = styled.div`
@@ -78,21 +87,27 @@ export default function AdminConsulta() {
       <Container className="container">
         <form className="form-row">
           <div className="form-column">
-            <label htmlFor="id1">Nome</label>
-            <input className="form-control" type="text" id="id1" />
+            <input
+              className="form-control"
+              type="text"
+              id="id1"
+              placeholder="Nome"
+            />
           </div>
+
+          <div className="cen">
+            <span>{'='}</span>
+          </div>
+
           <div className="form-column">
-            <label htmlFor="id1">E-mail</label>
-            <input className="form-control" type="text" id="id1" />
+            <input
+              className="form-control"
+              type="text"
+              id="id1"
+              placeholder="Nome"
+            />
           </div>
-          <div className="form-column">
-            <label htmlFor="id1">CPF</label>
-            <input className="form-control" type="text" id="id1" />
-          </div>
-          <div className="form-column">
-            <label htmlFor="id1">Ativo</label>
-            <input className="form-control" type="text" id="id1" />
-          </div>
+
           <div className="btns">
             <button className="btn btn-primary">Filtrar</button>
           </div>
