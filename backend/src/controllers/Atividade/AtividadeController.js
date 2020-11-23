@@ -260,11 +260,30 @@ module.exports = {
             // .update({ iduserSenai, idactivity, idcategory, institutionName, date_end, workload, activityName, idstatus })
             // .where('idform', idform)
     
-            return response.json({ msg: "kasinoo" })
+            // return response.json({ msg: "kasinoo" })
 
         } catch (erros) {
             return response.json({ error: erros.message })
         }
     
+    },
+
+    async category (response){
+        try {
+            const result = await knex("category").select("idcategory","name_cat")
+            return response.json(result)
+        } catch (error) {
+            return response.json({ error: error.message })
+        }
+    },
+
+    async activity (response){
+        try {
+            const result = await knex("activity").select("idactivity","description")
+            return response.json(result)
+        } catch (error) {
+            return response.json({ error: error.message })
+        }
     }
+
 }

@@ -52,6 +52,8 @@ routes.get('/listarComentario', ComentarioController.indexComentario)
 routes.post('/verificaUsuario', UserController.usuarioAtivo)
 
 routes.get('/perfis', UserController.perfil)
+routes.get('/category', AtividadeController.category)
+routes.get('/activity', AtividadeController.activity)
 
 module.exports = routes;
 
