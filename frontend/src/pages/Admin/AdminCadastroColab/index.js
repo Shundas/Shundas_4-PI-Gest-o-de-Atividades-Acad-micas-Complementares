@@ -1,5 +1,6 @@
-import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Fragment, useCallback, useState, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+import api from '../../../services/api';
 import { FiHome, FiArrowLeft } from 'react-icons/fi';
 import styled from 'styled-components';
 import Header from '../../../components/HeaderAdmin';
@@ -43,6 +44,56 @@ const Nopit = styled.div`
 `;
 
 export default function AdminCadastroColab() {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+  const [celular, setCelular] = useState('');
+  const [cpf, setCpf] = useState('');
+  const [perfil, setPerfil] = useState('');
+
+  const [roles, setRoles] = useState([]);
+
+  useEffect(() => {
+    async function getPerfisRoles() {
+      await api.get('/perfis').then(response => {
+        setRoles(response.data);
+      });
+    }
+    getPerfisRoles();
+  }, []);
+
+  console.log('Roles', roles);
+
+  const history = useHistory();
+
+  const handleSubmit = useCallback(
+    async e => {
+      e.preventDefault();
+
+      if (
+        name === '' ||
+        email === '' ||
+        phone === '' ||
+        celular === '' ||
+        cpf === ''
+      ) {
+        return alert('Todos os campos devem ser preenchidos!');
+      } else {
+        await api.post('/criarColaborador', {
+          name,
+          email,
+          phone,
+          celular,
+          cpf,
+        });
+      }
+
+      alert('Colaborador Cadastrado com sucesso!');
+      history.push('/');
+    },
+    [name, email, phone, celular, cpf, perfil]
+  );
+
   return (
     <Fragment>
       <Header />
@@ -61,20 +112,56 @@ export default function AdminCadastroColab() {
 
       <div className="container">
         <Container>
-          <form className="form">
+          <form onSubmit={handleSubmit} className="form">
             <div className="form-group">
               <label htmlFor="name">Nome</label>
-              <input className="form-control" type="text" id="name" />
+              <input
+                className="form-control"
+                type="text"
+                id="name"
+                onChange={e => setName(e.target.value)}
+              />
               <label htmlFor="email">E-mail</label>
-              <input className="form-control" type="email" id="email" />
+              <input
+                className="form-control"
+                type="email"
+                id="email"
+                onChange={e => setEmail(e.target.value)}
+              />
               <label htmlFor="telefone">Telefone</label>
-              <input className="form-control" type="text" id="telefone" />
+              <input
+                className="form-control"
+                type="text"
+                id="telefone"
+                onChange={e => setPhone(e.target.value)}
+              />
               <label htmlFor="celular">Celular</label>
-              <input className="form-control" type="text" id="celular" />
-              <label htmlFor="select">Perfil</label>
-              <select id="perfil" className="form-control">
-                <option value="2">Colaborador</option>
-                <option value="1">Aluno</option>
+              <input
+                className="form-control"
+                type="text"
+                id="celular"
+                onChange={e => setCelular(e.target.value)}
+              />
+
+              <label htmlFor="celular">CPF</label>
+              <input
+                className="form-control"
+                type="text"
+                id="cpf"
+                onChange={e => setCpf(e.target.value)}
+              />
+
+              <label htmlFor="profile">Perfil</label>
+              <select
+                onChange={e => setPerfil(e.target.value)}
+                className="form-control"
+                id="profile"
+              >
+                {roles.map(role => (
+                  <option key={role.idrole} value={role.name}>
+                    {role.name}
+                  </option>
+                ))}
               </select>
             </div>
             <div className="btns">
