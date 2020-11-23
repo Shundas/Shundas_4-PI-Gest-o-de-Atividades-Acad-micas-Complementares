@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FiHome, FiArrowLeft } from 'react-icons/fi';
+import api from '../../../services/api';
 import styled from 'styled-components';
 import Header from '../../../components/HeaderAdmin';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -46,6 +47,15 @@ const Nopit = styled.div`
 `;
 
 export default function AdminConsulta() {
+  const [consultadados, setConsultaDados] = useState([]);
+
+  useEffect(() => {
+    async function getConsultaDados() {
+      await api.get('/consultaAluno').then(x => setConsultaDados(x.data));
+    }
+    getConsultaDados();
+  }, []);
+
   return (
     <Fragment>
       <Header />
@@ -94,19 +104,16 @@ export default function AdminConsulta() {
           <thead className="bg-success">
             <tr>
               <th scope="col" style={{ color: '#fff' }}>
-                ID
+                Nome
               </th>
               <th scope="col" style={{ color: '#fff' }}>
-                Atividade Complementar
+                Email
               </th>
               <th scope="col" style={{ color: '#fff' }}>
-                Modalidade/Atividade
+                CPF
               </th>
               <th scope="col" style={{ color: '#fff' }}>
-                Status
-              </th>
-              <th scope="col" style={{ color: '#fff' }}>
-                Responsavel
+                Telefone
               </th>
               <th scope="col" style={{ color: '#fff' }}>
                 Ações
@@ -114,39 +121,21 @@ export default function AdminConsulta() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>111</td>
-              <td>Curso de Inglês</td>
-              <td>Ensino</td>
-              <td>Em andamento</td>
-              <td>Jubyscleison</td>
-              <td>
-                <button className="btn btn-outline-success">Vizualizar</button>
-                <button className="btn btn-outline-primary">Editar</button>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Curso de Inglês</td>
-              <td>Ensino</td>
-              <td>Em andamento</td>
-              <td>Jubyscleison</td>
-              <td>
-                <button className="btn btn-outline-success">Vizualizar</button>
-                <button className="btn btn-outline-primary">Editar</button>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Curso de Inglês</td>
-              <td>Ensino</td>
-              <td>Em andamento</td>
-              <td>Jubyscleison</td>
-              <td>
-                <button className="btn btn-outline-success">Vizualizar</button>
-                <button className="btn btn-outline-primary">Editar</button>
-              </td>
-            </tr>
+            {consultadados.map(x => (
+              <tr key={x.iduser}>
+                <td>{x.name}</td>
+                <td>{x.email}</td>
+                <td>{x.cpf}</td>
+                <td>{x.phone}</td>
+
+                <td>
+                  <button className="btn btn-outline-success">
+                    Vizualizar
+                  </button>
+                  <button className="btn btn-outline-primary">Editar</button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </Container>
