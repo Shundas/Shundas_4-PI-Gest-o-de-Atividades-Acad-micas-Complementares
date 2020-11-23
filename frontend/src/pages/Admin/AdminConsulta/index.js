@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FiHome, FiArrowLeft } from 'react-icons/fi';
+import api from '../../../services/api';
 import styled from 'styled-components';
 import Header from '../../../components/HeaderAdmin';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -20,6 +21,15 @@ const Container = styled.div`
 
   .raw {
     margin-top: 3em;
+  }
+
+  .cen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding-left: 14px;
+    padding-right: 14px;
   }
 `;
 
@@ -46,6 +56,15 @@ const Nopit = styled.div`
 `;
 
 export default function AdminConsulta() {
+  const [consultadados, setConsultaDados] = useState([]);
+
+  useEffect(() => {
+    async function getConsultaDados() {
+      await api.get('/consultaAluno').then(x => setConsultaDados(x.data));
+    }
+    getConsultaDados();
+  }, []);
+
   return (
     <Fragment>
       <Header />
@@ -68,21 +87,27 @@ export default function AdminConsulta() {
       <Container className="container">
         <form className="form-row">
           <div className="form-column">
-            <label htmlFor="id1">Nome</label>
-            <input className="form-control" type="text" id="id1" />
+            <input
+              className="form-control"
+              type="text"
+              id="id1"
+              placeholder="Nome"
+            />
           </div>
+
+          <div className="cen">
+            <span>{'='}</span>
+          </div>
+
           <div className="form-column">
-            <label htmlFor="id1">E-mail</label>
-            <input className="form-control" type="text" id="id1" />
+            <input
+              className="form-control"
+              type="text"
+              id="id1"
+              placeholder="Nome"
+            />
           </div>
-          <div className="form-column">
-            <label htmlFor="id1">CPF</label>
-            <input className="form-control" type="text" id="id1" />
-          </div>
-          <div className="form-column">
-            <label htmlFor="id1">Ativo</label>
-            <input className="form-control" type="text" id="id1" />
-          </div>
+
           <div className="btns">
             <button className="btn btn-primary">Filtrar</button>
           </div>
@@ -94,19 +119,16 @@ export default function AdminConsulta() {
           <thead className="bg-success">
             <tr>
               <th scope="col" style={{ color: '#fff' }}>
-                ID
+                Nome
               </th>
               <th scope="col" style={{ color: '#fff' }}>
-                Atividade Complementar
+                Email
               </th>
               <th scope="col" style={{ color: '#fff' }}>
-                Modalidade/Atividade
+                CPF
               </th>
               <th scope="col" style={{ color: '#fff' }}>
-                Status
-              </th>
-              <th scope="col" style={{ color: '#fff' }}>
-                Responsavel
+                Telefone
               </th>
               <th scope="col" style={{ color: '#fff' }}>
                 Ações
@@ -114,39 +136,21 @@ export default function AdminConsulta() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>111</td>
-              <td>Curso de Inglês</td>
-              <td>Ensino</td>
-              <td>Em andamento</td>
-              <td>Jubyscleison</td>
-              <td>
-                <button className="btn btn-outline-success">Vizualizar</button>
-                <button className="btn btn-outline-primary">Editar</button>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Curso de Inglês</td>
-              <td>Ensino</td>
-              <td>Em andamento</td>
-              <td>Jubyscleison</td>
-              <td>
-                <button className="btn btn-outline-success">Vizualizar</button>
-                <button className="btn btn-outline-primary">Editar</button>
-              </td>
-            </tr>
-            <tr>
-              <td>111</td>
-              <td>Curso de Inglês</td>
-              <td>Ensino</td>
-              <td>Em andamento</td>
-              <td>Jubyscleison</td>
-              <td>
-                <button className="btn btn-outline-success">Vizualizar</button>
-                <button className="btn btn-outline-primary">Editar</button>
-              </td>
-            </tr>
+            {consultadados.map(x => (
+              <tr key={x.iduser}>
+                <td>{x.name}</td>
+                <td>{x.email}</td>
+                <td>{x.cpf}</td>
+                <td>{x.phone}</td>
+
+                <td>
+                  <button className="btn btn-outline-success">
+                    Vizualizar
+                  </button>
+                  <button className="btn btn-outline-primary">Editar</button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </Container>
