@@ -268,7 +268,7 @@ module.exports = {
     
     },
 
-    async category (response){
+    async category (request, response){
         try {
             const result = await knex("category").select("idcategory","name_cat")
             console.log(result)
@@ -278,12 +278,12 @@ module.exports = {
         }
     },
 
-    async activity (response){
+    async activity (request, response){
         try {
             const result = await knex("activity").select("idactivity","description")
             return response.json(result)
-        } catch (error) {
-            return response.json({ error: error.message })
+        } catch (erros) {
+            return response.json({ error: erros.message })
         }
     }
 

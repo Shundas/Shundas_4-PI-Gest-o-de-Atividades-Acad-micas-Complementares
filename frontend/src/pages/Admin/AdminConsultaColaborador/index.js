@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FiHome, FiArrowLeft } from 'react-icons/fi';
 import styled from 'styled-components';
@@ -56,8 +56,11 @@ export default function AdminConsultaColaborador() {
       <Header />
 
       <div className="container">
-        <h2 style={{ marginTop: '2em' }} className="text-center">
-          Consulta de Usuário
+        <h2
+          style={{ marginTop: '2em', marginBottom: '1em' }}
+          className="text-center"
+        >
+          Consulta de Colaborador
         </h2>
       </div>
 
