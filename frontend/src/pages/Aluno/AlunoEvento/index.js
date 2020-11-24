@@ -7,31 +7,33 @@ import { Title, Container } from './styled';
 
 export default function AlunoEvento() {
 
- 
+
   const [category, setCategory] = useState([]);
-  
+  const [activity, setActivity] = useState([]);
+
+
   const [selectedCategory, setSelectedCategory] = useState('0');
+  const [selectedActivity, setSelectedActivity] = useState('0');
 
-  // useEffect(() => {
-  //   axios.get('/category').then(response => {
-  //     console.log(response.data)
-  //       // const idCategoria = response.data.map(idCategory => category.idcategory)
-  //       // console.log(idCategoria)
-  //       // setCategory(idCategoria);
-  //   })
-  // },[])
 
-  // axios.get('/category').then(response => {
-  //   console.log(response.data)
-  // })
+  useEffect(() => {
+    axios.get('/category').then(response => {
+      setCategory(response.data)
+    })
+  }, [])
 
-//   function handleSelectUf(event) {
-//     const categoria = event.target.value;
-//     console.log(categoria)
-//     setSelectedCategory(categoria);
-// }
 
-   
+  useEffect(() => {
+    if (selectedCategory === '0') {
+        return;
+    }
+    axios.get('/activity').then(response => {
+        setActivity(response.data);
+    })
+
+},[selectedCategory]) //quando q essa função deve executar
+
+
   return (
     <>
       <Header
@@ -73,10 +75,23 @@ export default function AlunoEvento() {
               <div className="form-group col-md-6">
                 <label htmlFor="main-text">Modalidade</label>
 
+                <select
+                  onChange={e => setSelectedCategory(e.target.value)}
+                  className="form-control"
+                  id="profile"
+                >
+                  {category.map(cat => (
+                    <option key={cat.idcategory} value={cat.name_cat}>
+                      {cat.name_cat}
+                    </option>
+                  ))}
+                </select>
+
+
                 {/* <select name="uf" id="uf" value="" onChange={handleSelectUf}>
                     <option value="0">Selecione uma UF</option>
-                    {category.map(idCategory => (
-                        <option key={idCategory} value={idCategory}>{idCategory}</option>
+                    {category.map(cat => (
+                        <option key={cat} value={cat}>{cat.name_cat}</option>
                     ))}
                 </select> */}
 
@@ -87,9 +102,17 @@ export default function AlunoEvento() {
               </div>
               <div className="form-group col-md-6">
                 <label htmlFor="main-text-2">Atividade</label>
-                <select id="main-text-2" className="form-control">
-                  <option>Selecione</option>
-                  <option value="">Curso de extenção</option>
+                <select
+                  onChange={e => setSelectedActivity(e.target.value)}
+                  className="form-control"
+                  id="profile"
+                >
+
+                {activity.map(act => (
+                    <option key={act.idactivity} value={act.description}>
+                      {act.description}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
