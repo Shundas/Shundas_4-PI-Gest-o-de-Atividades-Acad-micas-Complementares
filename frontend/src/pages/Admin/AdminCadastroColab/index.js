@@ -152,13 +152,19 @@ export default function AdminCadastroColab() {
               />
 
               <label htmlFor="profile">Perfil</label>
-              <select
+              {/* <input
+                type="text"
                 onChange={e => setPerfil(e.target.value)}
                 className="form-control"
                 id="profile"
-              >
+              /> */}
+              <select className="form-control" id="profile">
                 {roles.map(role => (
-                  <option key={role.idrole} value={role.name}>
+                  <option
+                    onChange={e => setPerfil(e.target.value)}
+                    key={role.idrole}
+                    value={role.name}
+                  >
                     {role.name}
                   </option>
                 ))}
