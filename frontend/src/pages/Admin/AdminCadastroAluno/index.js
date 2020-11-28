@@ -50,7 +50,7 @@ const swalMessage = () => {
     text: 'Todos os campos devem estar preenchidos!',
     showConfirmButton: false,
     timer: 3000,
-    background: '#fd951f',
+    background: '#faa94d',
     timerProgressBar: true,
   });
 };
