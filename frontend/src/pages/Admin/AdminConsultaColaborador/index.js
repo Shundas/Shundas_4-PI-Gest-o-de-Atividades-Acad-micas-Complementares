@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FiHome, FiArrowLeft } from 'react-icons/fi';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 import Header from '../../../components/HeaderAdmin';
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -108,9 +109,6 @@ export default function AdminConsultaColaborador() {
           <thead className="bg-success">
             <tr>
               <th scope="col" style={{ color: '#fff' }}>
-                ID
-              </th>
-              <th scope="col" style={{ color: '#fff' }}>
                 Atividade Complementar
               </th>
               <th scope="col" style={{ color: '#fff' }}>
@@ -129,7 +127,6 @@ export default function AdminConsultaColaborador() {
           </thead>
           <tbody>
             <tr>
-              <td>111</td>
               <td>Curso de Inglês</td>
               <td>Ensino</td>
               <td>Em andamento</td>
@@ -140,7 +137,6 @@ export default function AdminConsultaColaborador() {
               </td>
             </tr>
             <tr>
-              <td>111</td>
               <td>Curso de Inglês</td>
               <td>Ensino</td>
               <td>Em andamento</td>
@@ -151,7 +147,6 @@ export default function AdminConsultaColaborador() {
               </td>
             </tr>
             <tr>
-              <td>111</td>
               <td>Curso de Inglês</td>
               <td>Ensino</td>
               <td>Em andamento</td>

@@ -2,6 +2,7 @@ import React, { Fragment, useCallback, useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import api from '../../../services/api';
 import { FiHome, FiArrowLeft } from 'react-icons/fi';
+import Swal from 'sweetalert2';
 import styled from 'styled-components';
 import Header from '../../../components/HeaderAdmin';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -43,6 +44,28 @@ const Nopit = styled.div`
   cursor: pointer;
 `;
 
+const swalMessage = () => {
+  return Swal.fire({
+    position: 'top-end',
+    text: 'Todos os campos devem estar preenchidos!',
+    showConfirmButton: false,
+    timer: 3000,
+    background: '#fd951f',
+    timerProgressBar: true,
+  });
+};
+
+const swalMessageConfirm = () => {
+  return Swal.fire({
+    position: 'top-end',
+    text: 'Colaborador Cadastrado com sucesso!',
+    showConfirmButton: false,
+    timer: 3000,
+    background: '#04d361',
+    timerProgressBar: true,
+  });
+};
+
 export default function AdminCadastroColab() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -77,7 +100,7 @@ export default function AdminCadastroColab() {
         celular === '' ||
         cpf === ''
       ) {
-        return alert('Todos os campos devem ser preenchidos!');
+        return swalMessage();
       } else {
         await api.post('/criarColaborador', {
           name,
@@ -88,7 +111,7 @@ export default function AdminCadastroColab() {
         });
       }
 
-      alert('Colaborador Cadastrado com sucesso!');
+      swalMessageConfirm();
       history.push('/');
     },
     [name, email, phone, celular, cpf, perfil]
@@ -152,17 +175,12 @@ export default function AdminCadastroColab() {
               />
 
               <label htmlFor="profile">Perfil</label>
-              {/* <input
-                type="text"
-                onChange={e => setPerfil(e.target.value)}
-                className="form-control"
-                id="profile"
-              /> */}
+
               <select className="form-control" id="profile">
                 {roles.map(role => (
                   <option
-                    onChange={e => setPerfil(e.target.value)}
                     key={role.idrole}
+                    onChange={e => setPerfil(e.target.value)}
                     value={role.name}
                   >
                     {role.name}
