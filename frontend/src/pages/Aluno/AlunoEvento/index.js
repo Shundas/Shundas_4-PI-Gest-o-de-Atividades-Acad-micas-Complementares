@@ -28,13 +28,14 @@ export default function AlunoEvento() {
         return;
     }
 
-    const params = {
-      idcategory: 1
-    }
-
-    axios.get('/activity', {params}).then(response => {
+    axios.get('/activity', {
+      params: {
+        idcategory: selectedCategory
+      }
+    }).then(response => {
+        console.log(selectedCategory)
         console.log(response.data)    
-        // setActivity(response.data);
+        setActivity(response.data);
     })
 
 },[selectedCategory]) //quando q essa função deve executar
@@ -87,7 +88,7 @@ export default function AlunoEvento() {
                   id="profile"
                 >
                   {category.map(cat => (
-                    <option key={cat.idcategory} value={cat.name_cat}>
+                    <option key={cat.idcategory} value={cat.idcategory}>
                       {cat.name_cat}
                     </option>
                   ))}
