@@ -4,8 +4,6 @@ import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
 import styled from 'styled-components';
 import { FiUser } from 'react-icons/fi';
 
-import Cards from '../CardsColaborador';
-
 const useStyles = makeStyles(theme => ({
   appBar: {
     position: 'static',
@@ -53,8 +51,6 @@ export default function AppBarPageColaborador() {
           </Button>
         </Toolbar>
       </AppBar>
-
-      <Cards />
     </>
   );
 }
