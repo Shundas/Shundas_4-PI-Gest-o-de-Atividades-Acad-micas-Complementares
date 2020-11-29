@@ -12,7 +12,7 @@ module.exports = {
                 return response.json({msg: "O envio de arquivo é obrigatório."})
             }
 
-            const { path } = request.file
+            const { path } = request.file.filename
     
             const { iduser } = request.query
     

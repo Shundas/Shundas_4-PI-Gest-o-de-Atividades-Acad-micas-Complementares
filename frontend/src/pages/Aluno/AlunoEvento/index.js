@@ -5,6 +5,9 @@ import logo from '../../../images/logo.svg';
 import Header from '../../../components/Header';
 import { Title, Container } from './styled';
 
+import Dropzone from '../../../components/Dropzone/index'
+
+
 export default function AlunoEvento() {
 
 
@@ -20,6 +23,7 @@ export default function AlunoEvento() {
   
   const [selectedCategory, setSelectedCategory] = useState('0');
   const [selectedActivity, setSelectedActivity] = useState('0');
+  const [selectedFile, setSelectedFile] = useState();
 
 
   useEffect(() => {
@@ -39,8 +43,6 @@ export default function AlunoEvento() {
         idcategory: selectedCategory
       }
     }).then(response => {
-      console.log(selectedCategory)
-      console.log(response.data)
       setActivity(response.data);
     })
 
@@ -66,7 +68,8 @@ export default function AlunoEvento() {
       activityName,
       date_end,
       category,
-      activity
+      activity,
+      file: selectedFile
     }
 
     // if (selectedFile) {
@@ -184,14 +187,9 @@ export default function AlunoEvento() {
               </div>
               <div className="form-group col-md-6">
                 <label htmlFor="name">Arquivo</label>
-                <input
-                  type="file"
-                  id="path"
-                  name="path"
-                  id="path"
-                  className="form-control-file"
-                  placeholder="Arquivo"
-                />
+                
+                <Dropzone onFileUploaded={setSelectedFile} />
+              
               </div>
             </div>
             <div className="btn-salve">
