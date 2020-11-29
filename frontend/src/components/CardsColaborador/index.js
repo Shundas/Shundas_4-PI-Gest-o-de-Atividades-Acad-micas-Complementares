@@ -42,7 +42,7 @@ export default function CardPageColaborador() {
           <div className="card" style={{ width: '18rem' }}>
             <div className={`card-body ${classes.center}`}>
               <FiPlus size={25} color="blue" className="icon" />
-              <h5 className="card-title">Adicionar Certificado</h5>
+              <h5 className="card-title">Adicionar Atividade</h5>
             </div>
           </div>
 
@@ -63,14 +63,14 @@ export default function CardPageColaborador() {
           <div className="card" style={{ width: '18rem' }}>
             <div className={`card-body ${classes.center}`}>
               <FiCheck size={25} color="blue" className="icon" />
-              <h5 className="card-title">Fale Conosco</h5>
+              <h5 className="card-title">Tarefas</h5>
             </div>
           </div>
 
           <div className="card" style={{ width: '18rem' }}>
             <div className={`card-body ${classes.center}`}>
               <FiTrendingUp size={25} color="blue" className="icon" />
-              <h5 className="card-title">Fale Conosco</h5>
+              <h5 className="card-title">Consultar Progresso</h5>
             </div>
           </div>
         </ul>
