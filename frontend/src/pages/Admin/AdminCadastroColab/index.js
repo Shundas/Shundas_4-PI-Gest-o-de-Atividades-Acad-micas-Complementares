@@ -85,16 +85,13 @@ export default function AdminCadastroColab() {
     getPerfisRoles();
   }, []);
 
-
-
   const history = useHistory();
-  
 
   const handleSubmit = useCallback(
     async e => {
       e.preventDefault();
 
-      console.log(selectRole)
+      console.log(selectRole);
 
       if (
         name === '' ||
@@ -118,7 +115,7 @@ export default function AdminCadastroColab() {
       swalMessageConfirm();
       history.push('/');
     },
-    [name, email, phone, celular, cpf, idrole]
+    [name, email, phone, celular, cpf, selectRole]
   );
 
   return (
