@@ -3,6 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft, FiHome } from 'react-icons/fi';
 import api from '../../../services/api';
 import styled from 'styled-components';
+import Swal from 'sweetalert2';
 import Header from '../../../components/HeaderAdmin';
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -43,6 +44,28 @@ const Nopit = styled.div`
   cursor: pointer;
 `;
 
+const swalMessage = () => {
+  return Swal.fire({
+    position: 'top-end',
+    text: 'Todos os campos devem estar preenchidos!',
+    showConfirmButton: false,
+    timer: 3000,
+    background: '#faa94d',
+    timerProgressBar: true,
+  });
+};
+
+const swalMessageConfirm = () => {
+  return Swal.fire({
+    position: 'top-end',
+    text: 'Aluno cadastrado com sucesso!',
+    showConfirmButton: false,
+    timer: 3000,
+    background: '#04d361',
+    timerProgressBar: true,
+  });
+};
+
 export default function AdminCadastroUser() {
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
@@ -67,7 +90,7 @@ export default function AdminCadastroUser() {
         celular === '' ||
         cpf === ''
       ) {
-        return alert('Todos os campos devem ser preenchidos!');
+        return swalMessage();
       } else {
         await api.post('/criarAluno', {
           name,
@@ -78,7 +101,7 @@ export default function AdminCadastroUser() {
         });
       }
 
-      alert('Aluno Cadastrado com sucesso!');
+      swalMessageConfirm();
       historyReturn();
     },
     [name, email, phone, celular, cpf]
