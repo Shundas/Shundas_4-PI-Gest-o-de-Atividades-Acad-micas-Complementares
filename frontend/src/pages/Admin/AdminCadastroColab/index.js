@@ -72,7 +72,7 @@ export default function AdminCadastroColab() {
   const [phone, setPhone] = useState('');
   const [celular, setCelular] = useState('');
   const [cpf, setCpf] = useState('');
-  const [perfil, setPerfil] = useState('');
+  const [selectRole, setSelectRole] = useState('');
 
   const [roles, setRoles] = useState([]);
 
@@ -85,9 +85,11 @@ export default function AdminCadastroColab() {
     getPerfisRoles();
   }, []);
 
-  console.log('Roles', roles);
+  console.log('Roles', roles.idrole);
 
   const history = useHistory();
+  console.log('Rolw', selectRole);
+  const idrole = selectRole;
 
   const handleSubmit = useCallback(
     async e => {
@@ -108,13 +110,14 @@ export default function AdminCadastroColab() {
           phone,
           celular,
           cpf,
+          idrole,
         });
       }
 
       swalMessageConfirm();
       history.push('/');
     },
-    [name, email, phone, celular, cpf, perfil]
+    [name, email, phone, celular, cpf, idrole]
   );
 
   return (
@@ -176,13 +179,13 @@ export default function AdminCadastroColab() {
 
               <label htmlFor="profile">Perfil</label>
 
-              <select className="form-control" id="profile">
+              <select
+                className="form-control"
+                id="profile"
+                onChange={e => setSelectRole(e.target.value)}
+              >
                 {roles.map(role => (
-                  <option
-                    key={role.idrole}
-                    onChange={e => setPerfil(e.target.value)}
-                    value={role.name}
-                  >
+                  <option key={role.idrole} value={role.idrole}>
                     {role.name}
                   </option>
                 ))}
