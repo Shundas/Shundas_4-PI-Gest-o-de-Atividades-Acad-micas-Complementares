@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.css';
 
-import Header from '../../../components/HeaderColaborador';
+import Header from '../../../components/HeaderAdmin';
 
 const ContainerApp = styled.div`
   margin-top: 2em;
