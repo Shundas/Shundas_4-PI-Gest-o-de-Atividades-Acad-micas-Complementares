@@ -280,7 +280,11 @@ module.exports = {
 
     async activity (request, response){
         try {
-            const result = await knex("activity").select("idactivity","description")
+
+            const { idcategory } = request.params
+            console.log(idcategory)
+
+            const result = await knex("activity").select("idactivity","description").where("idcategory", idcategory)
             return response.json(result)
         } catch (erros) {
             return response.json({ error: erros.message })

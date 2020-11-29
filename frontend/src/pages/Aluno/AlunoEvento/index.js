@@ -27,8 +27,14 @@ export default function AlunoEvento() {
     if (selectedCategory === '0') {
         return;
     }
-    axios.get('/activity').then(response => {
-        setActivity(response.data);
+
+    const params = {
+      idcategory: 1
+    }
+
+    axios.get('/activity', {params}).then(response => {
+        console.log(response.data)    
+        // setActivity(response.data);
     })
 
 },[selectedCategory]) //quando q essa função deve executar
