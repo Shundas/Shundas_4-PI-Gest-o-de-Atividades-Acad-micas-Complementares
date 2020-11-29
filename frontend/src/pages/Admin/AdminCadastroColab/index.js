@@ -182,6 +182,7 @@ export default function AdminCadastroColab() {
                 id="profile"
                 onChange={e => setSelectRole(e.target.value)}
               >
+                <option value="0">Selecione</option>
                 {roles.map(role => (
                   <option key={role.idrole} value={role.idrole}>
                     {role.name}
