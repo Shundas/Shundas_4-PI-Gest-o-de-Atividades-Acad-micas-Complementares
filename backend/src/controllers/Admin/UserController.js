@@ -242,11 +242,11 @@ module.exports = {
     }
   },
 
-  async perfil (request, response){
-    try{
-      const perfis = await knex("role").select("idrole","name")
+  async perfil(request, response) {
+    try {
+      const perfis = await knex('role').select('idrole', 'name')
       return response.json(perfis)
-    }catch(erros){
+    } catch (erros) {
       return response.json({ error: erros.message })
     }
   },
@@ -267,6 +267,5 @@ module.exports = {
     } catch (erros) {
       return response.json({ error: erros.message })
     }
-  }
-
+  },
 }
