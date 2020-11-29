@@ -6,12 +6,12 @@ export const HeaderContainerWrapper = styled.header`
     align-items: center;
     justify-content: space-between;
     padding: 20px 10px;
-  }
 
-  .div-flex {
-    width: 100%;
-    display: flex;
-    align-items: center;
+    .div-flex {
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
   }
 `;
 
@@ -21,7 +21,6 @@ export const Background = styled.img`
 `;
 
 export const Title = styled.h5`
-  color: '#fff';
   margin-left: 8px;
   display: flex;
 `;
