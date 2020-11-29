@@ -10,8 +10,14 @@ export default function AlunoEvento() {
 
   const [category, setCategory] = useState([]);
   const [activity, setActivity] = useState([]);
-
-
+  const [formData, setFormData] = useState({
+    institutionName: '',
+    activityName: '',
+    informedWorkload: '',
+    date_end: '',
+  })
+  
+  
   const [selectedCategory, setSelectedCategory] = useState('0');
   const [selectedActivity, setSelectedActivity] = useState('0');
 
@@ -25,7 +31,7 @@ export default function AlunoEvento() {
 
   useEffect(() => {
     if (selectedCategory === '0') {
-        return;
+      return;
     }
 
     axios.get('/activity', {
@@ -33,13 +39,50 @@ export default function AlunoEvento() {
         idcategory: selectedCategory
       }
     }).then(response => {
-        console.log(selectedCategory)
-        console.log(response.data)    
-        setActivity(response.data);
+      console.log(selectedCategory)
+      console.log(response.data)
+      setActivity(response.data);
     })
 
-},[selectedCategory]) //quando q essa função deve executar
+  }, [selectedCategory]) //quando q essa função deve executar
 
+  function handleInputChange(event) {
+    const { name, value } = event.target
+
+    setFormData({...formData, [name]: value })
+
+  }
+
+  async function handleSubmmit(event) {
+    event.preventDefault()
+
+    const { institutionName, informedWorkload, activityName, date_end } = formData;
+    const category = selectedCategory
+    const activity = selectedActivity
+
+    const data = {
+      institutionName,
+      informedWorkload,
+      activityName,
+      date_end,
+      category,
+      activity
+    }
+
+    // if (selectedFile) {
+    //   data.append('image', selectedFile)
+
+    // }
+
+    console.log(data)
+
+    await axios.post('/criarAtividade', data).then(response => {
+      console.log(response.data)
+    });
+    alert('Atividade Registrada!')
+    // history.push('/')
+
+  }
 
   return (
     <>
@@ -56,14 +99,16 @@ export default function AlunoEvento() {
       <Title>Adicionar Atividade</Title>
 
       <Container className="container">
-        <form>
+        <form onSubmit={handleSubmmit}>
           <div className="form-column raw">
             <div className="drop-raw">
               <div className="form-group col-md-6">
                 <label htmlFor="name">Nome da Instituição</label>
                 <input
                   type="text"
-                  id="name"
+                  name="institutionName" 
+                  id="institutionName" 
+                  onChange={handleInputChange}
                   className="form-control"
                   placeholder="Nome da Instituição"
                 />
@@ -72,7 +117,9 @@ export default function AlunoEvento() {
                 <label htmlFor="atd">Atividade Complementar</label>
                 <input
                   type="text"
-                  id="atd"
+                  name="activityName" 
+                  id="activityName" 
+                  onChange={handleInputChange}
                   className="form-control"
                   placeholder="Atividade Complementar"
                 />
@@ -93,19 +140,6 @@ export default function AlunoEvento() {
                     </option>
                   ))}
                 </select>
-
-
-                {/* <select name="uf" id="uf" value="" onChange={handleSelectUf}>
-                    <option value="0">Selecione uma UF</option>
-                    {category.map(cat => (
-                        <option key={cat} value={cat}>{cat.name_cat}</option>
-                    ))}
-                </select> */}
-
-                {/* <select id="main-text-2" className="form-control">
-                  <option>Selecione</option>
-                  <option value="">Curso de extenção</option>
-                </select> */}
               </div>
               <div className="form-group col-md-6">
                 <label htmlFor="main-text-2">Atividade</label>
@@ -115,8 +149,8 @@ export default function AlunoEvento() {
                   id="profile"
                 >
 
-                {activity.map(act => (
-                    <option key={act.idactivity} value={act.description}>
+                  {activity.map(act => (
+                    <option key={act.idactivity} value={act.idactivity}>
                       {act.description}
                     </option>
                   ))}
@@ -128,16 +162,9 @@ export default function AlunoEvento() {
                 <label htmlFor="main-text">Quantidade de Horas</label>
                 <input
                   type="number"
-                  id="hour"
-                  className="form-control"
-                  placeholder="Suas horas validadas"
-                />
-              </div>
-              <div className="form-group col-md-6">
-                <label htmlFor="hour">Horas Validadas</label>
-                <input
-                  type="number"
-                  id="hour"
+                  name="informedWorkload" 
+                  id="informedWorkload" 
+                  onChange={handleInputChange}
                   className="form-control"
                   placeholder="Suas horas validadas"
                 />
@@ -147,19 +174,23 @@ export default function AlunoEvento() {
               <div className="form-group col-md-6">
                 <label htmlFor="name">Data de Conclusão</label>
                 <input
-                  type="text"
-                  id="name"
+                  type="date"
+                  name="date_end" 
+                  id="date_end" 
+                  onChange={handleInputChange}
                   className="form-control"
                   placeholder="Nome da Instituição"
                 />
               </div>
               <div className="form-group col-md-6">
-                <label htmlFor="name">Nome da Instituição</label>
+                <label htmlFor="name">Arquivo</label>
                 <input
                   type="file"
-                  id="name"
+                  id="path"
+                  name="path"
+                  id="path"
                   className="form-control-file"
-                  placeholder="Nome da Instituição"
+                  placeholder="Arquivo"
                 />
               </div>
             </div>
