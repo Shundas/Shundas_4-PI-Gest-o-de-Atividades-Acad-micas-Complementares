@@ -4,11 +4,17 @@ import axios from '../../../services/api';
 import logo from '../../../images/logo.svg';
 import Header from '../../../components/Header';
 import { Title, Container } from './styled';
+import Dropzone from '../../../components/Dropzone'
 
-import Dropzone from '../../../components/Dropzone/index'
 
 
 export default function AlunoEvento() {
+
+  //Teste
+
+  const [fileNames, setFileNames] = useState([]);
+  const handleDrop = (acceptedFiles) =>
+    setFileNames(acceptedFiles.map((file) => file.name));
 
 
   const [category, setCategory] = useState([]);
@@ -19,8 +25,8 @@ export default function AlunoEvento() {
     informedWorkload: '',
     date_end: '',
   })
-  
-  
+
+
   const [selectedCategory, setSelectedCategory] = useState('0');
   const [selectedActivity, setSelectedActivity] = useState('0');
   const [selectedFile, setSelectedFile] = useState();
@@ -51,13 +57,13 @@ export default function AlunoEvento() {
   function handleInputChange(event) {
     const { name, value } = event.target
 
-    setFormData({...formData, [name]: value })
+    setFormData({ ...formData, [name]: value })
 
   }
 
   async function handleSubmmit(event) {
     event.preventDefault()
-
+    console.log(selectedFile)
     const { institutionName, informedWorkload, activityName, date_end } = formData;
     const category = selectedCategory
     const activity = selectedActivity
@@ -79,13 +85,20 @@ export default function AlunoEvento() {
 
     console.log(data)
 
-    await axios.post('/criarAtividade', data).then(response => {
+    await axios.post('/criarAtividade', {
+      headers: {
+        "Content-Type": "multipart/form-data"
+      },
+      body: data
+    }).then(response => {
       console.log(response.data)
     });
     alert('Atividade Registrada!')
     // history.push('/')
-
   }
+
+
+
 
   return (
     <>
@@ -109,8 +122,8 @@ export default function AlunoEvento() {
                 <label htmlFor="name">Nome da Instituição</label>
                 <input
                   type="text"
-                  name="institutionName" 
-                  id="institutionName" 
+                  name="institutionName"
+                  id="institutionName"
                   onChange={handleInputChange}
                   className="form-control"
                   placeholder="Nome da Instituição"
@@ -120,8 +133,8 @@ export default function AlunoEvento() {
                 <label htmlFor="atd">Atividade Complementar</label>
                 <input
                   type="text"
-                  name="activityName" 
-                  id="activityName" 
+                  name="activityName"
+                  id="activityName"
                   onChange={handleInputChange}
                   className="form-control"
                   placeholder="Atividade Complementar"
@@ -165,8 +178,8 @@ export default function AlunoEvento() {
                 <label htmlFor="main-text">Quantidade de Horas</label>
                 <input
                   type="number"
-                  name="informedWorkload" 
-                  id="informedWorkload" 
+                  name="informedWorkload"
+                  id="informedWorkload"
                   onChange={handleInputChange}
                   className="form-control"
                   placeholder="Suas horas validadas"
@@ -178,8 +191,8 @@ export default function AlunoEvento() {
                 <label htmlFor="name">Data de Conclusão</label>
                 <input
                   type="date"
-                  name="date_end" 
-                  id="date_end" 
+                  name="date_end"
+                  id="date_end"
                   onChange={handleInputChange}
                   className="form-control"
                   placeholder="Nome da Instituição"
@@ -187,9 +200,11 @@ export default function AlunoEvento() {
               </div>
               <div className="form-group col-md-6">
                 <label htmlFor="name">Arquivo</label>
-                
+
+
                 <Dropzone onFileUploaded={setSelectedFile} />
-              
+
+
               </div>
             </div>
             <div className="btn-salve">
@@ -197,6 +212,10 @@ export default function AlunoEvento() {
             </div>
           </div>
         </form>
+
+
+
+
       </Container>
     </>
   );

@@ -7,12 +7,14 @@ module.exports = {
 
     async createAtividade(request, response) {
         try {
+
+            console.log(request.file)
             
             if (request.file === undefined) {
                 return response.json({msg: "O envio de arquivo é obrigatório."})
             }
 
-            const { path } = request.file.filename
+            const { path } = request.file
     
             const { iduser } = request.query
     
@@ -79,6 +81,9 @@ module.exports = {
                 mensagem =  `Você informou ${informedWorkload}h, porém neste tipo de atividade serão validadas no máximo ${hoursPerActivity}h por envio.` 
             } 
         }
+        
+
+
         const formAtividade = await knex('form').insert({
             idform: id,
             iduser,
