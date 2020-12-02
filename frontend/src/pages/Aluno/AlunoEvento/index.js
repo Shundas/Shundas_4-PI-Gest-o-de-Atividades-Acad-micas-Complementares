@@ -4,7 +4,6 @@ import axios from '../../../services/api';
 import logo from '../../../images/logo.svg';
 import Header from '../../../components/Header';
 import { Title, Container } from './styled';
-import Dropzone from '../../../components/Dropzone'
 
 
 
@@ -191,7 +190,6 @@ export default function AlunoEvento() {
               <div className="form-group col-md-6">
                 <label htmlFor="name">Arquivo</label>
 
-
                 <input
                   type="file"
                   id="file"
@@ -200,7 +198,6 @@ export default function AlunoEvento() {
                   accept="application/pdf"
                 />
 
-
               </div>
             </div>
             <div className="btn-salve">
@@ -208,9 +205,6 @@ export default function AlunoEvento() {
             </div>
           </div>
         </form>
-
-
-
 
       </Container>
     </>

@@ -63,7 +63,7 @@ module.exports = {
             .where('idcategory', idcategory)
 
 
-        let [{ hoursPerActivity, totalHour }] = selectAtividade
+        var [{ hoursPerActivity, totalHour }] = selectAtividade
         let mensagem    
         let sum
 
@@ -72,6 +72,7 @@ module.exports = {
         console.log(totalHour)    
         console.log(informedWorkload)
         
+        //Testado -- OK
         if (informedWorkload == 0) {
             return response.json({ msg: `Carga horária deve ser maior que 0h.` })  
         }else{
@@ -85,6 +86,7 @@ module.exports = {
                 return response.json({ msg: `Vocẽ já validou todas as horas possíveis para este tipo de atividade: ${totalHour}` })  
             }
         }
+        //Testado -- OK
         if(hoursPerActivity === null){
             if(informedWorkload > totalHour){
                 mensagem = `Você informou ${informedWorkload}h, porém neste tipo de atividade serão validadas no máximo ${totalHour}h.`     
