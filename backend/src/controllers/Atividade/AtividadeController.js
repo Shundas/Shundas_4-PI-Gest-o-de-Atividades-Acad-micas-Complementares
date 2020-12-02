@@ -16,10 +16,19 @@ module.exports = {
 
             const { path } = request.file
     
-            const { iduser } = request.query
-    
-            const { iduserSenai, idactivity, idcategory, institutionName, date_end, informedWorkload, activityName } = request.body
+            const filters = request.query
+
+            //Verificar
+            const { iduser, iduserSenai } = filters
             
+            console.log(iduser)
+
+            console.log(request.body)
+    
+            const { idactivity, idcategory, institutionName, date_end, informedWorkload, activityName } = request.body
+            
+           
+
             const validatorInstitution = yup.object().shape({ institutionName: yup.string().required() })
             const validatorDate = yup.object().shape({ date_end: yup.date().required() })
             const validatorWork = yup.object().shape({ informedWorkload: yup.string().required() })
@@ -66,6 +75,10 @@ module.exports = {
         if (informedWorkload == 0) {
             return response.json({ msg: `Carga horária deve ser maior que 0h.` })  
         }else{
+            
+            console.log("act Dentro do Else: " + idactivity)
+            console.log("cat Dentro do Else: " + idcategory)
+
             const verificaTotal = await knex.sum("workload as workloadTotal").from("form").where("iduser", iduser).where("idactivity", idactivity).where("idstatus", 3)
             const [{ workloadTotal }] = verificaTotal
             if(workloadTotal === totalHour){

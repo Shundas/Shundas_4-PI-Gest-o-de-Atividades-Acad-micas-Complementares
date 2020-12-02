@@ -12,11 +12,6 @@ export default function AlunoEvento() {
 
   //Teste
 
-  const [fileNames, setFileNames] = useState([]);
-  const handleDrop = (acceptedFiles) =>
-    setFileNames(acceptedFiles.map((file) => file.name));
-
-
   const [category, setCategory] = useState([]);
   const [activity, setActivity] = useState([]);
   const [formData, setFormData] = useState({
@@ -61,43 +56,38 @@ export default function AlunoEvento() {
 
   }
 
+  const handleUploadFile = (e) => setSelectedFile(e.target.files[0])
+
   async function handleSubmmit(event) {
     event.preventDefault()
-    console.log(selectedFile)
+
     const { institutionName, informedWorkload, activityName, date_end } = formData;
     const category = selectedCategory
     const activity = selectedActivity
 
-    const data = {
-      institutionName,
-      informedWorkload,
-      activityName,
-      date_end,
-      category,
-      activity,
-      file: selectedFile
-    }
+    const data = new FormData();
 
-    // if (selectedFile) {
-    //   data.append('image', selectedFile)
-
-    // }
+    data.append('file', selectedFile)
+    data.append('institutionName', institutionName)
+    data.append('informedWorkload', informedWorkload)
+    data.append('activityName', activityName)
+    data.append('date_end', date_end)
+    data.append('idcategory', category)
+    data.append('idactivity', activity)
 
     console.log(data)
 
-    await axios.post('/criarAtividade', {
-      headers: {
-        "Content-Type": "multipart/form-data"
-      },
-      body: data
+    await axios.post('/criarAtividade', data, {
+      params: {
+        iduser: '966092399a4e0d32',
+        iduserSenai: '9865183800ef0d83'
+      }
     }).then(response => {
       console.log(response.data)
-    });
+    })
     alert('Atividade Registrada!')
-    // history.push('/')
+
   }
-
-
 
 
   return (
@@ -202,7 +192,13 @@ export default function AlunoEvento() {
                 <label htmlFor="name">Arquivo</label>
 
 
-                <Dropzone onFileUploaded={setSelectedFile} />
+                <input
+                  type="file"
+                  id="file"
+                  className="file"
+                  onChange={handleUploadFile}
+                  accept="application/pdf"
+                />
 
 
               </div>
