@@ -11,7 +11,7 @@ import AdminConsultaColborador from '../pages/Admin/AdminConsultaColaborador';
 
 import AlunoEvento from '../pages/Aluno/AlunoEvento';
 
-import ColaboradorHome from '../pages/Colaborador/ColaboradorPerfil';
+import ColaboradorHome from '../pages/Colaborador/ColaboradorConsultaProgrsso';
 
 export default function RoutesAplication() {
   return (
