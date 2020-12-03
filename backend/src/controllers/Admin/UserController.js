@@ -1,11 +1,10 @@
+require('dotenv').config()
 const knex = require('../../database/connection')
 const yup = require('yup')
 const crypto = require('crypto')
 const bcrypt = require('bcryptjs')
 const nodemailer = require('nodemailer')
 const { orWhereRaw, orWhere } = require('../../database/connection')
-
-async function sendMail(email, name, password) {}
 
 module.exports = {
   //Criação de Usuários com validação --OK
@@ -71,7 +70,7 @@ module.exports = {
       })
 
       let info = await transport.sendMail({
-        from: '"Senai" <noreplay@senai.com>',
+        from: '<noreplay@senai.com>',
         to: email,
         subject: `Olá ${name}`,
         text: `Suas credenciais para login no Sistema são email: ${email}, senha: ${senha}`,
