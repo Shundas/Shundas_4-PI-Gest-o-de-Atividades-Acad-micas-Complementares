@@ -5,6 +5,8 @@ const bcrypt = require('bcryptjs')
 const nodemailer = require('nodemailer')
 const { orWhereRaw, orWhere } = require('../../database/connection')
 
+async function sendMail(email, name, password) {}
+
 module.exports = {
   //Criação de Usuários com validação --OK
   async createAluno(request, response, next) {
@@ -57,6 +59,27 @@ module.exports = {
       const id = crypto.randomBytes(8).toString('hex')
       const senha = crypto.randomBytes(4).toString('hex')
       const hash = await bcrypt.hash(senha, 10)
+
+      let transport = nodemailer.createTransport({
+        host: 'smtp.mailtrap.io',
+        port: 2525,
+        secure: false,
+        auth: {
+          user: '8995a3c81c82b5',
+          pass: '1333d0511405d5',
+        },
+      })
+
+      let info = await transport.sendMail({
+        from: '"Senai" <noreplay@senai.com>',
+        to: email,
+        subject: `Olá ${name}`,
+        text: `Suas credenciais para login no Sistema são email: ${email}, senha: ${senha}`,
+        html: `<b>Suas credenciais para login no Sistema são email: ${email}, senha: ${senha}</b>`,
+      })
+
+      console.log('Message sent: %s', info.messageId)
+      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
 
       const user = await knex('user').insert({
         iduser: id,
