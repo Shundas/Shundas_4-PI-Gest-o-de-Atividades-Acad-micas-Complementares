@@ -61,12 +61,12 @@ module.exports = {
       const hash = await bcrypt.hash(senha, 10)
 
       let transport = nodemailer.createTransport({
-        host: 'smtp.mailtrap.io',
-        port: 2525,
+        host: process.env.APP_HOST,
+        port: process.env.APP_PORT,
         secure: false,
         auth: {
-          user: '8995a3c81c82b5',
-          pass: '1333d0511405d5',
+          user: process.env.APP_USER,
+          pass: process.env.APP_PASS,
         },
       })
 
