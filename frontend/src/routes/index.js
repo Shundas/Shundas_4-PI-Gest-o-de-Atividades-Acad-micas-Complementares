@@ -17,6 +17,7 @@ export default function RoutesAplication() {
   return (
     <BrowserRouter>
       <Switch>
+        /** Admin */
         <Route path="/" exact component={AdminHome} />
         <Route path="/question" component={AdminTipoUser} />
         <Route path="/aluno" component={AdminCadastroAluno} />
@@ -24,7 +25,9 @@ export default function RoutesAplication() {
         <Route path="/question-consult" component={AdminTipConsulta} />
         <Route path="/consultaluno" component={AdminConsulta} />
         <Route path="/consultcolaborador" component={AdminConsultaColborador} />
+        /**Aluno */
         <Route path="/atividade" component={AlunoEvento} />
+        /**Colaborador */
         <Route path="/colaboradorhome" component={ColaboradorHome} />
       </Switch>
     </BrowserRouter>
