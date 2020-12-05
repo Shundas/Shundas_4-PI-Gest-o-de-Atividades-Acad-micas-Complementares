@@ -2,6 +2,9 @@ const crypto = require('crypto')
 const knex = require('../../database/connection')
 const yup = require('yup')
 
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+
 module.exports = {
   //Alteração de Usuários com validação --OK
   async updateAluno(request, response) {
@@ -79,6 +82,33 @@ module.exports = {
     } catch (erros) {
       return response.json({ error: erros.message })
     }
-  }
-  
+  },
+
+  async sessionAluno(request, response) {
+    const data = request.body
+    const aluno = await knex('user').select('*').where('email', data['email'])
+
+    let [{ email, senha }] = aluno
+
+    await bcrypt
+      .compare(data['senha'], senha)
+      .then(ctx => {
+        if (ctx) {
+          const token = jwt.sign(
+            {
+              userId: iduser,
+              email: email,
+              senha: senha,
+            },
+            process.env.APP_SECRET,
+            { expiresIn: '7d' },
+          )
+
+          return response.status(200).json(token)
+        }
+      })
+      .catch(err => {
+        return response.status(400).json({ error: err.message })
+      })
+  },
 }
