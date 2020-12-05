@@ -19,6 +19,7 @@ routes.post('/criarColaborador', UserController.createColaborador)
 
 // Rotas para logins de Usuarios (Aluno, Colaborador)
 routes.post('/aluno-login', AlunoController.sessionAluno)
+routes.post('/colaborador-login', ColaboradorController.sessionColaborador)
 
 //Rotas para alteração de Usuários
 routes.put('/updateAluno', AlunoController.updateAluno)
