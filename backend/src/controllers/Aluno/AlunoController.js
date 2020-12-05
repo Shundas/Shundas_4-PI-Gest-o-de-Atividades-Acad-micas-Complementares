@@ -88,7 +88,7 @@ module.exports = {
     const data = request.body
     const aluno = await knex('user').select('*').where('email', data['email'])
 
-    let [{ email, senha }] = aluno
+    let [{ email, senha, iduser }] = aluno
 
     await bcrypt
       .compare(data['senha'], senha)
@@ -104,7 +104,7 @@ module.exports = {
             { expiresIn: '7d' },
           )
 
-          return response.status(200).json(token)
+          return response.status(200).json({ token: token })
         }
       })
       .catch(err => {

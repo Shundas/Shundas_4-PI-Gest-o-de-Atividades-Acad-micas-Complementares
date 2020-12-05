@@ -1,23 +1,24 @@
-const { Router } = require('express');
+const { Router } = require('express')
 
-const multer = require("multer");
-const multerconfig = require('./config/multer');
+const multer = require('multer')
+const multerconfig = require('./config/multer')
 
-const UserController = require('./controllers/Admin/UserController');
-const AtividadeController = require('./controllers/Atividade/AtividadeController');
-const ComentarioController = require('./controllers/Comentario/ComentarioController');
-const AlunoController = require('./controllers/Aluno/AlunoController');
-const ColaboradorController = require('./controllers/Colaborador/ColaboradorController');
-const routes = Router();
-
+const UserController = require('./controllers/Admin/UserController')
+const AtividadeController = require('./controllers/Atividade/AtividadeController')
+const ComentarioController = require('./controllers/Comentario/ComentarioController')
+const AlunoController = require('./controllers/Aluno/AlunoController')
+const ColaboradorController = require('./controllers/Colaborador/ColaboradorController')
+const routes = Router()
 
 // Index - representar | Create - criar | Show - mostrar apenas uma informação | Delete | Update
 // Get - Requisitar | Post - Criar | Delete - deletar | Put - Editar
 
-
 // Rotas para criação de Usuários
 routes.post('/criarAluno', UserController.createAluno)
 routes.post('/criarColaborador', UserController.createColaborador)
+
+// Rotas para logins de Usuarios (Aluno, Colaborador)
+routes.post('/aluno-login', AlunoController.sessionAluno)
 
 //Rotas para alteração de Usuários
 routes.put('/updateAluno', AlunoController.updateAluno)
@@ -32,7 +33,11 @@ routes.get('/consultaAluno', UserController.consultaAlunos)
 routes.patch('/UpdateSenhaAluno', AlunoController.UpdateSenhaAluno)
 
 //Criar Atividade
-routes.post('/criarAtividade', multer(multerconfig).single('file'), AtividadeController.createAtividade)
+routes.post(
+  '/criarAtividade',
+  multer(multerconfig).single('file'),
+  AtividadeController.createAtividade,
+)
 routes.post('/criarAtividadeSenai', AtividadeController.createAtividadeSenai)
 
 //Rota para listar Atividades com Filtro
@@ -55,5 +60,4 @@ routes.get('/perfis', UserController.perfil)
 routes.get('/category', AtividadeController.category)
 routes.get('/activity', AtividadeController.activity)
 
-module.exports = routes;
-
+module.exports = routes
