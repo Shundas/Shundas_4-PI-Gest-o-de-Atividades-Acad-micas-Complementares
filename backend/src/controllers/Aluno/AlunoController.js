@@ -90,25 +90,22 @@ module.exports = {
 
     let [{ email, senha, iduser }] = aluno
 
-    await bcrypt
-      .compare(data['senha'], senha)
-      .then(ctx => {
-        if (ctx) {
-          const token = jwt.sign(
-            {
-              userId: iduser,
-              email: email,
-              senha: senha,
-            },
-            process.env.APP_SECRET,
-            { expiresIn: '7d' },
-          )
+    await bcrypt.compare(data['senha'], senha).then(ctx => {
+      if (ctx) {
+        const token = jwt.sign(
+          {
+            userId: iduser,
+            email: email,
+            senha: senha,
+          },
+          process.env.APP_SECRET,
+          { expiresIn: '7d' },
+        )
 
-          return response.status(200).json({ token: token })
-        }
-      })
-      .catch(err => {
-        return response.status(400).json({ error: err.message })
-      })
+        return response.status(200).json({ token: token })
+      } else {
+        return response.status(400).json({ error: 'Falha no login' })
+      }
+    })
   },
 }
