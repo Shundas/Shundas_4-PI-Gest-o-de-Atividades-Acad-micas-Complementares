@@ -4,7 +4,7 @@ import { FiArrowLeft, FiHome } from 'react-icons/fi';
 import api from '../../../services/api';
 import styled from 'styled-components';
 import InputMask from 'react-input-mask';
-import Yup from 'yup';
+import * as Yup from 'yup';
 import Header from '../../../components/HeaderAdmin';
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -48,21 +48,35 @@ export default function AdminCadastroUser() {
   const [cpf, setCpf] = React.useState('');
 
   const [showalerterror, setShowAlertError] = React.useState(false);
-  const [error, setError] = React.useState({ msg: '' });
-
   const history = useHistory();
 
   const historyReturn = () => {
     return history.push('/');
   };
 
-  const validator = Object.entries(error).length;
-
   const handleSubmit = React.useCallback(
     async e => {
       e.preventDefault();
 
-      if (name === '' || email === '' || phone === '' || cpf === '') {
+      const data = {
+        name: name,
+        email: email,
+        phone: phone,
+        celular: celular,
+        cpf: cpf,
+      };
+
+      const payload = Yup.object().shape({
+        name: Yup.string().required('Nome é obrigatório'),
+        email: Yup.string()
+          .email('Digite um email válido')
+          .required('Email é obrigatório'),
+        phone: Yup.string().required('Telefone é obrigatório'),
+        celular: Yup.string().required('Celular é obrigatório'),
+        cpf: Yup.string().required('CPF é obrigatório'),
+      });
+
+      if (!(await payload.isValid(data))) {
         return setTimeout(
           () => {
             setShowAlertError(true);
@@ -70,17 +84,13 @@ export default function AdminCadastroUser() {
           setTimeout(() => setShowAlertError(false), 4000)
         );
       } else {
-        await api
-          .post('/criarAluno', {
-            name,
-            email,
-            phone,
-            celular,
-            cpf,
-          })
-          .then(response => {
-            setError(response.data);
-          });
+        await api.post('/criarAluno', {
+          name,
+          email,
+          phone,
+          celular,
+          cpf,
+        });
       }
 
       historyReturn();
@@ -121,7 +131,7 @@ export default function AdminCadastroUser() {
 
       <Container>
         <div>
-          <form onSubmit={handleSubmit} className="form">
+          <form on onSubmit={handleSubmit} className="form">
             <div className="form-group">
               <label htmlFor="name">Nome</label>
               <input
@@ -142,7 +152,6 @@ export default function AdminCadastroUser() {
               <InputMask
                 mask="999.999.999-99"
                 className="form-control"
-                maskPlaceholder="999.999.999-99"
                 placeholder="Digite apenas números"
                 onChange={e => setCpf(e.target.value)}
               />
@@ -151,7 +160,6 @@ export default function AdminCadastroUser() {
               <InputMask
                 mask="(99)9999-9999"
                 className="form-control"
-                maskPlaceholder="(99)9999-9999"
                 placeholder="(99)9999-9999"
                 id="telefone"
                 onChange={e => setPhone(e.target.value)}
@@ -161,7 +169,6 @@ export default function AdminCadastroUser() {
               <InputMask
                 mask="(99)99999-9999"
                 className="form-control"
-                maskPlaceholder="(99)99999-9999"
                 placeholder="(99)99999-9999"
                 id="celular"
                 onChange={e => setCelular(e.target.value)}

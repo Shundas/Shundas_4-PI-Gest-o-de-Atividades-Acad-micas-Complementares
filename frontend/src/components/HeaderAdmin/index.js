@@ -40,7 +40,6 @@ export default function HeaderAdmin() {
       <div
         className="modal fade"
         id="exampleModal"
-        tabindex="-1"
         role="dialog"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
