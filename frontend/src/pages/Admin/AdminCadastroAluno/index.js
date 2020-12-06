@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { FiArrowLeft, FiHome } from 'react-icons/fi';
 import api from '../../../services/api';
 import styled from 'styled-components';
-import Swal from 'sweetalert2';
+import InputMask from 'react-input-mask';
 import Header from '../../../components/HeaderAdmin';
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -19,6 +19,10 @@ const Container = styled.div`
 
   .btns button:nth-child(1) {
     margin-bottom: 1rem;
+  }
+
+  input {
+    width: 530px;
   }
 `;
 
@@ -44,34 +48,14 @@ const Nopit = styled.div`
   cursor: pointer;
 `;
 
-const swalMessage = () => {
-  return Swal.fire({
-    position: 'top-end',
-    text: 'Todos os campos devem estar preenchidos!',
-    showConfirmButton: false,
-    timer: 3000,
-    background: '#faa94d',
-    timerProgressBar: true,
-  });
-};
-
-const swalMessageConfirm = () => {
-  return Swal.fire({
-    position: 'top-end',
-    text: 'Aluno cadastrado com sucesso!',
-    showConfirmButton: false,
-    timer: 3000,
-    background: '#04d361',
-    timerProgressBar: true,
-  });
-};
-
 export default function AdminCadastroUser() {
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [phone, setPhone] = React.useState('');
   const [celular, setCelular] = React.useState('');
   const [cpf, setCpf] = React.useState('');
+
+  const [showalerterror, setShowAlertError] = React.useState(false);
 
   const history = useHistory();
 
@@ -90,18 +74,24 @@ export default function AdminCadastroUser() {
         celular === '' ||
         cpf === ''
       ) {
-        return swalMessage();
+        return setTimeout(
+          () => {
+            setShowAlertError(true);
+          },
+          setTimeout(() => setShowAlertError(false), 3000)
+        );
       } else {
-        await api.post('/criarAluno', {
-          name,
-          email,
-          phone,
-          celular,
-          cpf,
-        });
+        await api
+          .post('/criarAluno', {
+            name,
+            email,
+            phone,
+            celular,
+            cpf,
+          })
+          .catch();
       }
 
-      swalMessageConfirm();
       historyReturn();
     },
     [name, email, phone, celular, cpf]
@@ -110,6 +100,18 @@ export default function AdminCadastroUser() {
   return (
     <>
       <Header />
+
+      {!showalerterror && ''}
+      {showalerterror && (
+        <div
+          style={{ textAlign: 'center' }}
+          class="alert alert-danger"
+          role="alert"
+        >
+          Todos os campos devem ser preenchidos!
+        </div>
+      )}
+
       <h2
         style={{ marginTop: '2em', marginBottom: '1em' }}
         className="text-center"
@@ -146,39 +148,33 @@ export default function AdminCadastroUser() {
               />
 
               <label htmlFor="telefone">CPF</label>
-              <input
+              <InputMask
+                mask="999.999.999-99"
                 className="form-control"
-                type="text"
-                id="telefone"
+                maskPlaceholder="999.999.999-99"
+                placeholder="Digite apenas números"
                 onChange={e => setCpf(e.target.value)}
               />
-              <label htmlFor="telefone">Telefone</label>
-              <input
+
+              <label htmlFor="fone">Telefone</label>
+              <InputMask
+                mask="(99)9999-9999"
                 className="form-control"
-                type="text"
+                maskPlaceholder="(99)9999-9999"
+                placeholder="(99)9999-9999"
                 id="telefone"
                 onChange={e => setPhone(e.target.value)}
               />
-              <label htmlFor="celular">Celular</label>
-              <input
+
+              <label htmlFor="cel">Celular</label>
+              <InputMask
+                mask="(99)99999-9999"
                 className="form-control"
-                type="text"
+                maskPlaceholder="(99)99999-9999"
+                placeholder="(99)99999-9999"
                 id="celular"
                 onChange={e => setCelular(e.target.value)}
               />
-              {/* <label htmlFor="select">Curso</label>
-              <select id="perfil" className="form-control" onChange={}>
-                <option value="1">Analise e Desenvolvimento de Sistemas</option>
-                <option value="2">Redes de Computadores</option>
-                <option value="2">Jogos Digitais</option>
-              </select>
-
-              <label htmlFor="select">Turma</label>
-              <select id="perfil" className="form-control">
-                <option value="1">Turma</option>
-                <option value="2">Redes de Computadores</option>
-                <option value="2">Jogos Digitais</option>
-              </select> */}
             </div>
             <div className="btns">
               <button className="btn btn-primary">Enviar</button>
