@@ -13,6 +13,20 @@ export const HeaderContainerWrapper = styled.header`
       align-items: center;
     }
   }
+  .wrap {
+    display: flex;
+    align-items: center;
+  }
+
+  .btn span {
+    display: none;
+  }
+
+  .btn:hover {
+    span {
+      display: flex;
+    }
+  }
 `;
 
 export const Background = styled.img`
