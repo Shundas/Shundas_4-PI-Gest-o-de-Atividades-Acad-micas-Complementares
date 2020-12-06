@@ -13,6 +13,7 @@ import AdminConsultaColborador from '../pages/Admin/AdminConsultaColaborador';
 // Aluno
 import AlunoEvento from '../pages/Aluno/AlunoEvento';
 import AlunoEventoSenai from '../pages/Aluno/AlunoEventoSenai';
+import AlunoPerfil from '../pages/Aluno/AlunoPerfil';
 
 // Colaborador
 import ColaboradorHome from '../pages/Colaborador/ColaboradorPerfil';
@@ -32,6 +33,7 @@ export default function RoutesAplication() {
         /**Aluno */
         <Route path="/atividade" component={AlunoEvento} />
         <Route path="/evento-senai" component={AlunoEventoSenai} />
+        <Route path="/aluno-perfil" component={AlunoPerfil} />
         /**Colaborador */
         <Route path="/colaboradorhome" component={ColaboradorHome} />
       </Switch>
