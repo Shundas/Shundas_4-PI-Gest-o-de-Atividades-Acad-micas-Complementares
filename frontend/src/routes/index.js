@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
+// Admin
 import AdminHome from '../pages/Admin/AdminHome';
 import AdminTipoUser from '../pages/Admin/AdminTipoUser';
 import AdminCadastroAluno from '../pages/Admin/AdminCadastroAluno';
@@ -9,8 +10,11 @@ import AdminConsulta from '../pages/Admin/AdminConsulta';
 import AdminTipConsulta from '../pages/Admin/AdminTipoCosulta';
 import AdminConsultaColborador from '../pages/Admin/AdminConsultaColaborador';
 
+// Aluno
 import AlunoEvento from '../pages/Aluno/AlunoEvento';
+import AlunoEventoSenai from '../pages/Aluno/AlunoEventoSenai';
 
+// Colaborador
 import ColaboradorHome from '../pages/Colaborador/ColaboradorPerfil';
 
 export default function RoutesAplication() {
@@ -27,6 +31,7 @@ export default function RoutesAplication() {
         <Route path="/consultcolaborador" component={AdminConsultaColborador} />
         /**Aluno */
         <Route path="/atividade" component={AlunoEvento} />
+        <Route path="/evento-senai" component={AlunoEventoSenai} />
         /**Colaborador */
         <Route path="/colaboradorhome" component={ColaboradorHome} />
       </Switch>
