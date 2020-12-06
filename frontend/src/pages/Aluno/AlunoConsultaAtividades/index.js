@@ -71,7 +71,7 @@ export default function AlunoConsultaAtividades() {
                 <td>{atv.description}</td>
                 <td>{atv.status}</td>
                 <td>{atv.name}</td>
-                <Link className="tolink" to={`/aluno-home`}>
+                <Link className="tolink" to={`/visualiza-atividade/${atv.idform}`}>
                   <button className="btn btn-outline-success">Visualizar</button>
                 </Link>
               </tr>

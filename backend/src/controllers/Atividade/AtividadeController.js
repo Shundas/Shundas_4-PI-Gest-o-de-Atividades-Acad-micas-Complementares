@@ -168,16 +168,17 @@ module.exports = {
 
     async visualizarAtividade(request, response) {
         try{
-            const { idform } = request.query
-
+            const { id } = request.params;
+            console.log(id)
             const atividades = await knex('form')
-                .select('form.institutionName', 'form.activityName', 'category.name_cat', 'activity.description', 'form.workload', 'form.date_end', 'form.attachment','status.status','userSenai.name')
+                .select('form.institutionName', 'form.activityName', 'form.informedWorkload', 'category.name_cat', 'activity.description', 'form.workload', 'form.date_end', 'form.attachment','status.status','userSenai.name')
                 .join('category', 'form.idcategory', '=', 'category.idcategory')
                 .join('activity', 'form.idactivity', '=', 'activity.idactivity')
                 .join('userSenai', 'form.iduserSenai', '=', 'userSenai.iduserSenai')
                 .join('status', 'form.idstatus', '=', 'status.idstatus')
-                .where('idform', idform)          
+                .where('idform', id).first()          
 
+                console.log(atividades)
                 return response.json(atividades)
 
         } catch (erros) {
