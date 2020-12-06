@@ -2,18 +2,11 @@ import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { MdMenu } from 'react-icons/md';
 import { FiLogOut, FiUser } from 'react-icons/fi';
-import { MdFace } from 'react-icons/md';
+import { MdFace, MdAccessTime } from 'react-icons/md';
 
 import { Background, HeroTitle, HeaderWrapper } from './styled';
 
-export default function Header({
-  image,
-  text,
-  extencao,
-  pesquisa,
-  ensino,
-  total,
-}) {
+export default function Header({ image, text }) {
   return (
     <>
       <HeaderWrapper>
@@ -38,32 +31,15 @@ export default function Header({
               className="collapse navbar-collapse col-cg-ritgh"
               id="menuCollapse"
             >
-              <ul className="navbar-nav mr-auto">
-                <li className="nav-item">
-                  <span style={{ color: '#fff' }} className="nav-link">
-                    {ensino}
-                    <h5 className="badge badge-ligth">40h</h5>
-                  </span>
-                </li>
-                <li className="nav-item">
-                  <span style={{ color: '#fff' }} className="nav-link">
-                    {pesquisa}
-                    <h5 className="badge badge-ligth">40h</h5>
-                  </span>
-                </li>
-                <li className="nav-item">
-                  <span style={{ color: '#fff' }} className="nav-link">
-                    {extencao}
-                    <h5 className="badge badge-ligth">40h</h5>
-                  </span>
-                </li>
-                <li className="nav-item">
-                  <span style={{ color: '#fff' }} className="nav-link">
-                    {total}
-                    <h5 class="badge badge-ligth">40h</h5>
-                  </span>
-                </li>
-              </ul>
+              <button
+                type="button"
+                class="btn btn-success"
+                data-toggle="modal"
+                data-target="#ModalLong"
+              >
+                <MdAccessTime size={20} />
+              </button>
+
               <button
                 type="button"
                 class="btn btn-success"
@@ -118,6 +94,54 @@ export default function Header({
                 <FiLogOut style={{ marginRight: '6px' }} />
                 Logout
               </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="modal fade"
+        id="ModalLong"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLongTitle"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">
+                Suas Horas Validadas
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <ul className="navbar-nav mr-auto">
+                <li className="nav-item">
+                  Ensino:
+                  <h5 className="badge badge-ligth">15h</h5>
+                </li>
+                <li className="nav-item">
+                  Pesquisa:
+                  <h5 className="badge badge-ligth">15h</h5>
+                </li>
+                <li className="nav-item">
+                  Extencao:
+                  <h5 className="badge badge-ligth">25h</h5>
+                </li>
+                <hr />
+                <li className="nav-item">
+                  Total:
+                  <h5 class="badge badge-ligth">55h</h5>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
