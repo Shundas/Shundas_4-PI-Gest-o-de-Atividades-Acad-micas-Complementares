@@ -13,9 +13,9 @@ const ContainerApp = styled.div`
 
   margin-bottom: 1.8em;
 
-  border: 1px solid #fff;
+  border: 1px solid #afc2e3;
   padding: 20px 10px;
-  background-color: #fff;
+  background-color: #afc2e3;
 
   border-radius: 20px;
   box-shadow: -1px 1px 16px -13px rgba(0, 0, 0, 0.65);
@@ -72,21 +72,21 @@ export default function PageColaboradorPerfil() {
             <input type="email" className="form-control" id="mail" />
           </div>
           <div className="form-group">
-            <label htmlFor="fone">Telefone</label>
-            <InputMask
-              mask="(99)9999-9999"
-              className="form-control"
-              maskPlaceholder="(99)9999-9999"
-              placeholder="(99)9999-9999"
-            />
-          </div>
-          <div className="form-group">
             <label htmlFor="cel">Celular</label>
             <InputMask
               mask="(99)99999-9999"
               className="form-control"
               maskPlaceholder="(99)99999-9999"
               placeholder="(99)99999-9999"
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="fone">Telefone</label>
+            <InputMask
+              mask="(99)9999-9999"
+              className="form-control"
+              maskPlaceholder="(99)9999-9999"
+              placeholder="(99)9999-9999"
             />
           </div>
           <button className="btn btn-primary">Salvar</button>
