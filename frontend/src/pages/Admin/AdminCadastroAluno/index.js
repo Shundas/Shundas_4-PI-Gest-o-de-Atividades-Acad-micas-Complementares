@@ -47,9 +47,7 @@ export default function AdminCadastroUser() {
   const [cpf, setCpf] = React.useState('');
 
   const [showalerterror, setShowAlertError] = React.useState(false);
-  const [error, setError] = React.useState({
-    err: '',
-  });
+  const [error, setError] = React.useState({ msg: '' });
 
   const history = useHistory();
 
@@ -57,22 +55,18 @@ export default function AdminCadastroUser() {
     return history.push('/');
   };
 
+  const validator = Object.entries(error).length;
+
   const handleSubmit = React.useCallback(
     async e => {
       e.preventDefault();
 
-      if (
-        name === '' ||
-        email === '' ||
-        phone === '' ||
-        celular === '' ||
-        cpf === ''
-      ) {
+      if (name === '' || email === '' || phone === '' || cpf === '') {
         return setTimeout(
           () => {
             setShowAlertError(true);
           },
-          setTimeout(() => setShowAlertError(false), 3000)
+          setTimeout(() => setShowAlertError(false), 4000)
         );
       } else {
         await api
@@ -104,7 +98,7 @@ export default function AdminCadastroUser() {
           class="alert alert-danger"
           role="alert"
         >
-          {error.err}
+          Alguns campos são obrigatórios, verifique se todos estão preenchidos!
         </div>
       )}
 
