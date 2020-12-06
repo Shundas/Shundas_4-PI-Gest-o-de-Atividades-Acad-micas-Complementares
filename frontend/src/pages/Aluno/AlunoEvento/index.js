@@ -1,14 +1,11 @@
-import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import axios from '../../../services/api';
 import logo from '../../../images/logo.svg';
 import Header from '../../../components/Header';
 import { Title, Container } from './styled';
 
-
-
 export default function AlunoEvento() {
-
   //Teste
 
   const [category, setCategory] = useState([]);
@@ -18,76 +15,78 @@ export default function AlunoEvento() {
     activityName: '',
     informedWorkload: '',
     date_end: '',
-  })
-
+  });
 
   const [selectedCategory, setSelectedCategory] = useState('0');
   const [selectedActivity, setSelectedActivity] = useState('0');
   const [selectedFile, setSelectedFile] = useState();
 
-
   useEffect(() => {
     axios.get('/category').then(response => {
-      setCategory(response.data)
-    })
-  }, [])
-
+      setCategory(response.data);
+    });
+  }, []);
 
   useEffect(() => {
     if (selectedCategory === '0') {
       return;
     }
 
-    axios.get('/activity', {
-      params: {
-        idcategory: selectedCategory
-      }
-    }).then(response => {
-      setActivity(response.data);
-    })
-
-  }, [selectedCategory]) //quando q essa função deve executar
+    axios
+      .get('/activity', {
+        params: {
+          idcategory: selectedCategory,
+        },
+      })
+      .then(response => {
+        setActivity(response.data);
+      });
+  }, [selectedCategory]); //quando q essa função deve executar
 
   function handleInputChange(event) {
-    const { name, value } = event.target
+    const { name, value } = event.target;
 
-    setFormData({ ...formData, [name]: value })
-
+    setFormData({ ...formData, [name]: value });
   }
 
-  const handleUploadFile = (e) => setSelectedFile(e.target.files[0])
+  const handleUploadFile = e => setSelectedFile(e.target.files[0]);
 
   async function handleSubmmit(event) {
-    event.preventDefault()
+    event.preventDefault();
 
-    const { institutionName, informedWorkload, activityName, date_end } = formData;
-    const category = selectedCategory
-    const activity = selectedActivity
+    const {
+      institutionName,
+      informedWorkload,
+      activityName,
+      date_end,
+    } = formData;
+    const category = selectedCategory;
+    const activity = selectedActivity;
 
     const data = new FormData();
 
-    data.append('file', selectedFile)
-    data.append('institutionName', institutionName)
-    data.append('informedWorkload', informedWorkload)
-    data.append('activityName', activityName)
-    data.append('date_end', date_end)
-    data.append('idcategory', category)
-    data.append('idactivity', activity)
+    data.append('file', selectedFile);
+    data.append('institutionName', institutionName);
+    data.append('informedWorkload', informedWorkload);
+    data.append('activityName', activityName);
+    data.append('date_end', date_end);
+    data.append('idcategory', category);
+    data.append('idactivity', activity);
 
-    console.log(data)
+    console.log(data);
 
-    await axios.post('/criarAtividade', data, {
-      params: {
-        iduser: '966092399a4e0d32',
-        iduserSenai: '9865183800ef0d83'
-      }
-    }).then(response => {
-      console.log(response.data)
-    })
-    alert('Atividade Registrada!')
-
+    await axios
+      .post('/criarAtividade', data, {
+        params: {
+          iduser: '966092399a4e0d32',
+          iduserSenai: '9865183800ef0d83',
+        },
+      })
+      .then(response => {
+        console.log(response.data);
+      });
+    alert('Atividade Registrada!');
   }
-
 
   return (
     <>
@@ -153,7 +152,6 @@ export default function AlunoEvento() {
                   className="form-control"
                   id="profile"
                 >
-
                   {activity.map(act => (
                     <option key={act.idactivity} value={act.idactivity}>
                       {act.description}
@@ -197,7 +195,6 @@ export default function AlunoEvento() {
                   onChange={handleUploadFile}
                   accept="application/pdf"
                 />
-
               </div>
             </div>
             <div className="btn-salve">
@@ -205,7 +202,6 @@ export default function AlunoEvento() {
             </div>
           </div>
         </form>
-
       </Container>
     </>
   );
