@@ -6,15 +6,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 export default function ConsultaRegras() {
   return (
     <Fragment>
-      <Header
-        image={logo}
-        text="Imagem da Logo"
-        title="Atividades Complementares"
-        ensino="Ensino"
-        pesquisa="Pesquisa"
-        extencao="Extenção"
-        total="Total"
-      />
+      <Header image={logo} text="Imagem da Logo" />
 
       <Container className="container">
         <h3 className="text-center">

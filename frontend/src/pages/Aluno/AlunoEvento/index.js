@@ -90,15 +90,7 @@ export default function AlunoEvento() {
 
   return (
     <>
-      <Header
-        image={logo}
-        text="Imagem da Logo"
-        title="Atividades Complementares"
-        ensino="Ensino"
-        pesquisa="Pesquisa"
-        extencao="Extenção"
-        total="Total"
-      />
+      <Header image={logo} text="Imagem da Logo" />
 
       <Title>Adicionar Atividade</Title>
 

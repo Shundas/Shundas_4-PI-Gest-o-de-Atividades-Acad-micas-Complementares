@@ -7,15 +7,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 export default function AlunoVisualisarAtividades() {
   return (
     <>
-      <Header
-        image={logo}
-        text="Imagem da Logo"
-        title="Atividades Complementares"
-        ensino="Ensino"
-        pesquisa="Pesquisa"
-        extencao="Extenção"
-        total="Total"
-      />
+      <Header image={logo} text="Imagem da Logo" />
       <Text>Visualizar Atividade</Text>
       <Container className="container">
         <form className="form-column f-raw">
