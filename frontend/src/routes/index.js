@@ -19,7 +19,7 @@ import AlunoConsultaAtividades from '../pages/Aluno/AlunoConsultaAtividades';
 import AlunoVisualisarAtividades from '../pages/Aluno/AlunoVisualizarAtividade';
 
 // Colaborador
-import ColaboradorHome from '../pages/Colaborador/ColaboradorHome';
+import ColaboradorHome from '../pages/Colaborador/ColaboradorAdicionarAtividade';
 
 export default function RoutesAplication() {
   return (
