@@ -153,7 +153,7 @@ module.exports = {
         try{
            
             const atividades = await knex('form')
-            .select('form.idform', 'category.name_cat', 'activity.description', 'status.status', 'userSenai.name')
+            .select('form.idform', 'form.activityName', 'category.name_cat', 'activity.description', 'status.status', 'userSenai.name')
             .join('category', 'form.idcategory', '=', 'category.idcategory')
             .join('activity', 'form.idactivity', '=', 'activity.idactivity')
             .join('userSenai', 'form.iduserSenai', '=', 'userSenai.iduserSenai')

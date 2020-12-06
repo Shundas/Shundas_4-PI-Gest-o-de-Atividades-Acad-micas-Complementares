@@ -1,7 +1,7 @@
 import React from 'react';
-import Header from '../../components/Header';
+import Header from '../../../components/Header';
 import { Text, Container, SubText } from './styled';
-import logo from '../../images/logo.svg';
+import logo from '../../../images/logo.svg';
 import 'bootstrap/dist/css/bootstrap.css';
 
 export default function AlunoVisualisarAtividades() {
