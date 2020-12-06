@@ -1,7 +1,7 @@
 import React from 'react';
 import { FiPlus } from 'react-icons/fi';
-import Header from '../../components/Header';
-import logo from '../../images/logo.svg';
+import Header from '../../../components/Header';
+import logo from '../../../images/logo.svg';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Text, Container } from './styled';
 export default function AlunoConsultaAtividades() {
