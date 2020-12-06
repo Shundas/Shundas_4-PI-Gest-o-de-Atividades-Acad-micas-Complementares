@@ -48,6 +48,7 @@ export default function AdminCadastroUser() {
   const [cpf, setCpf] = React.useState('');
 
   const [showalerterror, setShowAlertError] = React.useState(false);
+  const [showalertsuccess, setShowAlertSuccess] = React.useState(false);
   const history = useHistory();
 
   const historyReturn = () => {
@@ -66,17 +67,12 @@ export default function AdminCadastroUser() {
         cpf: cpf,
       };
 
-      const payload = Yup.object().shape({
-        name: Yup.string().required('Nome é obrigatório'),
-        email: Yup.string()
-          .email('Digite um email válido')
-          .required('Email é obrigatório'),
-        phone: Yup.string().required('Telefone é obrigatório'),
-        celular: Yup.string().required('Celular é obrigatório'),
-        cpf: Yup.string().required('CPF é obrigatório'),
-      });
-
-      if (!(await payload.isValid(data))) {
+      if (
+        (data.email === '' || data.name === '',
+        data.phone === '',
+        data.cpf === '',
+        data.celular === '')
+      ) {
         return setTimeout(
           () => {
             setShowAlertError(true);
@@ -84,12 +80,14 @@ export default function AdminCadastroUser() {
           setTimeout(() => setShowAlertError(false), 4000)
         );
       } else {
-        await api.post('/criarAluno', {
-          name,
-          email,
-          phone,
-          celular,
-          cpf,
+        await api.post('/criarAluno', data).then(s => {
+          setTimeout(
+            () => {
+              setShowAlertSuccess(true);
+              console.info(s);
+            },
+            setTimeout(() => setShowAlertSuccess(false), 4000)
+          );
         });
       }
 
