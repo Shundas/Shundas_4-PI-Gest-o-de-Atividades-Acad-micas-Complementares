@@ -11,16 +11,13 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-
   div {
     display: flex;
     flex-direction: column;
   }
-
   .btns button:nth-child(1) {
     margin-bottom: 1rem;
   }
-
   input {
     width: 530px;
   }
@@ -28,23 +25,17 @@ const Container = styled.div`
 
 const Nopit = styled.div`
   position: absolute;
-
   border: 0;
-
   top: 90px;
   left: 30px;
-
   width: 38px;
   height: 38px;
   background: #28a745 !important;
   border-radius: 50%;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   z-index: 10;
-
   cursor: pointer;
 `;
 
@@ -56,6 +47,9 @@ export default function AdminCadastroUser() {
   const [cpf, setCpf] = React.useState('');
 
   const [showalerterror, setShowAlertError] = React.useState(false);
+  const [error, setError] = React.useState({
+    err: '',
+  });
 
   const history = useHistory();
 
@@ -89,7 +83,9 @@ export default function AdminCadastroUser() {
             celular,
             cpf,
           })
-          .catch();
+          .then(response => {
+            setError(response.data);
+          });
       }
 
       historyReturn();
@@ -108,7 +104,7 @@ export default function AdminCadastroUser() {
           class="alert alert-danger"
           role="alert"
         >
-          Todos os campos devem ser preenchidos!
+          {error.err}
         </div>
       )}
 
