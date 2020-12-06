@@ -107,7 +107,12 @@ export default function AlunoEvento() {
       <Container className="container">
         {
           validacao === 0 ? (
+            <>
             <div className="alert alert-success">Atividade Registrada com Sucesso!</div>
+            {setTimeout(() => {
+              history.push("/aluno-home")
+            }, 3000)}
+            </>
           ) : (
               ""
             )

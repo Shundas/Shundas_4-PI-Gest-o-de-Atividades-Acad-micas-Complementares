@@ -14,6 +14,8 @@ import AdminConsultaColborador from '../pages/Admin/AdminConsultaColaborador';
 import AlunoEvento from '../pages/Aluno/AlunoEvento';
 import AlunoEventoSenai from '../pages/Aluno/AlunoEventoSenai';
 import AlunoPerfil from '../pages/Aluno/AlunoPerfil';
+import AlunoHome from '../pages/Aluno/AlunoHome';
+
 
 // Colaborador
 import ColaboradorHome from '../pages/Colaborador/ColaboradorPerfil';
@@ -34,6 +36,7 @@ export default function RoutesAplication() {
         <Route path="/atividade" component={AlunoEvento} />
         <Route path="/evento-senai" component={AlunoEventoSenai} />
         <Route path="/aluno-perfil" component={AlunoPerfil} />
+        <Route path="/aluno-home" component={AlunoHome} />
         /**Colaborador */
         <Route path="/colaboradorhome" component={ColaboradorHome} />
       </Switch>
