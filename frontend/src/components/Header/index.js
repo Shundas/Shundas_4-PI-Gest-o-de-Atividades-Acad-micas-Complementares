@@ -1,7 +1,8 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import { MdMenu } from 'react-icons/md';
-import { FiPower, FiUser } from 'react-icons/fi';
+import { FiLogOut, FiUser } from 'react-icons/fi';
+import { MdFace } from 'react-icons/md';
 
 import { Background, HeroTitle, HeaderWrapper } from './styled';
 
@@ -12,7 +13,6 @@ export default function Header({
   pesquisa,
   ensino,
   total,
-  title,
 }) {
   return (
     <>
@@ -64,13 +64,64 @@ export default function Header({
                   </span>
                 </li>
               </ul>
-              <button className="btn btn-success">
+              <button
+                type="button"
+                class="btn btn-success"
+                data-toggle="modal"
+                data-target="#exampleModalLong"
+              >
                 <FiUser size={25} />
               </button>
             </div>
           </div>
         </nav>
       </HeaderWrapper>
+
+      <div
+        className="modal fade"
+        id="exampleModalLong"
+        tabindex="-1"
+        role="dialog"
+        aria-labelledby="exampleModalLongTitle"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLongTitle">
+                Escolha a opção desejada.
+              </h5>
+              <button
+                type="button"
+                className="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div
+              style={{ display: 'flex', justifyContent: 'space-evenly' }}
+              className="modal-body"
+            >
+              <button className="btn btn-primary">
+                <MdFace size={20} style={{ marginRight: '6px' }} />
+                Ver Perfil
+              </button>
+              <button
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+                className="btn btn-danger"
+              >
+                <FiLogOut style={{ marginRight: '6px' }} />
+                Logout
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
