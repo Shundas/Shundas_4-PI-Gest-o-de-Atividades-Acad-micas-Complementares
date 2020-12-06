@@ -6,12 +6,27 @@ export const HeaderWrapper = styled.header`
     align-items: center;
     justify-content: space-between;
 
-    padding: 20px 10px;
+    padding: 18px 10px;
 
     .flex {
       width: 100%;
       display: flex;
       align-items: center;
+    }
+
+    .wrap {
+      display: flex;
+      align-items: center;
+    }
+
+    .btn span {
+      display: none;
+    }
+
+    .btn:hover {
+      span {
+        display: flex;
+      }
     }
   }
 

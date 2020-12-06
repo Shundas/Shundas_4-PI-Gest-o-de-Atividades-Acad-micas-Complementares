@@ -33,20 +33,22 @@ export default function Header({ image, text }) {
             >
               <button
                 type="button"
-                class="btn btn-success"
+                class="btn btn-success wrap"
                 data-toggle="modal"
                 data-target="#ModalLong"
               >
-                <MdAccessTime size={20} />
+                <span>Clique para ver suas horas validadas</span>
+                <MdAccessTime size={30} />
               </button>
 
               <button
                 type="button"
-                class="btn btn-success"
+                class="btn btn-success wrap"
                 data-toggle="modal"
                 data-target="#exampleModalLong"
               >
-                <FiUser size={25} />
+                <span>Clique para ver perfil ou logout</span>
+                <FiUser size={30} />
               </button>
             </div>
           </div>
