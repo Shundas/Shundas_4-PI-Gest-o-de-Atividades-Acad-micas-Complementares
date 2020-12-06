@@ -7,15 +7,7 @@ import { Text, Container } from './styled';
 export default function AlunoConsultaAtividades() {
   return (
     <>
-      <Header
-        image={logo}
-        text="Imagem da Logo"
-        title="Atividades Complementares"
-        ensino="Ensino"
-        pesquisa="Pesquisa"
-        extencao="Extenção"
-        total="Total"
-      />
+      <Header image={logo} text="Imagem da Logo" />
       <Text>Consulta de Atividades</Text>
       <Container className="container-fluid raw">
         <form className="form-row">
