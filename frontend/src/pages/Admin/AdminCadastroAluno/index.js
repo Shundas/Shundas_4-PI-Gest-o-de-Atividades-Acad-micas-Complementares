@@ -4,6 +4,7 @@ import { FiArrowLeft, FiHome } from 'react-icons/fi';
 import api from '../../../services/api';
 import styled from 'styled-components';
 import InputMask from 'react-input-mask';
+import Yup from 'yup';
 import Header from '../../../components/HeaderAdmin';
 import 'bootstrap/dist/css/bootstrap.css';
 

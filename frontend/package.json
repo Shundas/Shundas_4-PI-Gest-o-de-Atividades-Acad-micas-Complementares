@@ -19,7 +19,8 @@
     "react-scripts": "3.4.3",
     "react-toast-notifications": "^2.4.0",
     "styled-components": "^5.2.0",
-    "sweetalert2": "^10.10.4"
+    "sweetalert2": "^10.10.4",
+    "yup": "^0.32.1"
   },
   "scripts": {
     "start": "react-scripts start",
