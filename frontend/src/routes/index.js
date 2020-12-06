@@ -15,12 +15,11 @@ import AlunoEvento from '../pages/Aluno/AlunoEvento';
 import AlunoEventoSenai from '../pages/Aluno/AlunoEventoSenai';
 import AlunoPerfil from '../pages/Aluno/AlunoPerfil';
 import AlunoHome from '../pages/Aluno/AlunoHome';
-import AlunoConsultaAtividades from '../pages/Aluno/AlunoConsultaAtividades'
-import AlunoVisualisarAtividades from '../pages/Aluno/AlunoVisualizarAtividade'
-
+import AlunoConsultaAtividades from '../pages/Aluno/AlunoConsultaAtividades';
+import AlunoVisualisarAtividades from '../pages/Aluno/AlunoVisualizarAtividade';
 
 // Colaborador
-import ColaboradorHome from '../pages/Colaborador/ColaboradorPerfil';
+import ColaboradorHome from '../pages/Colaborador/ColaboradorHome';
 
 export default function RoutesAplication() {
   return (
