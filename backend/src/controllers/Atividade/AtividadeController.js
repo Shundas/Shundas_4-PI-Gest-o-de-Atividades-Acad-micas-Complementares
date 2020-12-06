@@ -7,98 +7,89 @@ module.exports = {
 
     async createAtividade(request, response) {
         try {
-
-            console.log(request.file)
-            
-            if (request.file === undefined) {
-                return response.json({msg: "O envio de arquivo é obrigatório."})
-            }
-
-            const { path } = request.file
     
             const filters = request.query
 
             //Verificar
             const { iduser, iduserSenai } = filters
-            
-            console.log(iduser)
 
             console.log(request.body)
     
             const { idactivity, idcategory, institutionName, date_end, informedWorkload, activityName } = request.body
-            
-           
 
             const validatorInstitution = yup.object().shape({ institutionName: yup.string().required() })
             const validatorDate = yup.object().shape({ date_end: yup.date().required() })
             const validatorWork = yup.object().shape({ informedWorkload: yup.string().required() })
             const validatorActivity = yup.object().shape({ activityName: yup.string().required() })
-                
-        
+
+    
             if (!(await validatorInstitution.isValid(request.body))) {
-                return response.status(400).json({ error: 'Nome da Instituição é campo obrigatório.' })
-            }
-
-            if (!(await validatorDate.isValid(request.body))) {
-                return response.status(400).json({ error: 'Data é campo obrigatório.' })
-            }
-
-            if (!(await validatorWork.isValid(request.body))) {
-                return response.status(400).json({ error: 'Horas validadas é campo obrigatório.' })
+                return response.status(200).json({ msg: 'Nome da Instituição é campo obrigatório.' })
             }
 
             if (!(await validatorActivity.isValid(request.body))) {
-                return response.status(400).json({ error: 'Nome da Atividade é campo obrigatório.' })
+                return response.status(200).json({ msg: 'Atividade Complementar é campo obrigatório.' })
+            }
+            
+            if (idcategory == 0) {
+                return response.json({ msg: 'Modalidade é campo obrigatório.' })
             }
 
+            if (idactivity == 0) {
+                return response.json({ msg: 'Atividade é campo obrigatório.' })
+            }
+
+            if (!(await validatorWork.isValid(request.body))) {
+                return response.status(200).json({ msg: 'Horas validadas é campo obrigatório.' })
+            }
+
+            if (!(await validatorDate.isValid(request.body))) {
+                return response.status(200).json({ msg: 'Data é campo obrigatório.' })
+            }
+            
+            if (request.file === undefined) {
+                return response.json({ msg: "O envio de arquivo é obrigatório." })
+            }
+
+            const { path } = request.file
             
     
         const id = crypto.randomBytes(8).toString('hex')
 
         //Validar Horas
-
         const selectAtividade = await knex('activity')
             .select('hoursPerActivity', 'totalHour')
             .where('idactivity', idactivity)
             .where('idcategory', idcategory)
 
-
         var [{ hoursPerActivity, totalHour }] = selectAtividade
         let mensagem    
-        let sum
-
-        console.log(selectAtividade)
-        console.log(hoursPerActivity)
-        console.log(totalHour)    
-        console.log(informedWorkload)
-        
+    
         //Testado -- OK
-        if (informedWorkload == 0) {
+        if (informedWorkload <= 0) {
             return response.json({ msg: `Carga horária deve ser maior que 0h.` })  
         }else{
-            
-            console.log("act Dentro do Else: " + idactivity)
-            console.log("cat Dentro do Else: " + idcategory)
-
+            //Testado -- OK
             const verificaTotal = await knex.sum("workload as workloadTotal").from("form").where("iduser", iduser).where("idactivity", idactivity).where("idstatus", 3)
             const [{ workloadTotal }] = verificaTotal
             if(workloadTotal === totalHour){
-                return response.json({ msg: `Vocẽ já validou todas as horas possíveis para este tipo de atividade: ${totalHour}` })  
+                return response.json({ msg: `Vocẽ já validou todas as horas possíveis para este tipo de atividade: ${totalHour}h.` })  
             }
         }
+        console.log(hoursPerActivity)
         //Testado -- OK
         if(hoursPerActivity === null){
             if(informedWorkload > totalHour){
-                mensagem = `Você informou ${informedWorkload}h, porém neste tipo de atividade serão validadas no máximo ${totalHour}h.`     
+                mensagem = `Sua atividade foi registrada, porém você informou ${informedWorkload}h e neste tipo de atividade serão validadas no máximo ${totalHour}h.`     
             }
+            //Testado -- OK    
         }else if(hoursPerActivity !== null){
             if(informedWorkload > hoursPerActivity){
-                mensagem =  `Você informou ${informedWorkload}h, porém neste tipo de atividade serão validadas no máximo ${hoursPerActivity}h por envio.` 
+                mensagem =  `Sua atividade foi registrada, porém você informou ${informedWorkload}h e neste tipo de atividade serão validadas no máximo ${hoursPerActivity}h por envio.` 
             } 
         }
         
-
-
+        //Insert na tabela -- OK
         const formAtividade = await knex('form').insert({
             idform: id,
             iduser,

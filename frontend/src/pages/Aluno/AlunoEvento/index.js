@@ -4,9 +4,14 @@ import axios from '../../../services/api';
 import logo from '../../../images/logo.svg';
 import Header from '../../../components/Header';
 import { Title, Container } from './styled';
+import { useHistory } from "react-router-dom";
+
+
+
 
 export default function AlunoEvento() {
-  //Teste
+
+  const history = useHistory();
 
   const [category, setCategory] = useState([]);
   const [activity, setActivity] = useState([]);
@@ -16,6 +21,12 @@ export default function AlunoEvento() {
     informedWorkload: '',
     date_end: '',
   });
+
+  const [erros, setErros] = useState({
+    msg: '',
+  });
+
+  const validacao = Object.entries(erros).length;
 
   const [selectedCategory, setSelectedCategory] = useState('0');
   const [selectedActivity, setSelectedActivity] = useState('0');
@@ -83,9 +94,8 @@ export default function AlunoEvento() {
         },
       })
       .then(response => {
-        console.log(response.data);
-      });
-    alert('Atividade Registrada!');
+        setErros(response.data);
+      })
   }
 
   return (
@@ -95,6 +105,20 @@ export default function AlunoEvento() {
       <Title>Adicionar Atividade</Title>
 
       <Container className="container">
+        {
+          validacao === 0 ? (
+            <div className="alert alert-success">Atividade Registrada com Sucesso!</div>
+          ) : (
+              ""
+            )
+        }
+        {
+          erros.msg === "" || validacao == 0 ? (
+            ""
+          ) : (
+            <div className="alert alert-danger">{erros.msg}</div>
+          )
+        }
         <form onSubmit={handleSubmmit}>
           <div className="form-column raw">
             <div className="drop-raw">
@@ -130,6 +154,7 @@ export default function AlunoEvento() {
                   className="form-control"
                   id="profile"
                 >
+                  <option value="0">Selecione</option>
                   {category.map(cat => (
                     <option key={cat.idcategory} value={cat.idcategory}>
                       {cat.name_cat}
@@ -144,6 +169,7 @@ export default function AlunoEvento() {
                   className="form-control"
                   id="profile"
                 >
+                  <option value="0">Selecione</option>
                   {activity.map(act => (
                     <option key={act.idactivity} value={act.idactivity}>
                       {act.description}
