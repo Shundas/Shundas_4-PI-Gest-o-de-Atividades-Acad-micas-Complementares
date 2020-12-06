@@ -43,7 +43,7 @@ routes.post('/criarAtividadeSenai', AtividadeController.createAtividadeSenai)
 
 //Rota para listar Atividades com Filtro
 routes.get('/listarAtividade', AtividadeController.indexAtividade)
-routes.get('/visualizarAtividade', AtividadeController.visualizarAtividade)
+routes.get('/visualizarAtividade/:id', AtividadeController.visualizarAtividade)
 
 //Rota para alterar Atividade
 routes.put('/updateAtividade', AtividadeController.updateAtividade)

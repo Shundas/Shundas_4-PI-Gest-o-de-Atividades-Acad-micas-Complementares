@@ -37,6 +37,7 @@ export default function RoutesAplication() {
         <Route path="/atividade" component={AlunoEvento} />
         <Route path="/evento-senai" component={AlunoEventoSenai} />
         <Route path="/consulta-atividade" component={AlunoConsultaAtividades} />
+        <Route path="/visualiza-atividade/:id" component={AlunoVisualisarAtividades} />
         <Route path="/aluno-perfil" component={AlunoPerfil} />
         <Route path="/aluno-home" component={AlunoHome} />
         /**Colaborador */
