@@ -15,3 +15,9 @@ $('#element').toast('show');
 $('#element').toast('hide');
 
 $('#element').toast('dispose');
+
+$('.alert').alert();
+
+$('.alert').alert('close');
+
+$().alert('dispose');
