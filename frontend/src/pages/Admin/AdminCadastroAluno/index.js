@@ -80,18 +80,24 @@ export default function AdminCadastroUser() {
           setTimeout(() => setShowAlertError(false), 4000)
         );
       } else {
-        await api.post('/criarAluno', data).then(s => {
-          setTimeout(
-            () => {
-              setShowAlertSuccess(true);
-              console.info(s);
-            },
-            setTimeout(() => setShowAlertSuccess(false), 4000)
-          );
+        await api.post('/criarAluno', {
+          name,
+          email,
+          cpf,
+          phone,
+          celular,
         });
-      }
 
-      historyReturn();
+        return setTimeout(
+          () => {
+            setShowAlertSuccess(true);
+          },
+          setTimeout(() => {
+            setShowAlertSuccess(false);
+            historyReturn();
+          }, 4000)
+        );
+      }
     },
     [name, email, phone, celular, cpf]
   );
@@ -108,6 +114,17 @@ export default function AdminCadastroUser() {
           role="alert"
         >
           Alguns campos são obrigatórios, verifique se todos estão preenchidos!
+        </div>
+      )}
+
+      {!showalertsuccess && ''}
+      {showalertsuccess && (
+        <div
+          style={{ textAlign: 'center' }}
+          class="alert alert-success"
+          role="alert"
+        >
+          Aluno Cadastrado com Sucesso!
         </div>
       )}
 
