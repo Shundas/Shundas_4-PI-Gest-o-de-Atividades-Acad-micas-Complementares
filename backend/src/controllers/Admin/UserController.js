@@ -311,4 +311,18 @@ module.exports = {
       return response.json({ error: erros.message })
     }
   },
+
+  async resetSenha(request, response){
+    try { 
+
+      const { email } = request.body
+      const consulta = await knex.select("iduser").select("user").where("email",email);
+
+      return response.json(consulta);
+      
+    } catch (error) {
+      return response.json({erro: error.message})
+    }
+  }
+
 }

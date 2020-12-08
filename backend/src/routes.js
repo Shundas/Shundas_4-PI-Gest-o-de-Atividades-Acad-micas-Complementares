@@ -61,4 +61,7 @@ routes.get('/perfis', UserController.perfil)
 routes.get('/category', AtividadeController.category)
 routes.get('/activity', AtividadeController.activity)
 
+//reset senha
+routes.post('/resetSenha', UserController.resetSenha)
+
 module.exports = routes
