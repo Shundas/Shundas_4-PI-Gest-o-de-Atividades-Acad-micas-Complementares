@@ -184,6 +184,8 @@ export default function AlunoEvento() {
                 <label htmlFor="main-text">Quantidade de Horas</label>
                 <input
                   type="number"
+                  min="1"
+                  max="60"
                   name="informedWorkload"
                   id="informedWorkload"
                   onChange={handleInputChange}

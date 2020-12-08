@@ -24,7 +24,7 @@ export default function AlunoVisualisarAtividades() {
       workload: "",
       attachment: "",
       informedWorkload: "",
-      date_end: new Date().toLocaleString()
+      date_end: ""
     },
   );
 
@@ -35,10 +35,21 @@ export default function AlunoVisualisarAtividades() {
     });
   }, []);
 
+  function adicionaZero(numero){
+    if (numero <= 9) 
+        return "0" + numero;
+    else
+        return numero; 
+}
+
+  atividade.date_end = new Date(atividade.date_end)
+
+  let dataFormatada = (atividade.date_end.getFullYear() + "-" + adicionaZero(((atividade.date_end.getMonth()))) + "-" + adicionaZero((atividade.date_end.getDate())))
 
 
   return (
     <>
+    {console.log(dataFormatada)}
     {console.log(atividade.date_end)}
       <Header image={logo} text="Imagem da Logo" />
       <Text>Visualizar Atividade</Text>
@@ -104,6 +115,7 @@ export default function AlunoVisualisarAtividades() {
               className="form-control" 
               type="date" 
               id="inp1"
+              value={dataFormatada}
               disabled 
             />
           </div>
