@@ -9,6 +9,7 @@ module.exports = {
         try {
     
             const filters = request.query
+            var erro 
 
             //Verificar
             const { iduser, iduserSenai } = filters
@@ -24,31 +25,31 @@ module.exports = {
 
     
             if (!(await validatorInstitution.isValid(request.body))) {
-                return response.status(200).json({ msg: 'Nome da Instituição é campo obrigatório.' })
+                return response.status(200).json({ msg: "", erro: 'Nome da Instituição é campo obrigatório.' })
             }
 
             if (!(await validatorActivity.isValid(request.body))) {
-                return response.status(200).json({ msg: 'Atividade Complementar é campo obrigatório.' })
+                return response.status(200).json({ msg: "", erro: 'Atividade Complementar é campo obrigatório.' })
             }
             
             if (idcategory == 0) {
-                return response.json({ msg: 'Modalidade é campo obrigatório.' })
+                return response.json({ msg: "", erro: 'Modalidade é campo obrigatório.' })
             }
 
             if (idactivity == 0) {
-                return response.json({ msg: 'Atividade é campo obrigatório.' })
+                return response.json({ msg: "", erro: 'Atividade é campo obrigatório.' })
             }
 
             if (!(await validatorWork.isValid(request.body))) {
-                return response.status(200).json({ msg: 'Horas validadas é campo obrigatório.' })
+                return response.status(200).json({ msg: "", erro: 'Horas validadas é campo obrigatório.' })
             }
 
             if (!(await validatorDate.isValid(request.body))) {
-                return response.status(200).json({ msg: 'Data é campo obrigatório.' })
+                return response.status(200).json({ msg: "", erro: 'Data é campo obrigatório.' })
             }
             
             if (request.file === undefined) {
-                return response.json({ msg: "O envio de arquivo é obrigatório." })
+                return response.json({ msg: "", erro: "O envio de arquivo é obrigatório." })
             }
 
             const { path } = request.file
@@ -63,29 +64,29 @@ module.exports = {
             .where('idcategory', idcategory)
 
         var [{ hoursPerActivity, totalHour }] = selectAtividade
-        let mensagem    
+        let mensagem = ""    
     
         //Testado -- OK
         if (informedWorkload <= 0) {
-            return response.json({ msg: `Carga horária deve ser maior que 0h.` })  
+            return response.json({ msg: "", erro: `Carga horária deve ser maior que 0h.` })  
         }else{
             //Testado -- OK
             const verificaTotal = await knex.sum("workload as workloadTotal").from("form").where("iduser", iduser).where("idactivity", idactivity).where("idstatus", 3)
             const [{ workloadTotal }] = verificaTotal
             if(workloadTotal === totalHour){
-                return response.json({ msg: `Vocẽ já validou todas as horas possíveis para este tipo de atividade: ${totalHour}h.` })  
+                return response.json({ msg: "", erro: `Vocẽ já validou todas as horas possíveis para este tipo de atividade: ${totalHour}h.` })  
             }
         }
         console.log(hoursPerActivity)
         //Testado -- OK
         if(hoursPerActivity === null){
             if(informedWorkload > totalHour){
-                mensagem = `Sua atividade foi registrada, porém você informou ${informedWorkload}h e neste tipo de atividade serão validadas no máximo ${totalHour}h.`     
+                mensagem = ` Sua atividade foi registrada, porém você informou ${informedWorkload}h e neste tipo de atividade serão validadas no máximo ${totalHour}h.`     
             }
             //Testado -- OK    
         }else if(hoursPerActivity !== null){
             if(informedWorkload > hoursPerActivity){
-                mensagem =  `Sua atividade foi registrada, porém você informou ${informedWorkload}h e neste tipo de atividade serão validadas no máximo ${hoursPerActivity}h por envio.` 
+                mensagem =  ` Sua atividade foi registrada, porém você informou ${informedWorkload}h e neste tipo de atividade serão validadas no máximo ${hoursPerActivity}h por envio.` 
             } 
         }
         
@@ -105,7 +106,8 @@ module.exports = {
         })
     
         return response.json({
-            msg: mensagem
+            msg: mensagem,
+            erro,
         })
     
         } catch (erros) {

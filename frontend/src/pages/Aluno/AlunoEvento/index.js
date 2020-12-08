@@ -20,6 +20,7 @@ export default function AlunoEvento() {
 
   const [erros, setErros] = useState({
     msg: '',
+    erro: '',
   });
 
   const validacao = Object.entries(erros).length;
@@ -101,18 +102,24 @@ export default function AlunoEvento() {
       <Title>Adicionar Atividade</Title>
 
       <Container className="container">
-        {validacao === 0 ? (
-          <div className="alert alert-success">
-            Atividade Registrada com Sucesso!
-          </div>
+        {console.log(erros)}
+        {
+          erros.msg === "" && erros.erro === "" ? (
+            ""
+          ) : (
+              ""
+            )
+        }
+        {erros.msg === "" && validacao === 2 ? (
+          ""
         ) : (
-          ''
-        )}
-        {erros.msg === '' || validacao == 0 ? (
+              <div className="alert alert-success">Atividade Registrada com Sucesso! {erros.msg}</div>          
+          )}
+        {erros.erro === "" || validacao == 1 ? (
           ''
         ) : (
-          <div className="alert alert-danger">{erros.msg}</div>
-        )}
+            <div className="alert alert-danger">{erros.erro}</div>
+          )}
         <form onSubmit={handleSubmmit}>
           <div className="form-column raw">
             <div className="drop-raw">
