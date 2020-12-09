@@ -312,16 +312,51 @@ module.exports = {
     }
   },
 
-  async resetSenha(request, response){
-    try { 
+  async resetSenha(request, response) {
+    try {
 
       const { email } = request.body
-      const consulta = await knex.select("iduser").select("user").where("email",email);
+      const check = await knex.count('iduser as count').from('user').where('email', email).where('isActive', true);
+      var [{ count }] = check
+      console.log(count)
 
-      return response.json(consulta);
-      
+      if (count === 1) {
+
+        const senha = crypto.randomBytes(4).toString('hex')
+        const hash = await bcrypt.hash(senha, 10)
+        const consulta = await knex.select('iduser').from('user').where('email', email);
+        var [{ iduser }] = consulta
+        const updateSenha = await knex('user')
+          .update({ isReset: true, senhaTemp: hash })
+          .where('iduser', iduser)
+
+          // let transport = nodemailer.createTransport({
+          //   host: process.env.APP_HOST,
+          //   port: process.env.APP_PORT,
+          //   secure: false,
+          //   auth: {
+          //     user: process.env.APP_USER,
+          //     pass: process.env.APP_PASS,
+          //   },
+          // })
+    
+          // let info = await transport.sendMail({
+          //   from: '<noreplay@senai.com>',
+          //   to: email,
+          //   subject: `Seu email de redefinição de senha chegou!`,
+          //   text: `Aqui está sua senha provisória para poder redefinir a senha da sua conta: ${senha}`,
+          //   html: `<b>Aqui está sua senha provisória para poder redefinir a senha da sua conta: ${senha}</b>`,
+          // })
+
+        return response.json(updateSenha)
+
+      } else {
+        return response.status(400).json({ error: 'Email inválido/incorreto.' })
+      }
+
+
     } catch (error) {
-      return response.json({erro: error.message})
+      return response.json({ erro: error.message })
     }
   }
 
