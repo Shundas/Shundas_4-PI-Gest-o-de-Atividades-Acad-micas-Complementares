@@ -8,7 +8,7 @@ export default createGlobalStyle`
   }
 
   body {
-    background: #ecf1f8
+    background: #fff
   }
 
   ::-webkit-scrollbar {
