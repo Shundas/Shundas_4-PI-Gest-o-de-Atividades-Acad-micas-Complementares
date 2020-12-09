@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import { FiPlus } from 'react-icons/fi';
 import Header from '../../../components/Header';
 import logo from '../../../images/logo.svg';
@@ -7,28 +7,24 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Text, Container } from './styled';
 import axios from '../../../services/api';
 
-
-
 export default function AlunoConsultaAtividades() {
-
   const [atividade, setAtividade] = useState([
     {
-      idform: "",
-      activityName: "",
-      description: "",
-      name_cat: "",
-      name: "",
-      status: "",
-      name: "",
+      idform: '',
+      activityName: '',
+      description: '',
+      name_cat: '',
+      name: '',
+      status: '',
+      name: '',
     },
   ]);
 
   useEffect(() => {
-    axios.get("/listarAtividade").then((response) => {
-      setAtividade(response.data)
+    axios.get('/listarAtividade').then(response => {
+      setAtividade(response.data);
     });
   }, []);
-
 
   return (
     <>
@@ -63,7 +59,7 @@ export default function AlunoConsultaAtividades() {
             </tr>
           </thead>
           <tbody>
-          {atividade.map((atv) => (
+            {atividade.map(atv => (
               <tr key={atv.idform}>
                 <td>{atv.idform}</td>
                 <td>{atv.activityName}</td>
@@ -71,11 +67,16 @@ export default function AlunoConsultaAtividades() {
                 <td>{atv.description}</td>
                 <td>{atv.status}</td>
                 <td>{atv.name}</td>
-                <Link className="tolink" to={`/visualiza-atividade/${atv.idform}`}>
-                  <button className="btn btn-outline-success">Visualizar</button>
+                <Link
+                  className="tolink"
+                  to={`/visualiza-atividade/${atv.idform}`}
+                >
+                  <button className="btn btn-outline-success">
+                    Visualizar
+                  </button>
                 </Link>
               </tr>
-          ))}
+            ))}
           </tbody>
         </table>
       </Container>

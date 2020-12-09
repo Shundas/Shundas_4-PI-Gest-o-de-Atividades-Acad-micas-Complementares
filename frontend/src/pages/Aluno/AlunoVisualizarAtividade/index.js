@@ -1,39 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom';
 import Header from '../../../components/Header';
 import { Text, Container, SubText } from './styled';
 import logo from '../../../images/logo.svg';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from '../../../services/api';
 
-
 //Tela pendente ainda!
 export default function AlunoVisualisarAtividades() {
-
   const { id } = useParams();
 
-  const [filesList, setFilesList] = useState([])
+  const [filesList, setFilesList] = useState([]);
 
-  const [atividade, setAtividade] = useState(
-    {
-      institutionName: "",
-      activityName: "",
-      name_cat: "",
-      name: "",
-      institutionName: "",
-      description: "",
-      status: "",
-      workload: "",
-      attachment: "",
-      informedWorkload: "",
-      date_end: ""
-    },
-  );
+  const [atividade, setAtividade] = useState({
+    institutionName: '',
+    activityName: '',
+    name_cat: '',
+    name: '',
+    institutionName: '',
+    description: '',
+    status: '',
+    workload: '',
+    attachment: '',
+    informedWorkload: '',
+    date_end: '',
+  });
 
   useEffect(() => {
-    axios.get(`/visualizarAtividade/${id}`).then((response) => {
-      console.log(response.data)
-      setAtividade(response.data)
+    axios.get(`/visualizarAtividade/${id}`).then(response => {
+      console.log(response.data);
+      setAtividade(response.data);
     });
   }, []);
 
@@ -49,18 +45,19 @@ export default function AlunoVisualisarAtividades() {
   //   getFilesList();
   // }, []);
 
-
   //Formatação da Data
   function adicionaZero(numero) {
-    if (numero <= 9)
-      return "0" + numero;
-    else
-      return numero;
+    if (numero <= 9) return '0' + numero;
+    else return numero;
   }
 
-  atividade.date_end = new Date(atividade.date_end)
-  let dataFormatada = (atividade.date_end.getFullYear() + "-" + adicionaZero(((atividade.date_end.getMonth()))) + "-" + adicionaZero((atividade.date_end.getDate())))
-
+  atividade.date_end = new Date(atividade.date_end);
+  let dataFormatada =
+    atividade.date_end.getFullYear() +
+    '-' +
+    adicionaZero(atividade.date_end.getMonth()) +
+    '-' +
+    adicionaZero(atividade.date_end.getDate());
 
   return (
     <>
@@ -135,7 +132,12 @@ export default function AlunoVisualisarAtividades() {
           </div>
           <div className="form-row">
             <label htmlFor="#inp1">Anexo</label>
-            <a href={atividade.attachment} target="_blank" rel="noopener noreferrer" download>
+            <a
+              href={atividade.attachment}
+              target="_blank"
+              rel="noopener noreferrer"
+              download
+            >
               <button>
                 <i className="fas fa-download" />
                 Download File
@@ -149,11 +151,14 @@ export default function AlunoVisualisarAtividades() {
           </div>
           <div className="form-row">
             <h5>
-              Responsável <span class="badge badge-success">{atividade.name}</span>
+              Responsável{' '}
+              <span class="badge badge-success">{atividade.name}</span>
             </h5>
           </div>
           <div className="form-row">
-            <button className="btn btn-secondary" disabled>Editar</button>
+            <button className="btn btn-secondary" disabled>
+              Editar
+            </button>
           </div>
         </form>
       </Container>

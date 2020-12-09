@@ -21,6 +21,9 @@ import AlunoVisualisarAtividades from '../pages/Aluno/AlunoVisualizarAtividade';
 // Colaborador
 import ColaboradorHome from '../pages/Colaborador/ColaboradorAdicionarAtividade';
 
+// Login
+import AlunoLogin from '../pages/sessions/Aluno';
+
 export default function RoutesAplication() {
   return (
     <BrowserRouter>
@@ -37,11 +40,16 @@ export default function RoutesAplication() {
         <Route path="/atividade" component={AlunoEvento} />
         <Route path="/evento-senai" component={AlunoEventoSenai} />
         <Route path="/consulta-atividade" component={AlunoConsultaAtividades} />
-        <Route path="/visualiza-atividade/:id" component={AlunoVisualisarAtividades} />
+        <Route
+          path="/visualiza-atividade/:id"
+          component={AlunoVisualisarAtividades}
+        />
         <Route path="/aluno-perfil" component={AlunoPerfil} />
         <Route path="/aluno-home" component={AlunoHome} />
         /**Colaborador */
         <Route path="/colaboradorhome" component={ColaboradorHome} />
+        /**Login */
+        <Route path="/auth-aluno" component={AlunoLogin} />
       </Switch>
     </BrowserRouter>
   );
