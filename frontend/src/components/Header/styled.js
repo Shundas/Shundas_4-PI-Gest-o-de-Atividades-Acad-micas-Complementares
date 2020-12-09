@@ -33,6 +33,9 @@ export const HeaderWrapper = styled.header`
   span h5 {
     color: '#fff';
   }
+
+  .dropdown-menu {
+  }
 `;
 
 export const Background = styled.img`

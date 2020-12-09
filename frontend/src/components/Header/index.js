@@ -37,69 +37,39 @@ export default function Header({ image, text }) {
                 data-toggle="modal"
                 data-target="#ModalLong"
               >
-                <span>Clique para ver suas horas validadas</span>
                 <MdAccessTime size={30} />
               </button>
 
-              <button
-                type="button"
-                class="btn btn-success wrap"
-                data-toggle="modal"
-                data-target="#exampleModalLong"
-              >
-                <span>Clique para ver perfil ou logout</span>
-                <FiUser size={30} />
-              </button>
+              <div class="btn-group dropleft">
+                <button
+                  type="button"
+                  class="btn btn-success dropdown-toggle"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <FiUser size={30} />
+                </button>
+                <div class="dropdown-menu">
+                  <button className="btn btn-primary" style={{ width: '100%' }}>
+                    <MdFace size={20} style={{ marginRight: '6px' }} />
+                    Ver Perfil
+                  </button>
+                  <button
+                    style={{
+                      width: '100%',
+                    }}
+                    className="btn btn-danger"
+                  >
+                    <FiLogOut style={{ marginRight: '6px' }} />
+                    Logout
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </nav>
       </HeaderWrapper>
-
-      <div
-        className="modal fade"
-        id="exampleModalLong"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalLongTitle"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLongTitle">
-                Escolha a opção desejada.
-              </h5>
-              <button
-                type="button"
-                className="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div
-              style={{ display: 'flex', justifyContent: 'space-evenly' }}
-              className="modal-body"
-            >
-              <button className="btn btn-primary">
-                <MdFace size={20} style={{ marginRight: '6px' }} />
-                Ver Perfil
-              </button>
-              <button
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                }}
-                className="btn btn-danger"
-              >
-                <FiLogOut style={{ marginRight: '6px' }} />
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
 
       <div
         class="modal fade"
