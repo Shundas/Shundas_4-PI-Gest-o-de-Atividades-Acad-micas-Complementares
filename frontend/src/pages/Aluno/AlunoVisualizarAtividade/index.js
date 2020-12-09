@@ -9,8 +9,10 @@ import axios from '../../../services/api';
 
 //Tela pendente ainda!
 export default function AlunoVisualisarAtividades() {
-  
+
   const { id } = useParams();
+
+  const [filesList, setFilesList] = useState([])
 
   const [atividade, setAtividade] = useState(
     {
@@ -35,22 +37,34 @@ export default function AlunoVisualisarAtividades() {
     });
   }, []);
 
-  function adicionaZero(numero){
-    if (numero <= 9) 
-        return "0" + numero;
+  // useEffect(() => {
+  //   const getFilesList = async () => {
+  //     try {
+  //       const { data } = await axios.get(`/download/${id}`);
+  //       setFile(data);
+  //     } catch (error) {
+  //       console.log(error.response.data);
+  //     }
+  //   };
+  //   getFilesList();
+  // }, []);
+
+
+  //Formatação da Data
+  function adicionaZero(numero) {
+    if (numero <= 9)
+      return "0" + numero;
     else
-        return numero; 
-}
+      return numero;
+  }
 
   atividade.date_end = new Date(atividade.date_end)
-
   let dataFormatada = (atividade.date_end.getFullYear() + "-" + adicionaZero(((atividade.date_end.getMonth()))) + "-" + adicionaZero((atividade.date_end.getDate())))
 
 
   return (
     <>
-    {console.log(dataFormatada)}
-    {console.log(atividade.date_end)}
+      {console.log(atividade.attachment)}
       <Header image={logo} text="Imagem da Logo" />
       <Text>Visualizar Atividade</Text>
       <Container className="container">
@@ -58,23 +72,23 @@ export default function AlunoVisualisarAtividades() {
           <SubText>Detalhes</SubText>
           <div className="form-row">
             <label htmlFor="#inp1">Nome da Instituição</label>
-            <input 
+            <input
               className="form-control"
-              type="text" 
+              type="text"
               name="institutionName"
               id="institutionName"
               value={atividade.institutionName}
-              disabled 
+              disabled
             />
           </div>
           <div className="form-row">
             <label htmlFor="#inp2">Atividade Complementar</label>
-            <input 
-              className="form-control" 
-              type="text" 
-              id="inp2" 
-              value={atividade.activityName} 
-              disabled 
+            <input
+              className="form-control"
+              type="text"
+              id="inp2"
+              value={atividade.activityName}
+              disabled
             />
           </div>
           <div className="form-row">
@@ -91,42 +105,42 @@ export default function AlunoVisualisarAtividades() {
           </div>
           <div className="form-row">
             <label htmlFor="#inp1">Quantidade de Horas</label>
-            <input 
-              className="form-control" 
-              type="number" 
+            <input
+              className="form-control"
+              type="number"
               id="inp1"
-              value={atividade.informedWorkload} 
-              disabled 
+              value={atividade.informedWorkload}
+              disabled
             />
           </div>
           <div className="form-row">
             <label htmlFor="">Horas Validadas</label>
-            <input 
-              className="form-control" 
-              type="number" 
-              id="inp1" 
+            <input
+              className="form-control"
+              type="number"
+              id="inp1"
               value={atividade.workload}
-              disabled 
+              disabled
             />
           </div>
           <div className="form-row">
             <label htmlFor="#inp1">Data de Conclusão</label>
-            <input 
-              className="form-control" 
-              type="date" 
+            <input
+              className="form-control"
+              type="date"
               id="inp1"
               value={dataFormatada}
-              disabled 
+              disabled
             />
           </div>
           <div className="form-row">
             <label htmlFor="#inp1">Anexo</label>
-            <input 
-              className="form-control-file" 
-              type="file" 
-              id="inp1" 
-              disabled 
-            />
+            <a href={atividade.attachment} target="_blank" rel="noopener noreferrer" download>
+              <button>
+                <i className="fas fa-download" />
+                Download File
+              </button>
+            </a>
           </div>
           <div className="form-row">
             <h5>
