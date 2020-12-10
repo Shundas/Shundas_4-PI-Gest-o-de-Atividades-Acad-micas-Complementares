@@ -84,28 +84,71 @@ module.exports = {
     }
   },
 
+  // async resetSenhaAluno(request, response){
+
+  // },
+
   async sessionAluno(request, response) {
     const data = request.body
-    const aluno = await knex('user').select('*').where('email', data['email'])
+    const verifica = await knex('user').count('email as existe').where('email', data['email']).where('isActive', true)
+    var [{ existe }] = verifica
 
-    let [{ email, senha, iduser }] = aluno
-
-    await bcrypt.compare(data['senha'], senha).then(ctx => {
-      if (ctx) {
-        const token = jwt.sign(
-          {
-            userId: iduser,
-            email: email,
-            senha: senha,
-          },
-          process.env.APP_SECRET,
-          { expiresIn: '1d' },
-        )
-
-        return response.status(200).json({ token: token })
+    if (existe === 1) {
+      const aluno = await knex('user').select('*').where('email', data['email']).where('isActive', true)
+      let [{ email, senha, iduser, senhaTemp, isReset }] = aluno
+      if (isReset === 1) {
+        await bcrypt.compare(data['senha'], senhaTemp).then(ctx => {
+          if (ctx) {
+            const token = jwt.sign(
+              {
+                userId: iduser,
+                email: email,
+                senha: senhaTemp,
+              },
+              process.env.APP_SECRET,
+              { expiresIn: '1d' },
+            )
+            return response.status(200).json({ token: token })
+          } else {
+             bcrypt.compare(data['senha'], senha).then(ctx => {
+              if (ctx) {
+                const token = jwt.sign(
+                  {
+                    userId: iduser,
+                    email: email,
+                    senha: senha,
+                  },
+                  process.env.APP_SECRET,
+                  { expiresIn: '1d' },
+                )
+                knex('user').update({ senhaTemp: ""}).where('iduser', iduser)
+                return response.status(200).json({ token: token })
+              } else {
+                return response.status(400).json({ error: 'Usuário ou senha inválido3.' })
+              }
+            })
+          }
+        })
       } else {
-        return response.status(400).json({ error: 'Usuário ou senha inválidos' })
+        await bcrypt.compare(data['senha'], senha).then(ctx => {
+          if (ctx) {
+            const token = jwt.sign(
+              {
+                userId: iduser,
+                email: email,
+                senha: senha,
+              },
+              process.env.APP_SECRET,
+              { expiresIn: '1d' },
+            )
+            return response.status(200).json({ token: token })
+          } else {
+            return response.status(400).json({ error: 'Usuário ou senha inválido2.' })
+          }
+        })
       }
-    })
+    } else {
+      return response.status(400).json({ error: 'Usuário ou senha inválidos1' })
+    }
   },
 }

@@ -59,26 +59,26 @@ module.exports = {
       const senha = crypto.randomBytes(4).toString('hex')
       const hash = await bcrypt.hash(senha, 10)
 
-      let transport = nodemailer.createTransport({
-        host: process.env.APP_HOST,
-        port: process.env.APP_PORT,
-        secure: false,
-        auth: {
-          user: process.env.APP_USER,
-          pass: process.env.APP_PASS,
-        },
-      })
+      // let transport = nodemailer.createTransport({
+      //   host: process.env.APP_HOST,
+      //   port: process.env.APP_PORT,
+      //   secure: false,
+      //   auth: {
+      //     user: process.env.APP_USER,
+      //     pass: process.env.APP_PASS,
+      //   },
+      // })
 
-      let info = await transport.sendMail({
-        from: '<noreplay@senai.com>',
-        to: email,
-        subject: `Olá ${name}`,
-        text: `Suas credenciais para login no Sistema são email: ${email}, senha: ${senha}`,
-        html: `<b>Suas credenciais para login no Sistema são email: ${email}, senha: ${senha}</b>`,
-      })
+      // let info = await transport.sendMail({
+      //   from: '<noreplay@senai.com>',
+      //   to: email,
+      //   subject: `Olá ${name}`,
+      //   text: `Suas credenciais para login no Sistema são email: ${email}, senha: ${senha}`,
+      //   html: `<b>Suas credenciais para login no Sistema são email: ${email}, senha: ${senha}</b>`,
+      // })
 
-      console.log('Message sent: %s', info.messageId)
-      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
+      // console.log('Message sent: %s', info.messageId)
+      // console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
 
       const user = await knex('user').insert({
         iduser: id,
@@ -91,7 +91,7 @@ module.exports = {
         isActive: true,
       })
 
-      return response.json(user)
+      return response.status(201).json("Usuário criado com sucesso")
     } catch (erros) {
       return response.json({ error: erros.message })
     }
