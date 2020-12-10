@@ -43,7 +43,7 @@ export default function PageSessionAluno() {
       <Header />
 
       <h1 style={{ marginTop: '1.7em' }} className="text-center">
-        Olá Aluno, Faça o seu login!
+        Insira o seu e-mail para redefinição da sua senha!
       </h1>
 
       <ContainerApp className="container">
@@ -57,20 +57,11 @@ export default function PageSessionAluno() {
               className="form-control"
             />
           </div>
-          <div className="form-group">
-            <label htmlFor="pass">Password</label>
-            <input
-              type="password"
-              name="pass"
-              id="pass"
-              className="form-control"
-            />
-          </div>
           <div className="opt">
             <button type="submit" className="btn btn-primary">
-              Entrar
+              Enviar
             </button>
-            <Link to="/auth-aluno-recuperasenha">Esqueci minha Senha</Link>
+            <Link to="/auth-aluno">Voltar</Link>
           </div>
         </form>
       </ContainerApp>

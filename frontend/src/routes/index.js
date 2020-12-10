@@ -23,6 +23,7 @@ import ColaboradorHome from '../pages/Colaborador/ColaboradorAdicionarAtividade'
 
 // Login
 import AlunoLogin from '../pages/sessions/Aluno';
+import RegisterAluno from '../pages/sessions/AlunoRegister';
 
 export default function RoutesAplication() {
   return (
@@ -50,6 +51,7 @@ export default function RoutesAplication() {
         <Route path="/colaboradorhome" component={ColaboradorHome} />
         /**Login */
         <Route path="/auth-aluno" component={AlunoLogin} />
+        <Route path="/auth-aluno-recuperasenha" component={RegisterAluno} />
       </Switch>
     </BrowserRouter>
   );
