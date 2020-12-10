@@ -99,12 +99,12 @@ module.exports = {
             senha: senha,
           },
           process.env.APP_SECRET,
-          { expiresIn: '7d' },
+          { expiresIn: '1d' },
         )
 
         return response.status(200).json({ token: token })
       } else {
-        return response.status(400).json({ error: 'Falha no login' })
+        return response.status(400).json({ error: 'Usuário ou senha inválidos' })
       }
     })
   },
