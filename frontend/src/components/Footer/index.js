@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Image from '../../images/logo.svg';
 
 const Footer = styled.nav`
+  position: relative;
   width: 100%;
   bottom: 0;
 `;
