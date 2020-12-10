@@ -65,6 +65,6 @@ routes.get('/activity', AtividadeController.activity)
 routes.post('/resetSenha', UserController.resetSenha)
 
 //Download Arquivo
-routes.get('/download/:id')
+routes.get('/download/:id', AtividadeController.downloadArq)
 
 module.exports = routes
