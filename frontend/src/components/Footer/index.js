@@ -4,16 +4,19 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 import Image from '../../images/logo.svg';
 
-const Footer = styled.footer``;
+const Footer = styled.nav`
+  width: 100%;
+  bottom: 0;
+`;
 
 const ImageFooter = styled.img``;
 
-export default function Footer() {
+export default function FooterPage() {
   return (
-    <Footer>
-      <div className="footer-in">
-        <ImageFooter src={Image} alt="Imagem do Footer" />
-      </div>
+    <Footer className="navbar navbar-success bg-success">
+      <ImageFooter src={Image} alt="Imagem do Footer" />
+
+      <h4 style={{ color: '#fff' }}>Feito com {':)'} por Shundas</h4>
     </Footer>
   );
 }

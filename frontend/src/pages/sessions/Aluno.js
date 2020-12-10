@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.css';
 
 import Header from '../../components/HeaderLogin';
+import Footer from '../../components/Footer';
 
 const ContainerApp = styled.div`
   width: 100%;
@@ -74,6 +75,8 @@ export default function PageSessionAluno() {
           </div>
         </form>
       </ContainerApp>
+
+      <Footer />
     </>
   );
 }

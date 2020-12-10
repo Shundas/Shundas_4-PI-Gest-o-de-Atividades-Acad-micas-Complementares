@@ -8,6 +8,8 @@ import * as Yup from 'yup';
 import Header from '../../../components/HeaderAdmin';
 import 'bootstrap/dist/css/bootstrap.css';
 
+import Footer from '../../../components/Footer';
+
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -106,17 +108,6 @@ export default function AdminCadastroUser() {
     <>
       <Header />
 
-      {!showalerterror && ''}
-      {showalerterror && (
-        <div
-          style={{ textAlign: 'center' }}
-          class="alert alert-danger"
-          role="alert"
-        >
-          Alguns campos são obrigatórios, verifique se todos estão preenchidos!
-        </div>
-      )}
-
       {!showalertsuccess && ''}
       {showalertsuccess && (
         <div
@@ -146,6 +137,17 @@ export default function AdminCadastroUser() {
 
       <Container>
         <div>
+          {!showalerterror && ''}
+          {showalerterror && (
+            <div
+              style={{ textAlign: 'center' }}
+              class="alert alert-danger"
+              role="alert"
+            >
+              Alguns campos são obrigatórios, verifique se todos estão
+              preenchidos!
+            </div>
+          )}
           <form on onSubmit={handleSubmit} className="form">
             <div className="form-group">
               <label htmlFor="name">Nome</label>
@@ -195,6 +197,8 @@ export default function AdminCadastroUser() {
           </form>
         </div>
       </Container>
+
+      <Footer />
     </>
   );
 }
