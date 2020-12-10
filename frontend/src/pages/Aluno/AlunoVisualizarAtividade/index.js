@@ -33,6 +33,20 @@ export default function AlunoVisualisarAtividades() {
     });
   }, []);
 
+  async function downloadEmployeeData() {
+		await axios.get(`/download/${id}`)
+			.then(response => {
+				response.blob().then(blob => {
+					let url = window.URL.createObjectURL(blob);
+					let a = document.createElement('a');
+					a.href = url;
+					a.download = 'employees.json';
+					a.click();
+				});
+				//window.location.href = response.url;
+		});
+	}
+
   // useEffect(() => {
   //   const getFilesList = async () => {
   //     try {
@@ -133,12 +147,14 @@ export default function AlunoVisualisarAtividades() {
           <div className="form-row">
             <label htmlFor="#inp1">Anexo</label>
             <a
-              href={atividade.attachment}
+              href="#"
               target="_blank"
               rel="noopener noreferrer"
               download
             >
-              <button>
+              <button
+                onClick={downloadEmployeeData}
+              >
                 <i className="fas fa-download" />
                 Download File
               </button>

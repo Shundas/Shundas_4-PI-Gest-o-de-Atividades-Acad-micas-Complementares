@@ -43,7 +43,7 @@ export default function PageSessionAluno() {
       <Header />
 
       <h1 style={{ marginTop: '1.7em' }} className="text-center">
-        Olá Aluno, Faça o seu login!
+        Acesso Aluno!
       </h1>
 
       <ContainerApp className="container">
