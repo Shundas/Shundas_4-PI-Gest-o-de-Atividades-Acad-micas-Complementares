@@ -317,11 +317,15 @@ module.exports = {
 
     async downloadArq(request, response) {
         try {
-            const file = await File.findById(request.params.id);
-            response.set({
-                'Content-Type': file.file_mimetype
-            });
-            response.sendFile(path.join(__dirname, '..', file.file_path));
+            const { id } = request.params;
+            
+            const file = await knex('form').select('attachment').where('idform', id).first();
+
+            const { attachment } = file
+
+            console.log(attachment)
+
+            response.sendFile(attachment);
         } catch (error) {
             return response.json({ error: error.message })
         }

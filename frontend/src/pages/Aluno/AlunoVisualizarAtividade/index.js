@@ -10,7 +10,7 @@ import axios from '../../../services/api';
 export default function AlunoVisualisarAtividades() {
   const { id } = useParams();
 
-  const [filesList, setFilesList] = useState([]);
+  const [files, setFile] = useState("");
 
   const [atividade, setAtividade] = useState({
     institutionName: '',
@@ -33,31 +33,14 @@ export default function AlunoVisualisarAtividades() {
     });
   }, []);
 
-  async function downloadEmployeeData() {
-		await axios.get(`/download/${id}`)
-			.then(response => {
-				response.blob().then(blob => {
-					let url = window.URL.createObjectURL(blob);
-					let a = document.createElement('a');
-					a.href = url;
-					a.download = 'employees.json';
-					a.click();
-				});
-				//window.location.href = response.url;
-		});
-	}
 
-  // useEffect(() => {
-  //   const getFilesList = async () => {
-  //     try {
-  //       const { data } = await axios.get(`/download/${id}`);
-  //       setFile(data);
-  //     } catch (error) {
-  //       console.log(error.response.data);
-  //     }
-  //   };
-  //   getFilesList();
-  // }, []);
+
+  useEffect(() => {
+      axios.get(`/download/${id}`).then(response => {
+      console.log(response.data);
+      setFile(response.data);
+      })
+  }, []);
 
   //Formatação da Data
   function adicionaZero(numero) {
@@ -75,6 +58,7 @@ export default function AlunoVisualisarAtividades() {
 
   return (
     <>
+      {console.log(files)}
       {console.log(atividade.attachment)}
       <Header image={logo} text="Imagem da Logo" />
       <Text>Visualizar Atividade</Text>
@@ -147,14 +131,12 @@ export default function AlunoVisualisarAtividades() {
           <div className="form-row">
             <label htmlFor="#inp1">Anexo</label>
             <a
-              href="#"
+              href={files}
               target="_blank"
               rel="noopener noreferrer"
               download
             >
-              <button
-                onClick={downloadEmployeeData}
-              >
+              <button>
                 <i className="fas fa-download" />
                 Download File
               </button>
