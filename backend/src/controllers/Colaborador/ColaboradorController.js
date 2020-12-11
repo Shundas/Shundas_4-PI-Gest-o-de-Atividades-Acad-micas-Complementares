@@ -49,30 +49,133 @@ module.exports = {
     }
   },
 
+  async updateSenhaColaborador(request, response) {
+    try {
+      const { senhaAtual, novaSenha, confirmaSenha } = request.body
+      const { id } = request.query
+      const senhaBd = await knex
+        .select('senha')
+        .from('userSenai')
+        .where('iduserSenai', id)
+      var [{ senha }] = senhaBd
+      console.log(senha)
+      const result = await bcrypt.compare(senhaAtual, senha)
+      console.log(result)
+
+      if (senhaAtual === novaSenha) {
+        return response
+          .status(400)
+          .json({ error: 'Senha atual e nova iguais!' })
+      }
+      if (!result) {
+        return response.status(400).json({ error: 'Senha atual incorreta!' })
+      }
+      if (novaSenha !== confirmaSenha) {
+        return response.status(400).json({ error: 'Senhas não conferem!' })
+      }
+
+      const hash = await bcrypt.hash(novaSenha, 10)
+
+      const updateSenha = await knex('userSenai').update({ senha: hash }).where('iduserSenai', id)
+      await knex("userSenai").update({ isReset: false }).where("iduserSenai", iduserSenai)
+      return response.status(200).json({ msg: 'Senha alterada com sucesso!' })
+    } catch (erros) {
+      return response.json({ error: erros.message })
+    }
+  },
+
   async sessionColaborador(request, response) {
     const data = request.body
-    const colaborador = await knex('userSenai')
-      .select('*')
-      .where('email', data['email'])
+    const verifica = await knex('userSenai').count('email as existe').where('email', data['email']).where('isActive', true)
+    var [{ existe }] = verifica
 
-    let [{ email, senha, iduserSenai }] = colaborador
+    if (existe === 1) {
+      const colaborador = await knex('userSenai')
+        .select('*')
+        .where('email', data['email'])
 
-    await bcrypt.compare(data['senha'], senha).then(ctx => {
-      if (ctx) {
-        const token = jwt.sign(
-          {
-            userId: iduserSenai,
-            email: email,
-            senha: senha,
-          },
-          process.env.APP_SECRET,
-          { expiresIn: '7d' },
-        )
+      let [{ email, senha, iduserSenai, senhaTemp, isReset }] = colaborador
 
-        return response.status(200).json({ token: token })
+      if (isReset === 1) {
+        await bcrypt.compare(data['senha'], senhaTemp).then(async ctx => {
+          if (ctx) {
+            const token = jwt.sign(
+              {
+                userId: iduserSenai,
+                email: email,
+                senha: senhaTemp,
+              },
+              process.env.APP_SECRET,
+              { expiresIn: '1d' },
+            )
+            return response.status(200).json({ token: token })
+          } else {
+            bcrypt.compare(data['senha'], senha).then(async ctx => {
+              if (ctx) {
+                const token = jwt.sign(
+                  {
+                    userId: iduserSenai,
+                    email: email,
+                    senha: senhaTemp,
+                  },
+                  process.env.APP_SECRET,
+                  { expiresIn: '1d' },
+                )
+                await knex("userSenai").update({ isReset: false }).where("iduserSenai", iduserSenai)
+                return response.status(200).json({ token: token })
+              } else {
+                return response.status(400).json({ error: 'Usuário ou senha inválido.*' })
+              }
+            })
+          }
+        })
       } else {
-        return response.status(400).json({ error: 'Falha no Login' })
+        await bcrypt.compare(data['senha'], senha).then(ctx => {
+          if (ctx) {
+            const token = jwt.sign(
+              {
+                userId: iduserSenai,
+                email: email,
+                senha: senha,
+              },
+              process.env.APP_SECRET,
+              { expiresIn: '1d' },
+            )
+            return response.status(200).json({ token: token })
+          } else {
+            return response.status(400).json({ error: 'Usuário ou senha inválido.**' })
+          }
+        })
       }
-    })
+    } else {
+      return response.status(400).json({ error: 'Usuário ou senha inválido.***' })
+    }
+  },
+
+  async novaSenhaColab(request, response) {
+    try {
+      const { novaSenha, confirmaSenha } = request.body
+      const { id } = request.query
+      const reset = await knex
+        .select('isReset')
+        .from('userSenai')
+        .where('iduserSenai', id)
+      var [{ isReset }] = reset
+      if (isReset === 1) {
+
+        if (novaSenha !== confirmaSenha) {
+          return response.status(400).json({ error: 'Senhas não conferem!' })
+        }
+
+        const hash = await bcrypt.hash(novaSenha, 10)
+        const updateSenha = await knex('userSenai').update({ senha: hash }).where('iduserSenai', id)
+        await knex("userSenai").update({ isReset: false }).where("iduserSenai", iduserSenai)
+        return response.status(201).json({ msg: 'Senha atualizada com sucesso!' })
+      } else {
+        return response.status(400).json({ error: 'Acesso não permitido.' })
+      }
+    } catch (erros) {
+      return response.json({ error: erros.message })
+    }
   },
 }

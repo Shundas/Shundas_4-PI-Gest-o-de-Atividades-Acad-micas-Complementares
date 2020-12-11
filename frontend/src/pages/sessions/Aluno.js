@@ -68,7 +68,7 @@ export default function PageSessionAluno() {
             />
           </div>
           <div className="opt">
-            <button type="submit" className="btn btn-primary">
+            <button className="btn btn-primary">
               Entrar
             </button>
             <Link to="/auth-aluno-recuperasenha">Esqueci minha Senha</Link>

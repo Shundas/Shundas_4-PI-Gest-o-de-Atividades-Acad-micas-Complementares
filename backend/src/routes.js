@@ -64,6 +64,9 @@ routes.get('/activity', AtividadeController.activity)
 //reset senha
 routes.post('/resetSenha', UserController.resetSenha)
 routes.post('/resetSenhaColab', UserController.resetSenhaColab)
+routes.post('/novaSenhaAluno', AlunoController.novaSenhaAluno)
+routes.post('/novaSenhaColab', ColaboradorController.novaSenhaColab)
+
 
 //Download Arquivo
 routes.get('/download/:id', AtividadeController.downloadArq)
