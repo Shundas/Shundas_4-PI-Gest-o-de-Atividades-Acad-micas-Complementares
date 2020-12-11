@@ -181,16 +181,16 @@ module.exports = {
             
             const file = await knex('form').select('attachment').where('idform', id).first();
 
-            console.log(file)
+            const { attachment } = file
 
-            // response.set({
-            //     'Content-Type': file.file_mimetype
-            // });
-           
-            // response.sendFile(path.join(__dirname, '..', file))
+            const download = {
+                image_url: `http://localhost:3333/uploads/${attachment}`
+            }
+            
+            console.log(download)
 
             const atividades = await knex('form')
-                .select('form.institutionName', 'form.activityName', 'form.informedWorkload', 'category.name_cat', 'activity.description', 'form.workload', 'form.date_end', 'form.attachment', 'status.status', 'userSenai.name')
+                .select('form.institutionName', 'form.activityName', 'form.informedWorkload', 'category.name_cat', 'activity.description', 'form.workload', 'form.date_end', 'status.status', 'userSenai.name')
                 .join('category', 'form.idcategory', '=', 'category.idcategory')
                 .join('activity', 'form.idactivity', '=', 'activity.idactivity')
                 .join('userSenai', 'form.iduserSenai', '=', 'userSenai.iduserSenai')
@@ -198,7 +198,10 @@ module.exports = {
                 .where('idform', id).first()
 
             console.log(atividades)
-            return response.json(atividades)
+            return response.json({
+                atividades, 
+                download
+            })
 
         } catch (erros) {
             return response.json({ error: erros.message })

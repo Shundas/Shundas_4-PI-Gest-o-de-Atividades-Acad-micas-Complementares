@@ -17,6 +17,6 @@ app.use(compression())
 app.use(cookie())
 app.use(routes)
 
-app.use('/uploads', express.static(path.join(__dirname, "..", "..", "tmp", "uploads")));
+app.use('/uploads', express.static(path.resolve(__dirname, "..", "..", "tmp", "uploads")));
 
 module.exports = app

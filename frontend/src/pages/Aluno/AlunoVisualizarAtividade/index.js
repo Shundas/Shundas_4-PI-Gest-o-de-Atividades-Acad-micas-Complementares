@@ -10,7 +10,9 @@ import axios from '../../../services/api';
 export default function AlunoVisualisarAtividades() {
   const { id } = useParams();
 
-  const [download, setDownload] = useState("");
+  const [download, setDownload] = useState({
+    image_url: ""
+  });
 
   const [atividade, setAtividade] = useState({
     institutionName: '',
@@ -21,7 +23,6 @@ export default function AlunoVisualisarAtividades() {
     description: '',
     status: '',
     workload: '',
-    attachment: '',
     informedWorkload: '',
     date_end: '',
   });
@@ -29,7 +30,8 @@ export default function AlunoVisualisarAtividades() {
   useEffect(() => {
     axios.get(`/visualizarAtividade/${id}`).then(response => {
       console.log(response.data);
-      setAtividade(response.data);
+      setAtividade(response.data.atividades)
+      setDownload(response.data.download)
     });
   }, []);
 
@@ -58,8 +60,7 @@ export default function AlunoVisualisarAtividades() {
 
   return (
     <>
-      {/* {console.log(download)} */}
-      {console.log(atividade.attachment)}
+      {console.log(download.image_url)}
       <Header image={logo} text="Imagem da Logo" />
       <Text>Visualizar Atividade</Text>
       <Container className="container">
@@ -130,13 +131,13 @@ export default function AlunoVisualisarAtividades() {
           </div>
           <div className="form-row">
             <label htmlFor="#inp1">Anexo</label>
-            <a href={atividade.attachment} target="_blank" rel="noopener noreferrer" download>
+            <a href="#" target="_blank" rel="noopener noreferrer" download>
               <button>
                 <i className="fas fa-download" />
                 Download File
               </button>
             </a>
-            <a href={atividade.attachment}>{atividade.attachment}</a>
+            <a target="_blank" href={download.image_url}>Arquivo</a>
           </div>
           <div className="form-row">
             <h5>
