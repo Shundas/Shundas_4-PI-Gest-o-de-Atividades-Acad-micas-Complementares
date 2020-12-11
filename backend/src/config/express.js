@@ -4,6 +4,7 @@ const cookie = require('cookie-parser')
 const body = require('body-parser')
 const compression = require('compression')
 const routes = require('../routes');
+const path = require('path');
 
 const app = express()
 
@@ -16,5 +17,6 @@ app.use(compression())
 app.use(cookie())
 app.use(routes)
 
+app.use('/uploads', express.static(path.join(__dirname, "..", "..", "tmp", "uploads")));
 
 module.exports = app

@@ -53,8 +53,14 @@ module.exports = {
                 return response.json({ msg: "", erro: "O envio de arquivo é obrigatório." })
             }
 
+            console.log(request.file)
+
+            const { filename } = request.file
             const { path } = request.file
 
+
+
+            // return response.download(path, originalname);
 
             const id = crypto.randomBytes(8).toString('hex')
 
@@ -101,7 +107,7 @@ module.exports = {
                 institutionName,
                 date_end,
                 informedWorkload,
-                attachment: path,
+                attachment: filename,
                 activityName,
                 idstatus: 1,
             })
@@ -323,9 +329,12 @@ module.exports = {
 
             const { attachment } = file
 
+            const download = {
+                image_url: `http://localhost:3333/uploads/${attachment}`
+            }
             console.log(attachment)
-
-            response.sendFile(attachment);
+            response.json(download);
+            
         } catch (error) {
             return response.json({ error: error.message })
         }

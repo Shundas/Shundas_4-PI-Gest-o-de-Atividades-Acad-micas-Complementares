@@ -214,7 +214,7 @@ export default function AlunoEvento() {
                   id="file"
                   className="file"
                   onChange={handleUploadFile}
-                  accept="application/pdf"
+                  accept="image/jpeg"
                 />
               </div>
             </div>
