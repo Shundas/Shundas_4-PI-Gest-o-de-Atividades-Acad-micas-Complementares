@@ -43,7 +43,6 @@ export default function PageSessionAluno() {
   const [senha, setSenha] = React.useState('');
 
   const [showalerterror, setShowAlertError] = React.useState(false);
-  const [showalertsuccess, setShowAlertSuccess] = React.useState(false);
   const history = useHistory();
 
   const historyReturn = () => {

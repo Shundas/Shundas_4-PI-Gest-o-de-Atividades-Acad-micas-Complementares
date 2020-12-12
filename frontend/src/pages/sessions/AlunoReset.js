@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from '../../services/api';
 import 'bootstrap/dist/css/bootstrap.css';
 
 import Header from '../../components/HeaderLogin';
@@ -38,6 +39,17 @@ const ContainerApp = styled.div`
 `;
 
 export default function PageSessionAluno() {
+  const [email, setEmail] = React.useState('');
+  const [showalerterror, setShowAlertError] = React.useState(false);
+
+  const handleSubmit = React.useCallback(async e => {
+    e.preventDefault();
+
+    if (email === '') {
+      alert('É necessário o email para redefinição');
+    }
+  });
+
   return (
     <>
       <Header />
@@ -47,10 +59,15 @@ export default function PageSessionAluno() {
       </h1>
 
       <ContainerApp className="container">
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email</label>
-            <input type="email" id="email" className="form-control" />
+            <input
+              type="email"
+              id="email"
+              className="form-control"
+              onChange={e => setEmail(e.target.value)}
+            />
           </div>
           <div className="opt">
             <button className="btn btn-primary">Enviar</button>
