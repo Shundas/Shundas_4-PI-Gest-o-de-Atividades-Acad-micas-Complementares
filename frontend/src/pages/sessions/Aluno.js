@@ -41,37 +41,31 @@ const ContainerApp = styled.div`
 export default function PageSessionAluno() {
   const [email, setEmail] = React.useState('');
   const [senha, setSenha] = React.useState('');
+  const [senhaTemp, setSenhaTemp] = React.useState('');
 
-  const [showalerterror, setShowAlertError] = React.useState(false);
+  const [erros, setErros] = React.useState({
+    msg: '',
+    erro: '',
+  });
   const history = useHistory();
+
+  const validacao = Object.entries(erros).length;
 
   const historyReturn = () => {
     return history.push('/aluno-home');
   };
 
-  const handleSubmit = React.useCallback(async e => {
-    e.preventDefault();
+  const handleSubmit = React.useCallback(
+    async e => {
+      e.preventDefault();
 
-    const data = {
-      email: email,
-      senha: senha,
-    };
-
-    if (data.email === '' || data.senha === '') {
-      return setTimeout(
-        () => {
-          setShowAlertError(true);
-        },
-        setTimeout(() => setShowAlertError(false), 4000)
-      );
-    } else {
-      await axios.post('/aluno-login', {
-        email,
-        senha,
+      await axios.post('/aluno-login', { email, senha }).then(response => {
+        setErros(response.data.error);
       });
-      return historyReturn();
-    }
-  });
+      historyReturn();
+    },
+    [email, senha]
+  );
 
   return (
     <>
@@ -81,18 +75,20 @@ export default function PageSessionAluno() {
         Acesso Aluno!
       </h1>
 
-      <div className="container">
-        {!showalerterror && ''}
-        {showalerterror && (
-          <div
-            style={{ textAlign: 'center' }}
-            class="alert alert-danger"
-            role="alert"
-          >
-            Email e Senha são obrigatórios!
-          </div>
-        )}
-      </div>
+      {console.log(erros.msg)}
+      {/* {erros.msg === '' && erros.erro === '' ? '' : ''}
+      {erros.msg === '' && validacao === 2 ? (
+        ''
+      ) : (
+        <div className="alert alert-success">
+          Atividade Registrada com Sucesso! {erros.msg}
+        </div>
+      )}
+      {erros.erro === '' || validacao == 1 ? (
+        ''
+      ) : (
+        <div className="alert alert-danger">{erros.erro}</div>
+      )} */}
 
       <ContainerApp className="container">
         <form onSubmit={handleSubmit}>

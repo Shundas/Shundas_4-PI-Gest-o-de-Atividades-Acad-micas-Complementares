@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.css';
 
-import Header from '../../components/Header';
+import Header from '../../components/HeaderLogin';
 
 const Container = styled.div`
   width: 100%;

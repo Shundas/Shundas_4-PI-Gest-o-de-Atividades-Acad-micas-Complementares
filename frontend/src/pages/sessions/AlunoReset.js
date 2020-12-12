@@ -40,8 +40,10 @@ const ContainerApp = styled.div`
 
 export default function PageSessionAluno() {
   const [email, setEmail] = React.useState('');
-  const [showalerterror, setShowAlertError] = React.useState(false);
-  const [showalertsuccess, setShowAlertSuccess] = React.useState(false);
+  const [erros, setErros] = React.useState({
+    msg: '',
+    erro: '',
+  });
   const history = useHistory();
 
   const historyReturn = () => {
@@ -52,26 +54,10 @@ export default function PageSessionAluno() {
     async e => {
       e.preventDefault();
 
-      if (email === '') {
-        return setTimeout(
-          () => {
-            setShowAlertError(true);
-          },
-          setTimeout(() => setShowAlertError(false), 4000)
-        );
-      } else {
-        await axios.post('/aluno-login', { email });
-
-        return setTimeout(
-          () => {
-            setShowAlertSuccess(true);
-          },
-          setTimeout(() => {
-            setShowAlertSuccess(false);
-            historyReturn();
-          }, 4000)
-        );
-      }
+      await axios.post('/aluno-login', { email }).then(response => {
+        setErros(response.data.error);
+      });
+      historyReturn();
     },
     [email]
   );
@@ -84,29 +70,20 @@ export default function PageSessionAluno() {
         Insira o seu e-mail para redefinição da sua senha!
       </h1>
 
-      <div className="container">
-        {!showalerterror && ''}
-        {showalerterror && (
-          <div
-            style={{ textAlign: 'center' }}
-            class="alert alert-danger"
-            role="alert"
-          >
-            É necessário inserir o email para redefinição de senha!
-          </div>
-        )}
-
-        {!showalertsuccess && ''}
-        {showalertsuccess && (
-          <div
-            style={{ textAlign: 'center' }}
-            class="alert alert-success"
-            role="alert"
-          >
-            Email enviado com sucesso!
-          </div>
-        )}
-      </div>
+      {console.log(erros.msg)}
+      {/* {erros.msg === '' && erros.erro === '' ? '' : ''}
+      {erros.msg === '' && validacao === 2 ? (
+        ''
+      ) : (
+        <div className="alert alert-success">
+          Atividade Registrada com Sucesso! {erros.msg}
+        </div>
+      )}
+      {erros.erro === '' || validacao == 1 ? (
+        ''
+      ) : (
+        <div className="alert alert-danger">{erros.erro}</div>
+      )} */}
 
       <ContainerApp className="container">
         <form onSubmit={handleSubmit}>
