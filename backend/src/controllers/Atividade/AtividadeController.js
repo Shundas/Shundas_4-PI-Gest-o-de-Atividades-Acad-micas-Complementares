@@ -328,25 +328,13 @@ module.exports = {
         }
     },
 
-    async downloadArq(request, response) {
-        try {
-            const { id } = request.params;
-            
-            const file = await knex('form').select('attachment').where('idform', id).first();
-
-            const { attachment } = file
-
-            const download = {
-                image_url: `http://localhost:3333/uploads/${attachment}`
-            }
-            console.log(attachment)
-            response.json(download);
-            
+    async indexStatus(request, response) {
+        try {            
+            const status = await knex('status').select('idstatus', 'status')
+            console.log(status)
+            return response.json(status)
         } catch (error) {
             return response.json({ error: error.message })
         }
     }
-
-
-
 }

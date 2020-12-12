@@ -178,4 +178,14 @@ module.exports = {
       return response.json({ error: erros.message })
     }
   },
+
+  async indexUser(request, response) {
+    try {            
+        const result = await knex('userSenai').select('iduserSenai', 'name')
+        console.log(result)
+        return response.json(result)
+    } catch (error) {
+        return response.json({ error: error.message })
+    }
+}
 }

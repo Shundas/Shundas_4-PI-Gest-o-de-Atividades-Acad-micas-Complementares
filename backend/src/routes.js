@@ -60,6 +60,8 @@ routes.post('/verificaUsuario', UserController.usuarioAtivo)
 routes.get('/perfis', UserController.perfil)
 routes.get('/category', AtividadeController.category)
 routes.get('/activity', AtividadeController.activity)
+routes.get('/status', AtividadeController.indexStatus)
+routes.get('/userSenai', ColaboradorController.indexUser)
 
 //reset senha
 routes.post('/resetSenha', UserController.resetSenha)
@@ -67,8 +69,5 @@ routes.post('/resetSenhaColab', UserController.resetSenhaColab)
 routes.post('/novaSenhaAluno', AlunoController.novaSenhaAluno)
 routes.post('/novaSenhaColab', ColaboradorController.novaSenhaColab)
 
-
-//Download Arquivo
-routes.get('/download/:id', AtividadeController.downloadArq)
 
 module.exports = routes
