@@ -10,6 +10,7 @@ import axios from '../../../services/api';
 export default function AlunoVisualisarAtividades() {
   const { id } = useParams();
 
+  console.log(id)
   const [download, setDownload] = useState({
     image_url: ""
   });
@@ -32,7 +33,7 @@ export default function AlunoVisualisarAtividades() {
     axios.get(`/visualizarAtividade/${id}`).then(response => {
       console.log(response.data);
       setAtividade(response.data.atividades)
-      setDownload(response.data.download)
+  
     });
   }, []);
 
@@ -51,9 +52,18 @@ export default function AlunoVisualisarAtividades() {
     '-' +
     adicionaZero(atividade.date_end.getDate());
 
+
+  //Função para fazer Download de Arquivo  
+ function handleDownload(event) {
+    event.preventDefault();
+    axios.get(`/download/4a56c7d7e39adffb`).then(response => {
+      console.log(response.data)
+    })
+  }
+
+
   return (
     <>
-      {console.log(download.image_url)}
       <Header image={logo} text="Imagem da Logo" />
       <Text>Visualizar Atividade</Text>
       <Container className="container">
@@ -124,7 +134,9 @@ export default function AlunoVisualisarAtividades() {
           </div>
           <div className="form-row">
             <label htmlFor="#inp1">Anexo</label>
-            <a target="_blank" href={download.image_url} rel="noopener noreferrer" download> {atividade.attachment}</a>
+            <button onSubmit={handleDownload}>Download File</button>
+
+            {/* <a target="_blank" href={handleDownload} rel="noopener noreferrer" download> {atividade.attachment}</a> */}
           </div>
           <div className="form-row">
             <h5>

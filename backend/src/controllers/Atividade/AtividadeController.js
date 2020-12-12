@@ -344,9 +344,10 @@ module.exports = {
             const file = await knex('form').select('attachment').where('idform', id).first();
             const { attachment } = file
             const directory = `tmp/uploads/${attachment}`;
-
-            return response.download(directory, attachment)
+            console.log('chegou na rota de Download')
             
+            return response.download(directory, attachment)
+
         } catch (error) {
             return response.json({ error: error.message })
         }
