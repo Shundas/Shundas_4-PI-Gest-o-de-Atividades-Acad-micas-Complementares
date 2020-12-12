@@ -23,8 +23,11 @@ import ColaboradorHome from '../pages/Colaborador/ColaboradorAdicionarAtividade'
 
 // Login
 import AlunoLogin from '../pages/sessions/Aluno';
-import RegisterAluno from '../pages/sessions/AlunoReset';
 import ColaboradorLogin from '../pages/sessions/Colaborador';
+
+// Reset Senha
+import ResetAluno from '../pages/sessions/AlunoReset';
+import ResetSenhaForm from '../pages/sessions/AlunoResetSenha';
 
 export default function RoutesAplication() {
   return (
@@ -52,8 +55,10 @@ export default function RoutesAplication() {
         <Route path="/colaboradorhome" component={ColaboradorHome} />
         /**Login */
         <Route path="/auth-aluno" component={AlunoLogin} />
-        <Route path="/auth-aluno-recuperasenha" component={RegisterAluno} />
         <Route path="/auth-colaborador" component={ColaboradorLogin} />
+        /**Reset Senha */
+        <Route path="/auth-aluno-recuperasenha" component={ResetAluno} />
+        <Route path="/form-auth-recuperasenha" component={ResetSenhaForm} />
       </Switch>
     </BrowserRouter>
   );
