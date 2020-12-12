@@ -50,17 +50,10 @@ export default function PageSessionAluno() {
         <form>
           <div className="form-group">
             <label htmlFor="email">Email</label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              className="form-control"
-            />
+            <input type="email" id="email" className="form-control" />
           </div>
           <div className="opt">
-            <button type="submit" className="btn btn-primary">
-              Enviar
-            </button>
+            <button className="btn btn-primary">Enviar</button>
             <Link to="/auth-aluno">Voltar</Link>
           </div>
         </form>

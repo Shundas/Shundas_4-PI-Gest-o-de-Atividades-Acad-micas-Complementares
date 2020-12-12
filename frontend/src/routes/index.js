@@ -23,7 +23,7 @@ import ColaboradorHome from '../pages/Colaborador/ColaboradorAdicionarAtividade'
 
 // Login
 import AlunoLogin from '../pages/sessions/Aluno';
-import RegisterAluno from '../pages/sessions/AlunoRegister';
+import RegisterAluno from '../pages/sessions/AlunoReset';
 import ColaboradorLogin from '../pages/sessions/Colaborador';
 
 export default function RoutesAplication() {
