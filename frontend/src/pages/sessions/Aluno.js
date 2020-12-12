@@ -41,33 +41,38 @@ const ContainerApp = styled.div`
 export default function PageSessionAluno() {
   const [email, setEmail] = React.useState('');
   const [senha, setSenha] = React.useState('');
+
+  const [showalerterror, setShowAlertError] = React.useState(false);
+  const [showalertsuccess, setShowAlertSuccess] = React.useState(false);
   const history = useHistory();
 
   const historyReturn = () => {
     return history.push('/aluno-home');
   };
 
-  const handleSubmit = React.useCallback(
-    async e => {
-      e.preventDefault();
+  const handleSubmit = React.useCallback(async e => {
+    e.preventDefault();
 
-      const data = {
-        email: email,
-        senha: senha,
-      };
+    const data = {
+      email: email,
+      senha: senha,
+    };
 
-      if (data.email === '' || data.senha === '') {
-        return alert('Email e senha são obrigatórios');
-      } else {
-        await axios.post('/aluno-login', {
-          email,
-          senha,
-        });
-        historyReturn();
-      }
-    },
-    [email, senha]
-  );
+    if (data.email === '' || data.senha === '') {
+      return setTimeout(
+        () => {
+          setShowAlertError(true);
+        },
+        setTimeout(() => setShowAlertError(false), 4000)
+      );
+    } else {
+      await axios.post('/aluno-login', {
+        email,
+        senha,
+      });
+      return historyReturn();
+    }
+  });
 
   return (
     <>
@@ -76,6 +81,19 @@ export default function PageSessionAluno() {
       <h1 style={{ marginTop: '1.7em' }} className="text-center">
         Acesso Aluno!
       </h1>
+
+      <div className="container">
+        {!showalerterror && ''}
+        {showalerterror && (
+          <div
+            style={{ textAlign: 'center' }}
+            class="alert alert-danger"
+            role="alert"
+          >
+            Email e Senha são obrigatórios!
+          </div>
+        )}
+      </div>
 
       <ContainerApp className="container">
         <form onSubmit={handleSubmit}>
