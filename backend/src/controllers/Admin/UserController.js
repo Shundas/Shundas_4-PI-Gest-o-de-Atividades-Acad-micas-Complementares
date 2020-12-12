@@ -407,6 +407,9 @@ module.exports = {
           html: `<b>Aqui está sua senha de acesso provisória: ${senha} <br><br> Use-a para acessar o sistema e redefinir sua senha.</b>`,
         })
 
+        console.log('Message sent: %s', info.messageId)
+        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
+
         return response
           .status(201)
           .json({ msg: 'Email de redefinição enviado.' })
