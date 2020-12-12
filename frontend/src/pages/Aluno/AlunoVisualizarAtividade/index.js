@@ -6,6 +6,7 @@ import { Text, Container, SubText } from './styled';
 import logo from '../../../images/logo.svg';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from '../../../services/api';
+import { saveAs } from 'file-saver'
 
 //Tela pendente ainda!
 export default function AlunoVisualisarAtividades() {
@@ -34,6 +35,7 @@ export default function AlunoVisualisarAtividades() {
     axios.get(`/visualizarAtividade/${id}`).then(response => {
       console.log(response.data);
       setAtividade(response.data.atividades);
+      setDownload(response.data.download)
     });
   }, []);
 
@@ -54,106 +56,106 @@ export default function AlunoVisualisarAtividades() {
   //Função para fazer Download de Arquivo
   function handleDownload(event) {
     event.preventDefault();
-    axios.get(`/download/4a56c7d7e39adffb`).then(({ response }) => {
-      FileDown(response, attachment);
-      console.log(`Success ${response}`);
-    });
+    axios.get(`/download/${id}`, {
+      responseType: 'blob',
+    }).then((response) => {
+      FileDown(response.data, atividade.attachment);
+    })
   }
 
-  return (
-    <>
-      <Header image={logo} text="Imagem da Logo" />
-      <Text>Visualizar Atividade</Text>
-      <Container className="container">
-        <form className="form-column f-raw">
-          <SubText>Detalhes</SubText>
-          <div className="form-row">
-            <label htmlFor="#inp1">Nome da Instituição</label>
-            <input
-              className="form-control"
-              type="text"
-              name="institutionName"
-              id="institutionName"
-              value={atividade.institutionName}
-              disabled
-            />
-          </div>
-          <div className="form-row">
-            <label htmlFor="#inp2">Atividade Complementar</label>
-            <input
-              className="form-control"
-              type="text"
-              id="inp2"
-              value={atividade.activityName}
-              disabled
-            />
-          </div>
-          <div className="form-row">
-            <label htmlFor="#inp1">Modalidade</label>
-            <select id="" className="form-control" disabled>
-              <option value="">{atividade.name_cat}</option>
-            </select>
-          </div>
-          <div className="form-row">
-            <label htmlFor="#inp1">Atividade</label>
-            <select id="" className="form-control" disabled>
-              <option value="">{atividade.description}</option>
-            </select>
-          </div>
-          <div className="form-row">
-            <label htmlFor="#inp1">Quantidade de Horas</label>
-            <input
-              className="form-control"
-              type="number"
-              id="inp1"
-              value={atividade.informedWorkload}
-              disabled
-            />
-          </div>
-          <div className="form-row">
-            <label htmlFor="">Horas Validadas</label>
-            <input
-              className="form-control"
-              type="number"
-              id="inp1"
-              value={atividade.workload}
-              disabled
-            />
-          </div>
-          <div className="form-row">
-            <label htmlFor="#inp1">Data de Conclusão</label>
-            <input
-              className="form-control"
-              type="date"
-              id="inp1"
-              value={dataFormatada}
-              disabled
-            />
-          </div>
-          <div className="form-row">
-            <label htmlFor="#inp1">Anexo</label>
-            <button onClick={handleDownload}>Download File</button>
 
-            {/* <a target="_blank" href={handleDownload} rel="noopener noreferrer" download> {atividade.attachment}</a> */}
-          </div>
-          <div className="form-row">
-            <h5>
-              Status <span class="badge badge-warning">{atividade.status}</span>
-            </h5>
-          </div>
-          <div className="form-row">
-            <h5>
-              Responsável{' '}
-              <span class="badge badge-success">{atividade.name}</span>
-            </h5>
-          </div>
-          <div className="form-row">
-            <button className="btn btn-secondary" disabled>
-              Editar
+return (
+  <>
+    <Header image={logo} text="Imagem da Logo" />
+    <Text>Visualizar Atividade</Text>
+    <Container className="container">
+      <form className="form-column f-raw">
+        <SubText>Detalhes</SubText>
+        <div className="form-row">
+          <label htmlFor="#inp1">Nome da Instituição</label>
+          <input
+            className="form-control"
+            type="text"
+            name="institutionName"
+            id="institutionName"
+            value={atividade.institutionName}
+            disabled
+          />
+        </div>
+        <div className="form-row">
+          <label htmlFor="#inp2">Atividade Complementar</label>
+          <input
+            className="form-control"
+            type="text"
+            id="inp2"
+            value={atividade.activityName}
+            disabled
+          />
+        </div>
+        <div className="form-row">
+          <label htmlFor="#inp1">Modalidade</label>
+          <select id="" className="form-control" disabled>
+            <option value="">{atividade.name_cat}</option>
+          </select>
+        </div>
+        <div className="form-row">
+          <label htmlFor="#inp1">Atividade</label>
+          <select id="" className="form-control" disabled>
+            <option value="">{atividade.description}</option>
+          </select>
+        </div>
+        <div className="form-row">
+          <label htmlFor="#inp1">Quantidade de Horas</label>
+          <input
+            className="form-control"
+            type="number"
+            id="inp1"
+            value={atividade.informedWorkload}
+            disabled
+          />
+        </div>
+        <div className="form-row">
+          <label htmlFor="">Horas Validadas</label>
+          <input
+            className="form-control"
+            type="number"
+            id="inp1"
+            value={atividade.workload}
+            disabled
+          />
+        </div>
+        <div className="form-row">
+          <label htmlFor="#inp1">Data de Conclusão</label>
+          <input
+            className="form-control"
+            type="date"
+            id="inp1"
+            value={dataFormatada}
+            disabled
+          />
+        </div>
+        <div className="form-row">
+          <label htmlFor="#inp1">Anexo</label>
+          <button onClick={handleDownload}>Download File</button>
+        </div>
+        <div className="form-row">
+          <h5>
+            Status <span class="badge badge-warning">{atividade.status}</span>
+          </h5>
+        </div>
+        <div className="form-row">
+          <h5>
+            Responsável{' '}
+            <span class="badge badge-success">{atividade.name}</span>
+          </h5>
+        </div>
+        <div className="form-row">
+          <button className="btn btn-secondary" disabled>
+            Editar
             </button>
-          </div>
-        </form>
-      </Container>
-    </>
-  );
+        </div>
+      </form>
+    </Container>
+  </>
+);
 }
