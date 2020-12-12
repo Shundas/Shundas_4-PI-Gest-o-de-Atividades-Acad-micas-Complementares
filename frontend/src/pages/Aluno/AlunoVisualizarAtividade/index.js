@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import FileDown from 'js-file-download';
 import Header from '../../../components/Header';
 import { Text, Container, SubText } from './styled';
 import logo from '../../../images/logo.svg';
@@ -53,9 +54,10 @@ export default function AlunoVisualisarAtividades() {
   //Função para fazer Download de Arquivo
   function handleDownload(event) {
     event.preventDefault();
-    axios.get(`/download/4a56c7d7e39adffb`).then(response => {
-      console.log(response.data)
-    })
+    axios.get(`/download/4a56c7d7e39adffb`).then(({ response }) => {
+      FileDown(response, attachment);
+      console.log(`Success ${response}`);
+    });
   }
 
   return (
