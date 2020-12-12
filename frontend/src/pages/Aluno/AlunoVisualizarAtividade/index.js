@@ -22,6 +22,7 @@ export default function AlunoVisualisarAtividades() {
     institutionName: '',
     description: '',
     status: '',
+    attachment: '',
     workload: '',
     informedWorkload: '',
     date_end: '',
@@ -35,14 +36,6 @@ export default function AlunoVisualisarAtividades() {
     });
   }, []);
 
-
-
-  // useEffect(() => {
-  //     axios.get(`/download/${id}`).then(response => {
-  //     console.log(response.data);
-  //     setDownload(response.data);
-  //     })
-  // }, []);
 
   //Formatação da Data
   function adicionaZero(numero) {
@@ -131,13 +124,7 @@ export default function AlunoVisualisarAtividades() {
           </div>
           <div className="form-row">
             <label htmlFor="#inp1">Anexo</label>
-            <a href="#" target="_blank" rel="noopener noreferrer" download>
-              <button>
-                <i className="fas fa-download" />
-                Download File
-              </button>
-            </a>
-            <a target="_blank" href={download.image_url}>Arquivo</a>
+            <a target="_blank" href={download.image_url} rel="noopener noreferrer" download> {atividade.attachment}</a>
           </div>
           <div className="form-row">
             <h5>

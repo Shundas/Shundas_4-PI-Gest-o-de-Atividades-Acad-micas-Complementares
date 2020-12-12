@@ -20,6 +20,9 @@ import AlunoVisualisarAtividades from '../pages/Aluno/AlunoVisualizarAtividade';
 
 // Colaborador
 import ColaboradorHome from '../pages/Colaborador/ColaboradorAdicionarAtividade';
+import ColaboradorConsultaAtividades from '../pages/Colaborador/ColaboradorConsultaAtividade';
+import ColaboradorVisualizaAtividades from '../pages/Colaborador/ColaboradorVisualizarAtividade';
+
 
 // Login
 import AlunoLogin from '../pages/sessions/Aluno';
@@ -53,6 +56,8 @@ export default function RoutesAplication() {
         <Route path="/aluno-home" component={AlunoHome} />
         /**Colaborador */
         <Route path="/colaboradorhome" component={ColaboradorHome} />
+        <Route path="/consulta-atividade-colaborador" component={ColaboradorConsultaAtividades} />
+        <Route path="/visualiza-atividade-colaborador" component={ColaboradorVisualizaAtividades} />
         /**Login */
         <Route path="/auth-aluno" component={AlunoLogin} />
         <Route path="/auth-colaborador" component={ColaboradorLogin} />

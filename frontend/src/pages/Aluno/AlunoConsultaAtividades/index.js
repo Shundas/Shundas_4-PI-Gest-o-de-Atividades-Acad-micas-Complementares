@@ -16,7 +16,7 @@ export default function AlunoConsultaAtividades() {
       name_cat: '',
       name: '',
       status: '',
-      name: '',
+      userName: '',
     },
   ]);
 

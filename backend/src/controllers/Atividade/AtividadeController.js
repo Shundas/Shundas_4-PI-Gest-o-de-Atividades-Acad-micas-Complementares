@@ -162,10 +162,11 @@ module.exports = {
         try {
 
             const atividades = await knex('form')
-                .select('form.idform', 'form.activityName', 'category.name_cat', 'activity.description', 'status.status', 'userSenai.name')
+                .select('form.idform', 'form.activityName', 'category.name_cat', 'activity.description', 'status.status', 'user.userName', 'userSenai.name')
                 .join('category', 'form.idcategory', '=', 'category.idcategory')
                 .join('activity', 'form.idactivity', '=', 'activity.idactivity')
                 .join('userSenai', 'form.iduserSenai', '=', 'userSenai.iduserSenai')
+                .join('user', 'form.iduser', '=', 'user.iduser')
                 .join('status', 'form.idstatus', '=', 'status.idstatus')
 
             return response.json(atividades)
@@ -190,10 +191,11 @@ module.exports = {
             console.log(download)
 
             const atividades = await knex('form')
-                .select('form.institutionName', 'form.activityName', 'form.informedWorkload', 'category.name_cat', 'activity.description', 'form.workload', 'form.date_end', 'status.status', 'userSenai.name')
+                .select('form.institutionName', 'form.activityName', 'form.informedWorkload', 'form.attachment', 'category.name_cat', 'activity.description', 'form.workload', 'form.date_end', 'status.status', 'user.userName', 'userSenai.name')
                 .join('category', 'form.idcategory', '=', 'category.idcategory')
                 .join('activity', 'form.idactivity', '=', 'activity.idactivity')
                 .join('userSenai', 'form.iduserSenai', '=', 'userSenai.iduserSenai')
+                .join('user', 'form.iduser', '=', 'user.iduser')
                 .join('status', 'form.idstatus', '=', 'status.idstatus')
                 .where('idform', id).first()
 

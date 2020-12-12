@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from '../../../services/api';
 import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -39,9 +41,57 @@ const TitleH2 = styled.h2`
 
 const SubTitle = styled.h4``;
 
-export default function PageColaboradorVisualizarAtividade() {
+
+
+
+export default function ColaboradorVisualizaAtividades() {
+  const { id } = useParams();
+
+  const [download, setDownload] = useState({
+    image_url: ""
+  });
+
+  const [atividade, setAtividade] = useState({
+    institutionName: '',
+    activityName: '',
+    name_cat: '',
+    name: '',
+    userName: '',
+    institutionName: '',
+    description: '',
+    status: '',
+    attachment: '',
+    workload: '',
+    informedWorkload: '',
+    date_end: '',
+  });
+
+  useEffect(() => {
+    axios.get(`/visualizarAtividade/${id}`).then(response => {
+      console.log(response.data);
+      setAtividade(response.data.atividades)
+      setDownload(response.data.download)
+    });
+  }, []);
+
+
+  // //Formatação da Data
+  // function adicionaZero(numero) {
+  //   if (numero <= 9) return '0' + numero;
+  //   else return numero;
+  // }
+
+  // atividade.date_end = new Date(atividade.date_end);
+  // let dataFormatada =
+  //   atividade.date_end.getFullYear() +
+  //   '-' +
+  //   adicionaZero(atividade.date_end.getMonth()) +
+  //   '-' +
+  //   adicionaZero(atividade.date_end.getDate());
+
   return (
     <>
+    {console.log(atividade)}
       <Header />
       <TitleH2>Vizualizar Atividade</TitleH2>
       <ContainerApp className="container">
@@ -52,7 +102,7 @@ export default function PageColaboradorVisualizarAtividade() {
               <div className="form-group col-md-6">
                 <label htmlFor="inst">Nome da Instituição</label>
                 <h3>
-                  <span class="badge badge-success">Senai CTAI</span>
+                  {/* <span class="badge badge-success">{atividade.institutionName}</span> */}
                 </h3>
               </div>
 
@@ -61,7 +111,7 @@ export default function PageColaboradorVisualizarAtividade() {
                   <label htmlFor="aluno">Nome do Aluno</label>
                   <h3>
                     <span class="badge badge-success">
-                      João Boquinha de Veludo
+                      {/* {atividade.userName} */}
                     </span>
                   </h3>
                 </div>
@@ -69,7 +119,7 @@ export default function PageColaboradorVisualizarAtividade() {
                   <label htmlFor="atividade">Atividade Complementar</label>
                   <h3>
                     <span class="badge badge-success">
-                      Como ser um Boca de Veludo
+                      {/* {atividade.description} */}
                     </span>
                   </h3>
                 </div>
@@ -79,14 +129,14 @@ export default function PageColaboradorVisualizarAtividade() {
                 <div className="form-group col-md-6">
                   <label htmlFor="mod">Modalidade</label>
                   <h3>
-                    <span class="badge badge-success">Ensino</span>
+                    {/* <span class="badge badge-success">{atividade.name_cat}</span> */}
                   </h3>
                 </div>
                 <div className="form-group col-md-6">
                   <label htmlFor="ativ">Atividade</label>
                   <h3>
                     <span class="badge badge-success">
-                      Introdução em como ser um Boca de Veludo
+                      {/* {atividade.activityName} */}
                     </span>
                   </h3>
                 </div>
@@ -151,113 +201,7 @@ export default function PageColaboradorVisualizarAtividade() {
         </form>
       </ContainerApp>
 
-      <ContainerApp className="container">
-        <form className="form">
-          <SubTitle>Detalhes</SubTitle>
-          <div className="form-column">
-            <div>
-              <div className="form-group col-md-6">
-                <label htmlFor="inst">Nome da Instituição</label>
-                <h3>
-                  <span class="badge badge-success">Senai CTAI</span>
-                </h3>
-              </div>
-
-              <div className="container-divider">
-                <div className="form-group col-md-6">
-                  <label htmlFor="aluno">Nome do Aluno</label>
-                  <h3>
-                    <span class="badge badge-success">
-                      João Boquinha de Veludo
-                    </span>
-                  </h3>
-                </div>
-                <div className="form-group col-md-6">
-                  <label htmlFor="atividade">Atividade Complementar</label>
-                  <h3>
-                    <span class="badge badge-success">
-                      Como ser um Boca de Veludo
-                    </span>
-                  </h3>
-                </div>
-              </div>
-
-              <div className="container-divider">
-                <div className="form-group col-md-6">
-                  <label htmlFor="mod">Modalidade</label>
-                  <h3>
-                    <span class="badge badge-success">Ensino</span>
-                  </h3>
-                </div>
-                <div className="form-group col-md-6">
-                  <label htmlFor="ativ">Atividade</label>
-                  <h3>
-                    <span class="badge badge-success">
-                      Introdução em como ser um Boca de Veludo
-                    </span>
-                  </h3>
-                </div>
-              </div>
-
-              <div className="container-divider">
-                <div className="form-group col-md-6">
-                  <label htmlFor="qtd">Quantidades de Horas</label>
-                  <h3>
-                    <span class="badge badge-success">30h</span>
-                  </h3>
-                </div>
-                <div className="form-group col-md-6">
-                  <label htmlFor="qtd">Horas Validadas</label>
-                  <h3>
-                    <span class="badge badge-success">45h</span>
-                  </h3>
-                </div>
-              </div>
-
-              <div className="container-divider">
-                <div className="form-group col-md-6">
-                  <label htmlFor="date">Data de Conclusão</label>
-                  <h3>
-                    <span class="badge badge-success">20/11/2020</span>
-                  </h3>
-                </div>
-                <div className="form-group col-md-6">
-                  <label htmlFor="fil">Anexo</label>
-                  <h3>
-                    <span class="badge badge-success">Certificado.pdf</span>
-                  </h3>
-                </div>
-              </div>
-              <div className="container-divider">
-                <div className="form-group col-md-6">
-                  <label htmlFor="date">Status</label>
-                  <h3>
-                    <span class="badge badge-warning">Em Andamento</span>
-                  </h3>
-                </div>
-                <div className="form-group col-md-6">
-                  <label htmlFor="fil">Responsavel</label>
-                  <h3>
-                    <span class="badge badge-secondary">Tiago Asp</span>
-                  </h3>
-                </div>
-              </div>
-            </div>
-            <div className="btn-salve">
-              <button className="btn btn-secondary">Editar</button>
-              <button
-                type="button"
-                class="btn btn-primary"
-                data-toggle="modal"
-                data-target="#exampleModalLong"
-              >
-                Enviar comentario
-              </button>
-            </div>
-          </div>
-        </form>
-      </ContainerApp>
-
+      
       <div
         class="modal fade"
         id="exampleModalLong"
