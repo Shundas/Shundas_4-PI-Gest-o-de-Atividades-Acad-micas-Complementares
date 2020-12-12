@@ -184,8 +184,6 @@ module.exports = {
 
             const { attachment } = file
 
-            console.log(attachment)
-
             const download = {
                 image_url: `http://localhost:3333/uploads/${attachment}`
             }
@@ -345,7 +343,7 @@ module.exports = {
             const { attachment } = file
             const directory = `tmp/uploads/${attachment}`;
             console.log('chegou na rota de Download')
-            
+
             return response.download(directory, attachment)
 
         } catch (error) {

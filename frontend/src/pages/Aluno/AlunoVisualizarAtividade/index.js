@@ -54,8 +54,8 @@ export default function AlunoVisualisarAtividades() {
   function handleDownload(event) {
     event.preventDefault();
     axios.get(`/download/4a56c7d7e39adffb`).then(response => {
-      console.log(response.data);
-    });
+      console.log(response.data)
+    })
   }
 
   return (
@@ -130,7 +130,7 @@ export default function AlunoVisualisarAtividades() {
           </div>
           <div className="form-row">
             <label htmlFor="#inp1">Anexo</label>
-            <button onClick={() => handleDownload}>Download File</button>
+            <button onClick={handleDownload}>Download File</button>
 
             {/* <a target="_blank" href={handleDownload} rel="noopener noreferrer" download> {atividade.attachment}</a> */}
           </div>
