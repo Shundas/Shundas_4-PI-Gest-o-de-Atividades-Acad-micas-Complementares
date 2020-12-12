@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from '../../services/api';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -42,13 +42,6 @@ export default function PageSessionAluno() {
   const [email, setEmail] = React.useState('');
   const [erros, setErros] = React.useState('');
   const [toggle, setToggle] = React.useState(false);
-  const history = useHistory();
-
-  const validacao = Object.entries(erros).length;
-
-  const historyReturn = () => {
-    return history.push('/aluno-home');
-  };
 
   const data = {
     email,
@@ -58,16 +51,12 @@ export default function PageSessionAluno() {
     event.preventDefault();
 
     try {
-      const response = await axios.post('/aluno-login', data);
-
-      if ((response.status = 200)) {
-        historyReturn();
-      }
+      await axios.post('/resetSenha', data);
     } catch (error) {
       if ((error.status = 400)) {
         setTimeout(
           () => {
-            setErros('E-mail é obrigatório para redefinir a sua senha');
+            setErros('Email inválido/incorreto');
             setToggle(true);
           },
           setTimeout(() => {
