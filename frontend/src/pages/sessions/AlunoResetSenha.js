@@ -2,11 +2,39 @@ import React from 'react';
 import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.css';
 
-const Container = styled.div``;
+import Header from '../../components/Header';
+
+const Container = styled.div`
+  width: 100%;
+  max-width: 600px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-top: 2em;
+
+  padding: 20px;
+  border: 1px solid #fff;
+  background: #fff;
+
+  border-radius: 20px;
+  box-shadow: -1px 1px 16px -9px rgba(0, 0, 0, 0.65);
+
+  input {
+    width: 500px;
+  }
+`;
 
 export default function ResetSenhaAluno() {
   return (
     <>
+      <Header />
+
+      <h1 style={{ marginTop: '1.7em' }} className="text-center">
+        Digite uma nova senha!
+      </h1>
+
       <Container className="container">
         <form>
           <div className="form-group">

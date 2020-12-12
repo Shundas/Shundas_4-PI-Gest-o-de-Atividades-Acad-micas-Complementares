@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from '../../services/api';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -41,14 +41,40 @@ const ContainerApp = styled.div`
 export default function PageSessionAluno() {
   const [email, setEmail] = React.useState('');
   const [showalerterror, setShowAlertError] = React.useState(false);
+  const [showalertsuccess, setShowAlertSuccess] = React.useState(false);
+  const history = useHistory();
 
-  const handleSubmit = React.useCallback(async e => {
-    e.preventDefault();
+  const historyReturn = () => {
+    return history.push('/');
+  };
 
-    if (email === '') {
-      alert('É necessário o email para redefinição');
-    }
-  });
+  const handleSubmit = React.useCallback(
+    async e => {
+      e.preventDefault();
+
+      if (email === '') {
+        return setTimeout(
+          () => {
+            setShowAlertError(true);
+          },
+          setTimeout(() => setShowAlertError(false), 4000)
+        );
+      } else {
+        await axios.post('/aluno-login', { email });
+
+        return setTimeout(
+          () => {
+            setShowAlertSuccess(true);
+          },
+          setTimeout(() => {
+            setShowAlertSuccess(false);
+            historyReturn();
+          }, 4000)
+        );
+      }
+    },
+    [email]
+  );
 
   return (
     <>
@@ -57,6 +83,30 @@ export default function PageSessionAluno() {
       <h1 style={{ marginTop: '1.7em' }} className="text-center">
         Insira o seu e-mail para redefinição da sua senha!
       </h1>
+
+      <div className="container">
+        {!showalerterror && ''}
+        {showalerterror && (
+          <div
+            style={{ textAlign: 'center' }}
+            class="alert alert-danger"
+            role="alert"
+          >
+            É necessário inserir o email para redefinição de senha!
+          </div>
+        )}
+
+        {!showalertsuccess && ''}
+        {showalertsuccess && (
+          <div
+            style={{ textAlign: 'center' }}
+            class="alert alert-success"
+            role="alert"
+          >
+            Email enviado com sucesso!
+          </div>
+        )}
+      </div>
 
       <ContainerApp className="container">
         <form onSubmit={handleSubmit}>
