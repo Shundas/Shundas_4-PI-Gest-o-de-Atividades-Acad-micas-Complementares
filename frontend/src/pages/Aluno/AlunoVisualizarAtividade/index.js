@@ -10,9 +10,9 @@ import axios from '../../../services/api';
 export default function AlunoVisualisarAtividades() {
   const { id } = useParams();
 
-  console.log(id)
+  console.log(id);
   const [download, setDownload] = useState({
-    image_url: ""
+    image_url: '',
   });
 
   const [atividade, setAtividade] = useState({
@@ -32,11 +32,9 @@ export default function AlunoVisualisarAtividades() {
   useEffect(() => {
     axios.get(`/visualizarAtividade/${id}`).then(response => {
       console.log(response.data);
-      setAtividade(response.data.atividades)
-  
+      setAtividade(response.data.atividades);
     });
   }, []);
-
 
   //Formatação da Data
   function adicionaZero(numero) {
@@ -52,15 +50,13 @@ export default function AlunoVisualisarAtividades() {
     '-' +
     adicionaZero(atividade.date_end.getDate());
 
-
-  //Função para fazer Download de Arquivo  
- function handleDownload(event) {
+  //Função para fazer Download de Arquivo
+  function handleDownload(event) {
     event.preventDefault();
     axios.get(`/download/4a56c7d7e39adffb`).then(response => {
-      console.log(response.data)
-    })
+      console.log(response.data);
+    });
   }
-
 
   return (
     <>
