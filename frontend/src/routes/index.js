@@ -57,7 +57,7 @@ export default function RoutesAplication() {
         /**Colaborador */
         <Route path="/colaboradorhome" component={ColaboradorHome} />
         <Route path="/consulta-atividade-colaborador" component={ColaboradorConsultaAtividades} />
-        <Route path="/visualiza-atividade-colaborador" component={ColaboradorVisualizaAtividades} />
+        <Route path="/visualiza-atividade-colaborador/:id" component={ColaboradorVisualizaAtividades} />
         /**Login */
         <Route path="/auth-aluno" component={AlunoLogin} />
         <Route path="/auth-colaborador" component={ColaboradorLogin} />

@@ -42,10 +42,14 @@ const TitleH2 = styled.h2`
 const SubTitle = styled.h4``;
 
 
-
-
 export default function ColaboradorVisualizaAtividades() {
   const { id } = useParams();
+
+  const [category, setCategory] = useState([]);
+  const [activity, setActivity] = useState([]);
+
+  const [selectedCategory, setSelectedCategory] = useState('0');
+  const [selectedActivity, setSelectedActivity] = useState('0');
 
   const [download, setDownload] = useState({
     image_url: ""
@@ -64,7 +68,31 @@ export default function ColaboradorVisualizaAtividades() {
     workload: '',
     informedWorkload: '',
     date_end: '',
+    idcategory: '',
+    idactivity: ''
   });
+
+  useEffect(() => {
+    axios.get('/category').then(response => {
+      setCategory(response.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (selectedCategory === '0') {
+      return;
+    }
+
+    axios
+      .get('/activity', {
+        params: {
+          idcategory: selectedCategory,
+        },
+      })
+      .then(response => {
+        setActivity(response.data);
+      });
+  }, [selectedCategory]); //quando q essa função deve executar
 
   useEffect(() => {
     axios.get(`/visualizarAtividade/${id}`).then(response => {
@@ -75,23 +103,23 @@ export default function ColaboradorVisualizaAtividades() {
   }, []);
 
 
-  // //Formatação da Data
-  // function adicionaZero(numero) {
-  //   if (numero <= 9) return '0' + numero;
-  //   else return numero;
-  // }
+  //Formatação da Data
+  function adicionaZero(numero) {
+    if (numero <= 9) return '0' + numero;
+    else return numero;
+  }
 
-  // atividade.date_end = new Date(atividade.date_end);
-  // let dataFormatada =
-  //   atividade.date_end.getFullYear() +
-  //   '-' +
-  //   adicionaZero(atividade.date_end.getMonth()) +
-  //   '-' +
-  //   adicionaZero(atividade.date_end.getDate());
+  atividade.date_end = new Date(atividade.date_end);
+  let dataFormatada =
+    atividade.date_end.getFullYear() +
+    '-' +
+    adicionaZero(atividade.date_end.getMonth()) +
+    '-' +
+    adicionaZero(atividade.date_end.getDate());
 
   return (
     <>
-    {console.log(atividade)}
+      {console.log(atividade)}
       <Header />
       <TitleH2>Vizualizar Atividade</TitleH2>
       <ContainerApp className="container">
@@ -101,88 +129,149 @@ export default function ColaboradorVisualizaAtividades() {
             <div>
               <div className="form-group col-md-6">
                 <label htmlFor="inst">Nome da Instituição</label>
-                <h3>
-                  {/* <span class="badge badge-success">{atividade.institutionName}</span> */}
-                </h3>
+                <input
+                  className="form-control"
+                  type="text"
+                  name="institutionName"
+                  id="institutionName"
+                  value={atividade.institutionName}
+                />
               </div>
 
               <div className="container-divider">
                 <div className="form-group col-md-6">
                   <label htmlFor="aluno">Nome do Aluno</label>
-                  <h3>
-                    <span class="badge badge-success">
-                      {/* {atividade.userName} */}
-                    </span>
-                  </h3>
+                  <input
+                  className="form-control"
+                  type="text"
+                  name="userName"
+                  id="userName"
+                  value={atividade.userName}
+                  disabled
+                />
                 </div>
                 <div className="form-group col-md-6">
                   <label htmlFor="atividade">Atividade Complementar</label>
-                  <h3>
-                    <span class="badge badge-success">
-                      {/* {atividade.description} */}
-                    </span>
-                  </h3>
+                  <input
+                  className="form-control"
+                  type="text"
+                  name="activityName"
+                  id="activityName"
+                  value={atividade.activityName}
+                />
                 </div>
               </div>
 
               <div className="container-divider">
                 <div className="form-group col-md-6">
                   <label htmlFor="mod">Modalidade</label>
-                  <h3>
-                    {/* <span class="badge badge-success">{atividade.name_cat}</span> */}
-                  </h3>
+                  <select
+                  onChange={e => setSelectedCategory(e.target.value)}
+                  className="form-control"
+                  id="profile"
+                >
+                  <option value={atividade.idcategory} selected disabled>{atividade.name_cat}</option>
+                  {
+                  category.map(cat => (
+                    <option key={cat.idcategory} value={cat.idcategory}>
+                      {cat.name_cat}
+                    </option>
+                  ))}
+                </select>
                 </div>
                 <div className="form-group col-md-6">
                   <label htmlFor="ativ">Atividade</label>
-                  <h3>
-                    <span class="badge badge-success">
-                      {/* {atividade.activityName} */}
-                    </span>
-                  </h3>
+                  <select
+                  onChange={e => setSelectedActivity(e.target.value)}
+                  className="form-control"
+                  id="profile"
+                  value={atividade.description}
+                >
+                  <option value={atividade.idactivity} selected disabled >{atividade.description}</option>
+                  {activity.map(act => (
+                    <option key={act.idactivity} value={act.idactivity}>
+                      {act.description}
+                    </option>
+                  ))}
+                </select>
                 </div>
               </div>
 
               <div className="container-divider">
                 <div className="form-group col-md-6">
                   <label htmlFor="qtd">Quantidades de Horas</label>
-                  <h3>
-                    <span class="badge badge-success">30h</span>
-                  </h3>
+                  <input
+                  className="form-control"
+                  type="number"
+                  min="1"
+                  max="60"
+                  name="informedWorkload"
+                  id="informedWorkload"
+                  value={atividade.informedWorkload}
+                 
+                />
                 </div>
                 <div className="form-group col-md-6">
                   <label htmlFor="qtd">Horas Validadas</label>
-                  <h3>
-                    <span class="badge badge-success">45h</span>
-                  </h3>
+                  <input
+                  className="form-control"
+                  type="number"
+                  min="1"
+                  max="60"
+                  name="workload"
+                  id="workload"
+                  value={atividade.workload}
+                  
+                />
                 </div>
               </div>
 
               <div className="container-divider">
                 <div className="form-group col-md-6">
                   <label htmlFor="date">Data de Conclusão</label>
-                  <h3>
-                    <span class="badge badge-success">20/11/2020</span>
-                  </h3>
+                  <input
+                  className="form-control"
+                  type="date"
+                  name="date_end"
+                  id="date_end"
+                  value={dataFormatada}
+                  
+                />
                 </div>
                 <div className="form-group col-md-6">
                   <label htmlFor="fil">Anexo</label>
-                  <h3>
-                    <span class="badge badge-success">Certificado.pdf</span>
-                  </h3>
+                  <input
+                  className="form-control"
+                  type="text"
+                  name="institutionName"
+                  id="institutionName"
+                  value={atividade.institutionName}
+                  disabled
+                />
                 </div>
               </div>
               <div className="container-divider">
                 <div className="form-group col-md-6">
                   <label htmlFor="date">Status</label>
-                  <h3>
-                    <span class="badge badge-warning">Em Andamento</span>
-                  </h3>
+                    <input
+                  className="form-control"
+                  type="text"
+                  name="institutionName"
+                  id="institutionName"
+                  value={atividade.institutionName}
+                  disabled
+                />
                 </div>
                 <div className="form-group col-md-6">
                   <label htmlFor="fil">Responsavel</label>
-                  <h3>
-                    <span class="badge badge-secondary">Tiago Asp</span>
-                  </h3>
+                  <input
+                  className="form-control"
+                  type="text"
+                  name="institutionName"
+                  id="institutionName"
+                  value={atividade.institutionName}
+                  disabled
+                />
                 </div>
               </div>
             </div>
@@ -201,7 +290,7 @@ export default function ColaboradorVisualizaAtividades() {
         </form>
       </ContainerApp>
 
-      
+
       <div
         class="modal fade"
         id="exampleModalLong"

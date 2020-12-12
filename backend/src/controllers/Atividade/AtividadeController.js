@@ -184,6 +184,8 @@ module.exports = {
 
             const { attachment } = file
 
+            console.log(attachment)
+
             const download = {
                 image_url: `http://localhost:3333/uploads/${attachment}`
             }
@@ -191,7 +193,7 @@ module.exports = {
             console.log(download)
 
             const atividades = await knex('form')
-                .select('form.institutionName', 'form.activityName', 'form.informedWorkload', 'form.attachment', 'category.name_cat', 'activity.description', 'form.workload', 'form.date_end', 'status.status', 'user.userName', 'userSenai.name')
+                .select('form.institutionName', 'form.activityName', 'form.informedWorkload', 'form.attachment', 'category.name_cat', 'activity.description', 'category.idcategory', 'activity.idactivity', 'form.workload', 'form.date_end', 'status.status', 'user.userName', 'userSenai.name')
                 .join('category', 'form.idcategory', '=', 'category.idcategory')
                 .join('activity', 'form.idactivity', '=', 'activity.idactivity')
                 .join('userSenai', 'form.iduserSenai', '=', 'userSenai.iduserSenai')
