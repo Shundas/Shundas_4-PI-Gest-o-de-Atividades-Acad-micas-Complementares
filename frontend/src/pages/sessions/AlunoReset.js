@@ -40,28 +40,43 @@ const ContainerApp = styled.div`
 
 export default function PageSessionAluno() {
   const [email, setEmail] = React.useState('');
-  const [erros, setErros] = React.useState({
-    msg: '',
-    erro: '',
-  });
+  const [erros, setErros] = React.useState('');
+  const [toggle, setToggle] = React.useState(false);
   const history = useHistory();
 
+  const validacao = Object.entries(erros).length;
+
   const historyReturn = () => {
-    return history.push('/');
+    return history.push('/aluno-home');
   };
 
-  const handleSubmit = React.useCallback(
-    async e => {
-      e.preventDefault();
+  const data = {
+    email,
+  };
 
-      await axios.post('/aluno-login', { email }).then(response => {
-        setErros(response.data.error);
-      });
-      historyReturn();
-    },
-    [email]
-  );
+  async function handleSubmit(event) {
+    event.preventDefault();
 
+    try {
+      const response = await axios.post('/aluno-login', data);
+
+      if ((response.status = 200)) {
+        historyReturn();
+      }
+    } catch (error) {
+      if ((error.status = 400)) {
+        setTimeout(
+          () => {
+            setErros('E-mail é obrigatório para redefinir a sua senha');
+            setToggle(true);
+          },
+          setTimeout(() => {
+            setToggle(false);
+          }, 4000)
+        );
+      }
+    }
+  }
   return (
     <>
       <Header />
@@ -70,20 +85,14 @@ export default function PageSessionAluno() {
         Insira o seu e-mail para redefinição da sua senha!
       </h1>
 
-      {console.log(erros.msg)}
-      {/* {erros.msg === '' && erros.erro === '' ? '' : ''}
-      {erros.msg === '' && validacao === 2 ? (
-        ''
-      ) : (
-        <div className="alert alert-success">
-          Atividade Registrada com Sucesso! {erros.msg}
+      {!toggle && ''}
+      {toggle && (
+        <div className="container">
+          <div style={{ textAlign: 'center' }} className="alert alert-danger">
+            {erros}
+          </div>
         </div>
       )}
-      {erros.erro === '' || validacao == 1 ? (
-        ''
-      ) : (
-        <div className="alert alert-danger">{erros.erro}</div>
-      )} */}
 
       <ContainerApp className="container">
         <form onSubmit={handleSubmit}>
@@ -93,6 +102,7 @@ export default function PageSessionAluno() {
               type="email"
               id="email"
               className="form-control"
+              value={email}
               onChange={e => setEmail(e.target.value)}
             />
           </div>
