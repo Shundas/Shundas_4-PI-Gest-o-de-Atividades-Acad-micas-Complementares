@@ -63,6 +63,10 @@ routes.get('/activity', AtividadeController.activity)
 routes.get('/status', AtividadeController.indexStatus)
 routes.get('/userSenai', ColaboradorController.indexUser)
 
+//Download Arquivo
+routes.get('/download/:id', AtividadeController.showFile)
+
+
 //reset senha
 routes.post('/resetSenha', UserController.resetSenha)
 routes.post('/resetSenhaColab', UserController.resetSenhaColab)

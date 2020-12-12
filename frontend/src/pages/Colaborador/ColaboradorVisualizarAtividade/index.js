@@ -259,14 +259,9 @@ export default function ColaboradorVisualizaAtividades() {
                 </div>
                 <div className="form-group col-md-6">
                   <label htmlFor="fil">Anexo</label>
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="institutionName"
-                    id="institutionName"
-                    value={atividade.institutionName}
-                    disabled
-                  />
+                  <a target="_blank" href={download.image_url} rel="noopener noreferrer" download={atividade.attachment}>
+                   Certificado-Download
+                  </a>
                 </div>
               </div>
               <div className="container-divider">
@@ -289,7 +284,7 @@ export default function ColaboradorVisualizaAtividades() {
                 <div className="form-group col-md-6">
                   <label htmlFor="fil">Responsavel</label>
                   <select
-                    onChange={e => setSelectedStatus(e.target.value)}
+                    onChange={e => setSelectedUser(e.target.value)}
                     className="form-control"
                     id="profile"
                   >

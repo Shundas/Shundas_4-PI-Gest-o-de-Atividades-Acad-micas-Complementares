@@ -336,5 +336,19 @@ module.exports = {
         } catch (error) {
             return response.json({ error: error.message })
         }
+    },
+
+    async showFile(request, response) {
+        try {            
+            const { id } = request.params;       
+            const file = await knex('form').select('attachment').where('idform', id).first();
+            const { attachment } = file
+            const directory = `tmp/uploads/${attachment}`;
+
+            return response.download(directory, attachment)
+            
+        } catch (error) {
+            return response.json({ error: error.message })
+        }
     }
 }
