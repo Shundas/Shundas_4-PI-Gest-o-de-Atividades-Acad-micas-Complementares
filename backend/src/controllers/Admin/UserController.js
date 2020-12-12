@@ -59,26 +59,26 @@ module.exports = {
       const senha = crypto.randomBytes(4).toString('hex')
       const hash = await bcrypt.hash(senha, 10)
 
-      // let transport = nodemailer.createTransport({
-      //   host: process.env.APP_HOST,
-      //   port: process.env.APP_PORT,
-      //   secure: false,
-      //   auth: {
-      //     user: process.env.APP_USER,
-      //     pass: process.env.APP_PASS,
-      //   },
-      // })
+      let transport = nodemailer.createTransport({
+        host: process.env.APP_HOST,
+        port: process.env.APP_PORT,
+        secure: false,
+        auth: {
+          user: process.env.APP_USER,
+          pass: process.env.APP_PASS,
+        },
+      })
 
-      // let info = await transport.sendMail({
-      //   from: '<noreplay@senai.com>',
-      //   to: email,
-      //   subject: `Olá ${name}`,
-      //   text: `Suas credenciais para login no Sistema são email: ${email}, senha: ${senha}`,
-      //   html: `<b>Suas credenciais para login no Sistema são email: ${email}, senha: ${senha}</b>`,
-      // })
+      let info = await transport.sendMail({
+        from: '<noreplay@senai.com>',
+        to: email,
+        subject: `Olá ${name}`,
+        text: `Suas credenciais para login no Sistema são email: ${email}, senha: ${senha}`,
+        html: `<b>Suas credenciais para login no Sistema são email: ${email}, senha: ${senha}</b>`,
+      })
 
-      // console.log('Message sent: %s', info.messageId)
-      // console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
+      console.log('Message sent: %s', info.messageId)
+      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
 
       const user = await knex('user').insert({
         iduser: id,
@@ -91,7 +91,7 @@ module.exports = {
         isActive: true,
       })
 
-      return response.status(201).json("Usuário criado com sucesso")
+      return response.status(201).json('Usuário criado com sucesso')
     } catch (erros) {
       return response.json({ error: erros.message })
     }
@@ -293,7 +293,7 @@ module.exports = {
       return response.json({ error: erros.message })
     }
   },
-  
+
   async usuarioAtivo(request, response) {
     try {
       const { email, senha } = request.body
@@ -315,46 +315,50 @@ module.exports = {
 
   async resetSenha(request, response) {
     try {
-
       const { email } = request.body
-      const check = await knex.count('iduser as count').from('user').where('email', email).where('isActive', true);
+      const check = await knex
+        .count('iduser as count')
+        .from('user')
+        .where('email', email)
+        .where('isActive', true)
       var [{ count }] = check
 
       if (count === 1) {
-
         const senha = crypto.randomBytes(4).toString('hex')
         const hash = await bcrypt.hash(senha, 10)
-        const consulta = await knex.select('iduser').from('user').where('email', email);
+        const consulta = await knex
+          .select('iduser')
+          .from('user')
+          .where('email', email)
         var [{ iduser }] = consulta
         const updateSenha = await knex('user')
           .update({ isReset: true, senhaTemp: hash })
           .where('iduser', iduser)
 
-          let transport = nodemailer.createTransport({
-            host: process.env.APP_HOST,
-            port: process.env.APP_PORT,
-            secure: false,
-            auth: {
-              user: process.env.APP_USER,
-              pass: process.env.APP_PASS,
-            },
-          })
-    
-          let info = await transport.sendMail({
-            from: '<noreplay@senai.com>',
-            to: email,
-            subject: `Seu email de redefinição de senha chegou!`,
-            text: `Aqui está sua senha de acesso provisória: ${senha} \n\n Use-a para acessar o sistema e redefinir sua senha.`,
-            html: `<b>Aqui está sua senha de acesso provisória: ${senha} <br><br> Use-a para acessar o sistema e redefinir sua senha.</b>`,
-          })
+        let transport = nodemailer.createTransport({
+          host: process.env.APP_HOST,
+          port: process.env.APP_PORT,
+          secure: false,
+          auth: {
+            user: process.env.APP_USER,
+            pass: process.env.APP_PASS,
+          },
+        })
 
-        return response.status(201).json({msg:'Email de redefinição enviado.'})
+        let info = await transport.sendMail({
+          from: '<noreplay@senai.com>',
+          to: email,
+          subject: `Seu email de redefinição de senha chegou!`,
+          text: `Aqui está sua senha de acesso provisória: ${senha} \n\n Use-a para acessar o sistema e redefinir sua senha.`,
+          html: `<b>Aqui está sua senha de acesso provisória: ${senha} <br><br> Use-a para acessar o sistema e redefinir sua senha.</b>`,
+        })
 
+        return response
+          .status(201)
+          .json({ msg: 'Email de redefinição enviado.' })
       } else {
         return response.status(400).json({ error: 'Email inválido/incorreto.' })
       }
-
-
     } catch (error) {
       return response.json({ erro: error.message })
     }
@@ -362,49 +366,52 @@ module.exports = {
 
   async resetSenhaColab(request, response) {
     try {
-
       const { email } = request.body
-      const check = await knex.count('iduserSenai as count').from('userSenai').where('email', email).where('isActive', true);
+      const check = await knex
+        .count('iduserSenai as count')
+        .from('userSenai')
+        .where('email', email)
+        .where('isActive', true)
       var [{ count }] = check
 
       if (count === 1) {
-
         const senha = crypto.randomBytes(4).toString('hex')
         const hash = await bcrypt.hash(senha, 10)
-        const consulta = await knex.select('iduserSenai').from('userSenai').where('email', email);
+        const consulta = await knex
+          .select('iduserSenai')
+          .from('userSenai')
+          .where('email', email)
         var [{ iduserSenai }] = consulta
         const updateSenha = await knex('userSenai')
           .update({ isReset: true, senhaTemp: hash })
           .where('iduserSenai', iduserSenai)
 
-          let transport = nodemailer.createTransport({
-            host: process.env.APP_HOST,
-            port: process.env.APP_PORT,
-            secure: false,
-            auth: {
-              user: process.env.APP_USER,
-              pass: process.env.APP_PASS,
-            },
-          })
-    
-          let info = await transport.sendMail({
-            from: '<noreplay@senai.com>',
-            to: email,
-            subject: `Seu email de redefinição de senha chegou!`,
-            text: `Aqui está sua senha de acesso provisória: ${senha} \n\n Use-a para acessar o sistema e redefinir sua senha.`,
-            html: `<b>Aqui está sua senha de acesso provisória: ${senha} <br><br> Use-a para acessar o sistema e redefinir sua senha.</b>`,
-          })
+        let transport = nodemailer.createTransport({
+          host: process.env.APP_HOST,
+          port: process.env.APP_PORT,
+          secure: false,
+          auth: {
+            user: process.env.APP_USER,
+            pass: process.env.APP_PASS,
+          },
+        })
 
-          return response.status(201).json({msg:'Email de redefinição enviado.'})
+        let info = await transport.sendMail({
+          from: '<noreplay@senai.com>',
+          to: email,
+          subject: `Seu email de redefinição de senha chegou!`,
+          text: `Aqui está sua senha de acesso provisória: ${senha} \n\n Use-a para acessar o sistema e redefinir sua senha.`,
+          html: `<b>Aqui está sua senha de acesso provisória: ${senha} <br><br> Use-a para acessar o sistema e redefinir sua senha.</b>`,
+        })
 
+        return response
+          .status(201)
+          .json({ msg: 'Email de redefinição enviado.' })
       } else {
         return response.status(400).json({ error: 'Email inválido/incorreto.' })
       }
-
-
     } catch (error) {
       return response.json({ erro: error.message })
     }
-  }
-
+  },
 }

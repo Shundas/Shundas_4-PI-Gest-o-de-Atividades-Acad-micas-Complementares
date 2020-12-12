@@ -1,10 +1,10 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from '../../services/api';
 import 'bootstrap/dist/css/bootstrap.css';
 
 import Header from '../../components/HeaderLogin';
-import Footer from '../../components/Footer';
 
 const ContainerApp = styled.div`
   width: 100%;
@@ -39,6 +39,36 @@ const ContainerApp = styled.div`
 `;
 
 export default function PageSessionAluno() {
+  const [email, setEmail] = React.useState('');
+  const [senha, setSenha] = React.useState('');
+  const history = useHistory();
+
+  const historyReturn = () => {
+    return history.push('/aluno-home');
+  };
+
+  const handleSubmit = React.useCallback(
+    async e => {
+      e.preventDefault();
+
+      const data = {
+        email: email,
+        senha: senha,
+      };
+
+      if (data.email === '' || data.senha === '') {
+        return alert('Email e senha são obrigatórios');
+      } else {
+        await axios.post('/aluno-login', {
+          email,
+          senha,
+        });
+        historyReturn();
+      }
+    },
+    [email, senha]
+  );
+
   return (
     <>
       <Header />
@@ -48,7 +78,7 @@ export default function PageSessionAluno() {
       </h1>
 
       <ContainerApp className="container">
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
@@ -56,6 +86,7 @@ export default function PageSessionAluno() {
               name="email"
               id="email"
               className="form-control"
+              onChange={e => setEmail(e.target.value)}
             />
           </div>
           <div className="form-group">
@@ -65,18 +96,15 @@ export default function PageSessionAluno() {
               name="pass"
               id="pass"
               className="form-control"
+              onChange={e => setSenha(e.target.value)}
             />
           </div>
           <div className="opt">
-            <button className="btn btn-primary">
-              Entrar
-            </button>
+            <button className="btn btn-primary">Entrar</button>
             <Link to="/auth-aluno-recuperasenha">Esqueci minha Senha</Link>
           </div>
         </form>
       </ContainerApp>
-
-      <Footer />
     </>
   );
 }

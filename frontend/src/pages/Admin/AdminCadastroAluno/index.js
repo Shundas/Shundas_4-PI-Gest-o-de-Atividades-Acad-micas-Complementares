@@ -108,17 +108,6 @@ export default function AdminCadastroUser() {
     <>
       <Header />
 
-      {!showalertsuccess && ''}
-      {showalertsuccess && (
-        <div
-          style={{ textAlign: 'center' }}
-          class="alert alert-success"
-          role="alert"
-        >
-          Aluno Cadastrado com Sucesso!
-        </div>
-      )}
-
       <h2
         style={{ marginTop: '2em', marginBottom: '1em' }}
         className="text-center"
@@ -146,6 +135,17 @@ export default function AdminCadastroUser() {
             >
               Alguns campos são obrigatórios, verifique se todos estão
               preenchidos!
+            </div>
+          )}
+
+          {!showalertsuccess && ''}
+          {showalertsuccess && (
+            <div
+              style={{ textAlign: 'center' }}
+              class="alert alert-success"
+              role="alert"
+            >
+              Aluno Cadastrado com Sucesso!
             </div>
           )}
           <form on onSubmit={handleSubmit} className="form">
