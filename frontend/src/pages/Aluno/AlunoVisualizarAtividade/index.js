@@ -134,7 +134,7 @@ export default function AlunoVisualisarAtividades() {
           </div>
           <div className="form-row">
             <label htmlFor="#inp1">Anexo</label>
-            <button onSubmit={handleDownload}>Download File</button>
+            <button onClick={() => handleDownload}>Download File</button>
 
             {/* <a target="_blank" href={handleDownload} rel="noopener noreferrer" download> {atividade.attachment}</a> */}
           </div>
