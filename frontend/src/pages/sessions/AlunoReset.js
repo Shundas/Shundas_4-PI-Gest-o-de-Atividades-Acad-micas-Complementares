@@ -41,7 +41,9 @@ const ContainerApp = styled.div`
 export default function PageSessionAluno() {
   const [email, setEmail] = React.useState('');
   const [erros, setErros] = React.useState('');
+  const [msgConfirm, setMsgConfirm] = React.useState('');
   const [toggle, setToggle] = React.useState(false);
+  const [confirm, setConfirm] = React.useState(false);
 
   const data = {
     email,
@@ -51,7 +53,20 @@ export default function PageSessionAluno() {
     event.preventDefault();
 
     try {
-      await axios.post('/resetSenha', data);
+      const response = await axios.post('/resetSenha', data);
+
+      if ((response.status = 200)) {
+        setTimeout(
+          () => {
+            setMsgConfirm('Email de redefinição enviado');
+            setConfirm(true);
+            setEmail('');
+          },
+          setTimeout(() => {
+            setConfirm(false);
+          }, 4000)
+        );
+      }
     } catch (error) {
       if ((error.status = 400)) {
         setTimeout(
@@ -79,6 +94,15 @@ export default function PageSessionAluno() {
         <div className="container">
           <div style={{ textAlign: 'center' }} className="alert alert-danger">
             {erros}
+          </div>
+        </div>
+      )}
+
+      {!confirm && ''}
+      {confirm && (
+        <div className="container">
+          <div style={{ textAlign: 'center' }} className="alert alert-success">
+            {msgConfirm}
           </div>
         </div>
       )}

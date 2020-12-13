@@ -41,13 +41,11 @@ const ContainerApp = styled.div`
 export default function PageSessionAluno() {
   const [email, setEmail] = React.useState('');
   const [senha, setSenha] = React.useState('');
-  const [senhaTemp, setSenhaTemp] = React.useState('');
 
   const [erros, setErros] = React.useState('');
   const [toggle, setToggle] = React.useState(false);
-  const history = useHistory();
 
-  const validacao = Object.entries(erros).length;
+  const history = useHistory();
 
   const historyReturn = () => {
     return history.push('/aluno-home');
@@ -65,7 +63,7 @@ export default function PageSessionAluno() {
       const response = await axios.post('/aluno-login', data);
 
       if ((response.status = 200)) {
-        historyReturn();
+        return historyReturn();
       }
     } catch (error) {
       if ((error.status = 400)) {
