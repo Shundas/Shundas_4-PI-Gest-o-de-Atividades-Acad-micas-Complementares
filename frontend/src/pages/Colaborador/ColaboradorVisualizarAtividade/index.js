@@ -78,9 +78,7 @@ export default function ColaboradorVisualizaAtividades() {
   const [selectedCategory, setSelectedCategory] = useState('0');
   const [selectedUser, setSelectedUser] = useState('0');
   const [selectedStatus, setSelectedStatus] = useState(0);
-  const [selectedActivity, setSelectedActivity] = useState({
-    activity: atividade.idactivity
-  });
+  const [selectedActivity, setSelectedActivity] = useState('0');
 
   useEffect(() => {
     axios.get('/category').then(response => {
