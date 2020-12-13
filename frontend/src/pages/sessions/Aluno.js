@@ -40,8 +40,8 @@ export default function PageSessionAluno() {
 
   const history = useHistory();
 
-  const historyReturn = () => {
-    return history.push('/aluno-home');
+  const historyReturn = path => {
+    return history.push(`/${path}`);
   };
 
   const data = {
@@ -57,9 +57,9 @@ export default function PageSessionAluno() {
       const { senhaTemp } = response.data;
 
       if ((response.status = 200) && senhaTemp === false) {
-        return historyReturn();
+        return historyReturn('aluno-home');
       } else if ((response.status = 200 && senhaTemp === true)) {
-        return history.push('/form-auth-recuperasenha');
+        return historyReturn('form-auth-recuperasenha');
       }
     } catch (error) {
       if ((error.status = 400)) {
