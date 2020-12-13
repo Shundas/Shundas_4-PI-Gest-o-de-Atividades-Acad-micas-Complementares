@@ -74,7 +74,7 @@ export default function AdminConsulta() {
           style={{ marginTop: '2em', marginBottom: '1em' }}
           className="text-center"
         >
-          Consulta de Aluno
+          Consulta de alunos
         </h2>
       </div>
 

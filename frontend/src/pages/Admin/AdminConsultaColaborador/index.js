@@ -70,7 +70,7 @@ export default function AdminConsultaColaborador() {
           style={{ marginTop: '2em', marginBottom: '1em' }}
           className="text-center"
         >
-          Consulta de Colaborador
+          Consulta de colaboradores
         </h2>
       </div>
 

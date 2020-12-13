@@ -49,11 +49,11 @@ export default function AdminTipoUser() {
     <Fragment>
       <Header />
       <h1 style={{ marginTop: '2em' }} className="text-center">
-        Informe o Usuário que deseja Consultar
+        Qual tipo de usuário deseja consultar?
       </h1>
 
       <Container>
-        <h5 className="text-center">Qual o tipo de usuário ?</h5>
+        {/* <h5 className="text-center">Qual o tipo de usuário ?</h5> */}
 
         <div className="btns-container">
           <Link to="/consultaluno" className="btn btn-primary button">
