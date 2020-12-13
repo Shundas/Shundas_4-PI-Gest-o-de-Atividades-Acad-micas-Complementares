@@ -61,6 +61,7 @@ export default function PageSessionAluno() {
 
     try {
       const response = await axios.post('/aluno-login', data);
+      console.log(response.data);
 
       if ((response.status = 200)) {
         return historyReturn();

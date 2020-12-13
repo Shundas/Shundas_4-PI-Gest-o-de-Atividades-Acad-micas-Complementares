@@ -94,7 +94,6 @@ module.exports = {
         .where('iduser', id)
       var [{ isReset }] = reset
       if (isReset === 1) {
-
         if (novaSenha !== confirmaSenha) {
           return response.status(400).json({ error: 'Senhas não conferem!' })
         }
@@ -104,8 +103,10 @@ module.exports = {
           .update({ senha: hash })
           .where('iduser', id)
 
-        await knex("user").update({isReset: false}).where("iduser", id)
-        return response.status(201).json({ msg: 'Senha atualizada com sucesso!' })
+        await knex('user').update({ isReset: false }).where('iduser', id)
+        return response
+          .status(201)
+          .json({ msg: 'Senha atualizada com sucesso!' })
       } else {
         return response.status(400).json({ error: 'Acesso não permitido.' })
       }
@@ -116,11 +117,17 @@ module.exports = {
 
   async sessionAluno(request, response) {
     const data = request.body
-    const verifica = await knex('user').count('email as existe').where('email', data['email']).where('isActive', true)
+    const verifica = await knex('user')
+      .count('email as existe')
+      .where('email', data['email'])
+      .where('isActive', true)
     var [{ existe }] = verifica
 
     if (existe === 1) {
-      const aluno = await knex('user').select('*').where('email', data['email']).where('isActive', true)
+      const aluno = await knex('user')
+        .select('*')
+        .where('email', data['email'])
+        .where('isActive', true)
       let [{ email, senha, iduser, senhaTemp, isReset }] = aluno
       if (isReset === 1) {
         await bcrypt.compare(data['senha'], senhaTemp).then(async ctx => {
@@ -134,7 +141,7 @@ module.exports = {
               process.env.APP_SECRET,
               { expiresIn: '1d' },
             )
-            return response.status(200).json({ token: token })
+            return response.status(200).json({ token: token, senhaTemp: true })
           } else {
             await bcrypt.compare(data['senha'], senha).then(async ctx => {
               if (ctx) {
@@ -147,10 +154,16 @@ module.exports = {
                   process.env.APP_SECRET,
                   { expiresIn: '1d' },
                 )
-                await knex("user").update({isReset: false}).where("iduser", iduser)
-                return response.status(200).json({ token: token })
+                await knex('user')
+                  .update({ isReset: false })
+                  .where('iduser', iduser)
+                return response
+                  .status(200)
+                  .json({ token: token, senhaTemp: false })
               } else {
-                return response.status(400).json({ error: 'Usuário ou senha inválido.*' })
+                return response
+                  .status(400)
+                  .json({ error: 'Usuário ou senha inválido.*' })
               }
             })
           }
@@ -167,14 +180,18 @@ module.exports = {
               process.env.APP_SECRET,
               { expiresIn: '1d' },
             )
-            return response.status(200).json({ token: token })
+            return response.status(200).json({ token: token, senhaTemp: false })
           } else {
-            return response.status(400).json({ error: 'Usuário ou senha inválido.**' })
+            return response
+              .status(400)
+              .json({ error: 'Usuário ou senha inválido.**' })
           }
         })
       }
     } else {
-      return response.status(400).json({ error: 'Usuário ou senha inválidos.***' })
+      return response
+        .status(400)
+        .json({ error: 'Usuário ou senha inválidos.***' })
     }
   },
 }
