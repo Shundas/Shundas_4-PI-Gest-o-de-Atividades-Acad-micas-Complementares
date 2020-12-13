@@ -56,10 +56,12 @@ export default function PageSessionAluno() {
       const response = await axios.post('/aluno-login', data);
       const { senhaTemp } = response.data;
 
-      if ((response.status = 200) && senhaTemp === false) {
-        return historyReturn('aluno-home');
-      } else if ((response.status = 200 && senhaTemp === true)) {
-        return historyReturn('form-auth-recuperasenha');
+      if ((response.status = 200)) {
+        if (senhaTemp === false) {
+          return historyReturn('aluno-home');
+        } else if (senhaTemp === true) {
+          return historyReturn('form-auth-recuperasenha');
+        }
       }
     } catch (error) {
       if ((error.status = 400)) {
@@ -67,6 +69,7 @@ export default function PageSessionAluno() {
           () => {
             setErros('Usuário ou Senha Inválidos');
             setToggle(true);
+            console.log(Response.error);
           },
           setTimeout(() => {
             setToggle(false);
