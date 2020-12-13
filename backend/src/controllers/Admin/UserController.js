@@ -179,7 +179,7 @@ module.exports = {
         isActive: true,
       })
 
-      return response.json(user)
+      return response.status(201).json({msg: 'Usuário criado com sucesso! Verifique se email para obter as credenciais de acesso.'})
     } catch (erros) {
       return response.json({ error: erros.message })
     }
@@ -223,7 +223,8 @@ module.exports = {
         .join('role', 'userSenai.idrole', '=', 'role.idrole')
         .select(
           'userSenai.iduserSenai',
-          'role.name',
+          'role.name as role',
+          'userSenai.name',
           'userSenai.email',
           'userSenai.phone',
           'userSenai.celular',
@@ -289,25 +290,6 @@ module.exports = {
     try {
       const perfis = await knex('role').select('idrole', 'name')
       return response.json(perfis)
-    } catch (erros) {
-      return response.json({ error: erros.message })
-    }
-  },
-
-  async usuarioAtivo(request, response) {
-    try {
-      const { email, senha } = request.body
-      const verifica = await knex
-        .select('isActive')
-        .from('user')
-        .where('email', email)
-      const [{ isActive }] = verifica
-
-      if (isActive === 0) {
-        return false
-      }
-
-      return true
     } catch (erros) {
       return response.json({ error: erros.message })
     }

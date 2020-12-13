@@ -180,12 +180,37 @@ module.exports = {
   },
 
   async indexUser(request, response) {
-    try {            
-        const result = await knex('userSenai').select('iduserSenai', 'name')
-        console.log(result)
-        return response.json(result)
+    try {
+      const result = await knex('userSenai').select('iduserSenai', 'name')
+      return response.json(result)
     } catch (error) {
-        return response.json({ error: error.message })
+      return response.json({ error: error.message })
     }
-}
+  },
+
+  async indexCoord(request, response){
+    try {
+      const result = await knex('userSenai').select('iduserSenai', 'name').where('idrole', 1111)
+      return response.json(result)
+    } catch (error) {
+      
+    }
+  },
+  
+  async indexAssist(request, response){
+    try {
+      const result = await knex('userSenai').select('iduserSenai', 'name').where('idrole', 4444)
+      return response.json(result)
+    } catch (error) {
+      
+    }
+  },
+  async indexSec(request, response){
+    try {
+      const result = await knex('userSenai').select('iduserSenai', 'name').where('idrole', 2222)
+      return response.json(result)
+    } catch (error) {
+      
+    }
+  }
 }

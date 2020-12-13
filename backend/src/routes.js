@@ -54,14 +54,14 @@ routes.post('/criarComentarioAluno', ComentarioController.createComentarioAluno)
 //Rota para listar comentário
 routes.get('/listarComentario', ComentarioController.indexComentario)
 
-//Verifica se usuário está ativo
-routes.post('/verificaUsuario', UserController.usuarioAtivo)
-
 routes.get('/perfis', UserController.perfil)
 routes.get('/category', AtividadeController.category)
 routes.get('/activity', AtividadeController.activity)
 routes.get('/status', AtividadeController.indexStatus)
 routes.get('/userSenai', ColaboradorController.indexUser)
+routes.get('/userCoord', ColaboradorController.indexCoord)
+routes.get('/userAssist', ColaboradorController.indexAssist)
+routes.get('/userSec', ColaboradorController.indexSec)
 
 //Download Arquivo
 routes.get('/download/:id', AtividadeController.showFile)

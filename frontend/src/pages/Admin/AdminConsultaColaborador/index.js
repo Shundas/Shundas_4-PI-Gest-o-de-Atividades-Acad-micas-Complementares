@@ -117,8 +117,8 @@ export default function AdminConsultaColaborador() {
         <table className="table">
           <thead className="bg-success">
             <tr>
-              <th scope="col" style={{ color: '#fff' }}>
-                Perfil
+            <th scope="col" style={{ color: '#fff' }}>
+                Nome
               </th>
               <th scope="col" style={{ color: '#fff' }}>
                 E-mail
@@ -128,6 +128,9 @@ export default function AdminConsultaColaborador() {
               </th>
               <th scope="col" style={{ color: '#fff' }}>
                 Telefone
+              </th>
+              <th scope="col" style={{ color: '#fff' }}>
+                Perfil
               </th>
               <th scope="col" style={{ color: '#fff' }}>
                 Ações
@@ -141,6 +144,7 @@ export default function AdminConsultaColaborador() {
                 <td>{x.email}</td>
                 <td>{x.cpf}</td>
                 <td>{x.phone}</td>
+                <td>{x.role}</td>
 
                 <td>
                   <button className="btn btn-outline-success">
