@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import axios from '../../../services/api';
 import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.css';
+import FileDown from 'js-file-download';
 
 import Header from '../../../components/HeaderAdmin';
 
@@ -51,13 +52,6 @@ export default function ColaboradorVisualizaAtividades() {
   const [user, setUser] = useState([]);
 
 
-
-  const [selectedCategory, setSelectedCategory] = useState('0');
-  const [selectedActivity, setSelectedActivity] = useState('0');
-  const [selectedUser, setSelectedUser] = useState('0');
-  const [selectedStatus, setSelectedStatus] = useState('0');
-
-
   const [download, setDownload] = useState({
     image_url: ""
   });
@@ -76,7 +70,16 @@ export default function ColaboradorVisualizaAtividades() {
     informedWorkload: '',
     date_end: '',
     idcategory: '',
-    idactivity: ''
+    idactivity: '',
+    iduserSenai: '',
+    idstatus: ''
+  });
+
+  const [selectedCategory, setSelectedCategory] = useState('0');
+  const [selectedUser, setSelectedUser] = useState('0');
+  const [selectedStatus, setSelectedStatus] = useState(0);
+  const [selectedActivity, setSelectedActivity] = useState({
+    activity: atividade.idactivity
   });
 
   useEffect(() => {
@@ -118,8 +121,15 @@ export default function ColaboradorVisualizaAtividades() {
       console.log(response.data);
       setAtividade(response.data.atividades)
       setDownload(response.data.download)
+      // setSelectedActivity(atividade.idactivity)
+      // setSelectedCategory(atividade.idcategory)
+      // setSelectedUser(atividade.iduserSenai)
+      // setSelectedStatus(atividade.idstatus)
+
     });
   }, []);
+
+  console.log("Id da Atividade antes do HTML: " + atividade.idactivity)
 
 
   //Formatação da Data
@@ -127,7 +137,6 @@ export default function ColaboradorVisualizaAtividades() {
     if (numero <= 9) return '0' + numero;
     else return numero;
   }
-
   atividade.date_end = new Date(atividade.date_end);
   let dataFormatada =
     atividade.date_end.getFullYear() +
@@ -136,13 +145,79 @@ export default function ColaboradorVisualizaAtividades() {
     '-' +
     adicionaZero(atividade.date_end.getDate());
 
+
+  //Download Arquivo  
+  function handleDownload(event) {
+    event.preventDefault();
+    axios.get(`/download/${id}`, {
+      responseType: 'blob',
+    }).then((response) => {
+      FileDown(response.data, atividade.attachment);
+    })
+  }
+
+  //Função para Receber os valores alterados do front
+  function handleInputChange(event) {
+    const { name, value } = event.target;
+
+    setAtividade({ ...atividade, [name]: value });
+  }
+
+  //Função para fazer a requisição de update no backend
+  async function handleSubmmit(event) {
+    event.preventDefault();
+
+    const {
+      institutionName,
+      informedWorkload,
+      activityName,
+      date_end,
+    } = atividade;
+    
+    const category = selectedCategory;
+    const ativity = selectedActivity.activity;
+    const status = selectedStatus;
+    const iduserSenai = selectedUser;
+
+    console.log("Nome da Instituição: " + institutionName)
+    console.log("Nome da Atividade: " + activityName)
+    console.log("Id da Categoria: " + selectedCategory)
+    console.log("Id da Atividade: " + ativity)
+    console.log("Informed Workload: " + informedWorkload)
+    console.log("Date_end: " + date_end)
+    console.log("Id do Status: " + status)
+    console.log("User Senai: " + iduserSenai)
+    
+    const data = new FormData();
+
+    data.append('institutionName', institutionName);
+    data.append('informedWorkload', informedWorkload);
+    data.append('activityName', activityName);
+    data.append('date_end', date_end);
+    data.append('idcategory', category);
+    data.append('idactivity', activity);
+
+    console.log(data);
+
+    // await axios
+    //   .post('/criarAtividade', data, {
+    //     params: {
+    //       iduser: '966092399a4e0d32',
+    //       iduserSenai: '9865183800ef0d83',
+    //     },
+    //   })
+    //   .then(response => {
+    //     setErros(response.data);
+    //   });
+  }
+
   return (
     <>
-      {console.log(atividade)}
+      {console.log("id da atividade no html: " + atividade.idactivity)}
       <Header />
       <TitleH2>Vizualizar Atividade</TitleH2>
       <ContainerApp className="container">
-        <form className="form">
+        <form className="form" onSubmit={handleSubmmit}>
           <SubTitle>Detalhes</SubTitle>
           <div className="form-column">
             <div>
@@ -153,6 +228,7 @@ export default function ColaboradorVisualizaAtividades() {
                   type="text"
                   name="institutionName"
                   id="institutionName"
+                  onChange={handleInputChange}
                   value={atividade.institutionName}
                 />
               </div>
@@ -176,6 +252,7 @@ export default function ColaboradorVisualizaAtividades() {
                     type="text"
                     name="activityName"
                     id="activityName"
+                    onChange={handleInputChange}
                     value={atividade.activityName}
                   />
                 </div>
@@ -226,6 +303,7 @@ export default function ColaboradorVisualizaAtividades() {
                     max="60"
                     name="informedWorkload"
                     id="informedWorkload"
+                    onChange={handleInputChange}
                     value={atividade.informedWorkload}
 
                   />
@@ -240,7 +318,7 @@ export default function ColaboradorVisualizaAtividades() {
                     name="workload"
                     id="workload"
                     value={atividade.workload}
-
+                    disabled  
                   />
                 </div>
               </div>
@@ -253,15 +331,14 @@ export default function ColaboradorVisualizaAtividades() {
                     type="date"
                     name="date_end"
                     id="date_end"
+                    onChange={handleInputChange}
                     value={dataFormatada}
 
                   />
                 </div>
                 <div className="form-group col-md-6">
                   <label htmlFor="fil">Anexo</label>
-                  <a target="_blank" href={download.image_url} rel="noopener noreferrer" download={atividade.attachment}>
-                   Certificado-Download
-                  </a>
+                  <button onClick={handleDownload}>Download File</button>
                 </div>
               </div>
               <div className="container-divider">
@@ -272,7 +349,7 @@ export default function ColaboradorVisualizaAtividades() {
                     className="form-control"
                     id="profile"
                   >
-                    <option value={status.idstatus} selected disabled>{atividade.status}</option>
+                    <option value={atividade.idstatus} selected disabled>{atividade.status}</option>
                     {
                       status.map(st => (
                         <option key={st.idstatus} value={st.idstatus}>
@@ -288,7 +365,7 @@ export default function ColaboradorVisualizaAtividades() {
                     className="form-control"
                     id="profile"
                   >
-                    <option value={user.iduserSenai} selected disabled>{atividade.name}</option>
+                    <option value={atividade.iduserSenai}>{atividade.name}</option>
                     {
                       user.map(us => (
                         <option key={us.iduserSenai} value={us.iduserSenai}>
@@ -300,10 +377,10 @@ export default function ColaboradorVisualizaAtividades() {
               </div>
             </div>
             <div className="btn-salve">
-              <button className="btn btn-secondary">Editar</button>
+              <button className="btn btn-primary">Salvar</button>
               <button
                 type="button"
-                class="btn btn-primary"
+                class="btn btn-secondary"
                 data-toggle="modal"
                 data-target="#exampleModalLong"
               >

@@ -6,7 +6,6 @@ import { Text, Container, SubText } from './styled';
 import logo from '../../../images/logo.svg';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from '../../../services/api';
-import { saveAs } from 'file-saver'
 
 //Tela pendente ainda!
 export default function AlunoVisualisarAtividades() {
@@ -148,11 +147,6 @@ return (
             Responsável{' '}
             <span class="badge badge-success">{atividade.name}</span>
           </h5>
-        </div>
-        <div className="form-row">
-          <button className="btn btn-secondary" disabled>
-            Editar
-            </button>
         </div>
       </form>
     </Container>
