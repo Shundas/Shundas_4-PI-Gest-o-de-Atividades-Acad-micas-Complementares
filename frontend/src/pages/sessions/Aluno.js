@@ -9,29 +9,22 @@ import Header from '../../components/HeaderLogin';
 const ContainerApp = styled.div`
   width: 100%;
   max-width: 600px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   margin-top: 2em;
-
   padding: 20px;
   border: 1px solid #fff;
   background: #fff;
-
   border-radius: 20px;
   box-shadow: -1px 1px 16px -9px rgba(0, 0, 0, 0.65);
-
   input {
     width: 500px;
   }
-
   .opt {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     button {
       width: 180px;
     }
@@ -61,10 +54,12 @@ export default function PageSessionAluno() {
 
     try {
       const response = await axios.post('/aluno-login', data);
-      console.log(response.data);
+      const { senhaTemp } = response.data;
 
-      if ((response.status = 200)) {
+      if ((response.status = 200) && senhaTemp === false) {
         return historyReturn();
+      } else if ((response.status = 200 && senhaTemp === true)) {
+        return history.push('/form-auth-recuperasenha');
       }
     } catch (error) {
       if ((error.status = 400)) {
