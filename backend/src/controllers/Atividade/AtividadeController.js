@@ -349,5 +349,11 @@ module.exports = {
         } catch (error) {
             return response.json({ error: error.message })
         }
+    },
+
+    async aprovaAtividade(request, response){
+
+        
+
     }
 }
