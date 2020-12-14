@@ -46,7 +46,7 @@ routes.get('/listarAtividade', AtividadeController.indexAtividade)
 routes.get('/visualizarAtividade/:id', AtividadeController.visualizarAtividade)
 
 //Rota para alterar Atividade
-routes.put('/updateAtividade', AtividadeController.updateAtividade)
+routes.put('/updateAtividade/:id', AtividadeController.updateAtividade)
 
 //Rota para criar comentário
 routes.post('/criarComentarioAluno', ComentarioController.createComentarioAluno)
