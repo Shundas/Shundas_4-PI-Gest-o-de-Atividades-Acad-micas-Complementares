@@ -23,7 +23,6 @@ import ColaboradorHome from '../pages/Colaborador/ColaboradorAdicionarAtividade'
 import ColaboradorConsultaAtividades from '../pages/Colaborador/ColaboradorConsultaAtividade';
 import ColaboradorVisualizaAtividades from '../pages/Colaborador/ColaboradorVisualizarAtividade';
 
-
 // Login
 import AlunoLogin from '../pages/sessions/Aluno';
 import ColaboradorLogin from '../pages/sessions/Colaborador';
@@ -31,6 +30,9 @@ import ColaboradorLogin from '../pages/sessions/Colaborador';
 // Reset Senha
 import ResetAluno from '../pages/sessions/AlunoReset';
 import ResetSenhaForm from '../pages/sessions/AlunoResetSenha';
+
+import ResetColaborador from '../pages/sessions/ColaboradorReset';
+import ResetSenhaColabForm from '../pages/sessions/ColaboradorResetSenha';
 
 export default function RoutesAplication() {
   return (
@@ -56,14 +58,25 @@ export default function RoutesAplication() {
         <Route path="/aluno-home" component={AlunoHome} />
         /**Colaborador */
         <Route path="/colaboradorhome" component={ColaboradorHome} />
-        <Route path="/consulta-atividade-colaborador" component={ColaboradorConsultaAtividades} />
-        <Route path="/visualiza-atividade-colaborador/:id" component={ColaboradorVisualizaAtividades} />
+        <Route
+          path="/consulta-atividade-colaborador"
+          component={ColaboradorConsultaAtividades}
+        />
+        <Route
+          path="/visualiza-atividade-colaborador/:id"
+          component={ColaboradorVisualizaAtividades}
+        />
         /**Login */
         <Route path="/auth-aluno" component={AlunoLogin} />
         <Route path="/auth-colaborador" component={ColaboradorLogin} />
         /**Reset Senha */
         <Route path="/auth-aluno-recuperasenha" component={ResetAluno} />
         <Route path="/form-auth-recuperasenha" component={ResetSenhaForm} />
+        <Route path="/auth-colab-recuperasenha" component={ResetColaborador} />
+        <Route
+          path="/form-auth-recuperasenhaColab"
+          component={ResetSenhaColabForm}
+        />
       </Switch>
     </BrowserRouter>
   );
