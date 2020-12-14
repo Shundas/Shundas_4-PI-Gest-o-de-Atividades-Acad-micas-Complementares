@@ -53,7 +53,7 @@ export default function PageSessionAluno() {
     event.preventDefault();
 
     try {
-      const response = await axios.post('/resetSenha', data);
+      const response = await axios.post('/resetSenhaColab', data);
 
       if ((response.status = 200)) {
         setTimeout(

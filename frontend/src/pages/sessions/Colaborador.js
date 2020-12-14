@@ -39,51 +39,49 @@ const ContainerApp = styled.div`
 `;
 
 export default function PageSessionAluno() {
-  const [formData, setFormData] = React.useState({
-    email: '',
-    senha: '',
-  });
+  const [email, setEmail] = React.useState('');
+  const [senha, setSenha] = React.useState('');
 
-  const [erros, setErros] = React.useState({
-    msg: '',
-    erro: '',
-  });
-
+  const [erros, setErros] = React.useState('');
+  const [toggle, setToggle] = React.useState(false);
   const history = useHistory();
-  const validacao = Object.entries(erros).length;
 
   function historyReturn(path) {
     return history.push(`/${path}`);
   }
 
-  function handleInputChange(event) {
-    const { name, value } = event.target;
-    setFormData({ ...formData, [name]: value });
-  }
+  const data = {
+    email: email,
+    senha: senha,
+  };
 
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const { email, senha } = formData;
-    const data = new FormData();
+    try {
+      const response = await axios.post('/colaborador-login', data);
+      const { senhaTemp } = response.data;
 
-    data.append('email', email);
-    data.append('senha', senha);
-
-    const response = await axios.post('/colaborador-login', data);
-    const { senhaTemp } = response.data;
-    setErros(response.data.error);
-
-    if ((response.status = 200)) {
-      if (senhaTemp === false) {
-        return historyReturn('colaboradorhome');
-      } else if (senhaTemp === true) {
-        return historyReturn('form-auth-recuperasenhaColab');
+      if ((response.status = 200)) {
+        if (senhaTemp === false) {
+          return historyReturn('colaboradorhome');
+        } else if (senhaTemp === true) {
+          return historyReturn('form-auth-recuperasenhaColab');
+        }
       }
-    }
-
-    if ((response.status = 400)) {
-      alert('Erro');
+    } catch (error) {
+      if ((error.status = 400)) {
+        setTimeout(
+          () => {
+            setErros('Usuário ou Senha Inválidos');
+            setToggle(true);
+            console.log(Response.error);
+          },
+          setTimeout(() => {
+            setToggle(false);
+          }, 4000)
+        );
+      }
     }
   }
 
@@ -95,19 +93,13 @@ export default function PageSessionAluno() {
         Acesso Colaborador!
       </h1>
 
-      {console.log(erros)}
-      {erros.msg === '' && erros.erro === '' ? '' : ''}
-      {erros.msg === '' && validacao === 2 ? (
-        ''
-      ) : (
-        <div className="alert alert-success">
-          Atividade Registrada com Sucesso! {erros.msg}
+      {!toggle && ''}
+      {toggle && (
+        <div className="container">
+          <div style={{ textAlign: 'center' }} className="alert alert-danger">
+            {erros}
+          </div>
         </div>
-      )}
-      {erros.erro === '' || validacao == 1 ? (
-        ''
-      ) : (
-        <div className="alert alert-danger">{erros.erro}</div>
       )}
 
       <ContainerApp className="container">
@@ -117,7 +109,8 @@ export default function PageSessionAluno() {
             <input
               type="email"
               name="email"
-              onChange={handleInputChange}
+              value={email}
+              onChange={e => setEmail(e.target.value)}
               id="email"
               className="form-control"
             />
@@ -127,7 +120,8 @@ export default function PageSessionAluno() {
             <input
               type="password"
               name="pass"
-              onChange={handleInputChange}
+              value={senha}
+              onChange={e => setSenha(e.target.value)}
               id="pass"
               className="form-control"
             />

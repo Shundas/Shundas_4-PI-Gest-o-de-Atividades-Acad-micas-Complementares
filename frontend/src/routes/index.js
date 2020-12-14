@@ -19,7 +19,7 @@ import AlunoConsultaAtividades from '../pages/Aluno/AlunoConsultaAtividades';
 import AlunoVisualisarAtividades from '../pages/Aluno/AlunoVisualizarAtividade';
 
 // Colaborador
-import ColaboradorHome from '../pages/Colaborador/ColaboradorAdicionarAtividade';
+import ColaboradorHome from '../pages/Colaborador/ColaboradorHome';
 import ColaboradorConsultaAtividades from '../pages/Colaborador/ColaboradorConsultaAtividade';
 import ColaboradorVisualizaAtividades from '../pages/Colaborador/ColaboradorVisualizarAtividade';
 
