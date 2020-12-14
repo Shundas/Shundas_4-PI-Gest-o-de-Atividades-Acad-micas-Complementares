@@ -31,6 +31,7 @@ const Container = styled.div`
 export default function ResetSenhaAluno() {
   const [novaSenha, setNovaSenha] = React.useState('');
   const [confirmaSenha, setConfirmaSenha] = React.useState('');
+
   const [msgConfirm, setMsgConfirm] = React.useState('');
   const [toggle, setToggle] = React.useState(false);
   const [confirm, setConfirm] = React.useState(false);
