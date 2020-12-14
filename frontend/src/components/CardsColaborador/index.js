@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   FiPlus,
@@ -40,39 +41,49 @@ export default function CardPageColaborador() {
       <div className={classes.root}>
         <ul className={classes.grid}>
           <div className="card" style={{ width: '18rem' }}>
-            <div className={`card-body ${classes.center}`}>
-              <FiPlus size={25} color="blue" className="icon" />
-              <h5 className="card-title">Adicionar Atividade</h5>
-            </div>
+            <Link
+              className="tolink"
+              to="/atividade-colaborador"
+            >
+              <div className={`card-body ${classes.center}`}>
+                <FiPlus size={25} color="blue" className="icon" />
+                <h5 className="card-title">Adicionar Atividade</h5>
+              </div>
+            </Link>
           </div>
+            
+          <Link
+            className="tolink"
+            to="/consulta-atividade-colaborador"
+          >
+            <div className="card" style={{ width: '18rem' }}>
+              <div className={`card-body ${classes.center}`}>
+                <FiSearch size={25} color="blue" className="icon" />
+                <h5 className="card-title">Consultar Atividades</h5>
+              </div>
+            </div>
+          </Link>
 
-          <div className="card" style={{ width: '18rem' }}>
-            <div className={`card-body ${classes.center}`}>
-              <FiSearch size={25} color="blue" className="icon" />
-              <h5 className="card-title">Consultar Atividades</h5>
+            <div className="card" style={{ width: '18rem' }}>
+              <div className={`card-body ${classes.center}`}>
+                <FiClipboard size={25} color="blue" className="icon" />
+                <h5 className="card-title">Consultar Regras</h5>
+              </div>
             </div>
-          </div>
 
-          <div className="card" style={{ width: '18rem' }}>
-            <div className={`card-body ${classes.center}`}>
-              <FiClipboard size={25} color="blue" className="icon" />
-              <h5 className="card-title">Consultar Regras</h5>
+            <div className="card" style={{ width: '18rem' }}>
+              <div className={`card-body ${classes.center}`}>
+                <FiCheck size={25} color="blue" className="icon" />
+                <h5 className="card-title">Tarefas</h5>
+              </div>
             </div>
-          </div>
 
-          <div className="card" style={{ width: '18rem' }}>
-            <div className={`card-body ${classes.center}`}>
-              <FiCheck size={25} color="blue" className="icon" />
-              <h5 className="card-title">Tarefas</h5>
+            <div className="card" style={{ width: '18rem' }}>
+              <div className={`card-body ${classes.center}`}>
+                <FiTrendingUp size={25} color="blue" className="icon" />
+                <h5 className="card-title">Consultar Progresso</h5>
+              </div>
             </div>
-          </div>
-
-          <div className="card" style={{ width: '18rem' }}>
-            <div className={`card-body ${classes.center}`}>
-              <FiTrendingUp size={25} color="blue" className="icon" />
-              <h5 className="card-title">Consultar Progresso</h5>
-            </div>
-          </div>
         </ul>
       </div>
     </>
