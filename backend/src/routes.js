@@ -54,6 +54,7 @@ routes.post('/criarComentarioAluno', ComentarioController.createComentarioAluno)
 //Rota para listar comentário
 routes.get('/listarComentario', ComentarioController.indexComentario)
 
+//Listagem
 routes.get('/perfis', UserController.perfil)
 routes.get('/category', AtividadeController.category)
 routes.get('/activity', AtividadeController.activity)
@@ -62,6 +63,8 @@ routes.get('/userSenai', ColaboradorController.indexUser)
 routes.get('/userCoord', ColaboradorController.indexCoord)
 routes.get('/userAssist', ColaboradorController.indexAssist)
 routes.get('/userSec', ColaboradorController.indexSec)
+routes.get('/userAluno', AlunoController.indexAluno)
+
 
 //Download Arquivo
 routes.get('/download/:id', AtividadeController.showFile)

@@ -24,6 +24,9 @@ module.exports = {
             const validatorWork = yup.object().shape({ informedWorkload: yup.string().required() })
             const validatorActivity = yup.object().shape({ activityName: yup.string().required() })
 
+            if (iduser == 0) {
+                return response.json({ msg: "", erro: 'Aluno Senai é campo obrigatório.' })
+            }
 
             if (!(await validatorInstitution.isValid(request.body))) {
                 return response.status(200).json({ msg: "", erro: 'Nome da Instituição é campo obrigatório.' })
