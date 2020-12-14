@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import axios from '../../services/api';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -49,7 +49,12 @@ export default function PageSessionAluno() {
     erro: '',
   });
 
+  const history = useHistory();
   const validacao = Object.entries(erros).length;
+
+  function historyReturn(path) {
+    return history.push(`/${path}`);
+  }
 
   function handleInputChange(event) {
     const { name, value } = event.target;
@@ -67,13 +72,18 @@ export default function PageSessionAluno() {
 
     const response = await axios.post('/colaborador-login', data);
     const { senhaTemp } = response.data;
+    setErros(response.data.error);
 
     if ((response.status = 200)) {
       if (senhaTemp === false) {
-        return;
+        return historyReturn('colaboradorhome');
       } else if (senhaTemp === true) {
-        return;
+        return historyReturn('form-auth-recuperasenhaColab');
       }
+    }
+
+    if ((response.status = 400)) {
+      alert('Erro');
     }
   }
 
@@ -82,7 +92,7 @@ export default function PageSessionAluno() {
       <Header />
 
       <h1 style={{ marginTop: '1.7em' }} className="text-center">
-        Olá Colaborador, Faça o seu login!
+        Acesso Colaborador!
       </h1>
 
       {console.log(erros)}
@@ -126,7 +136,7 @@ export default function PageSessionAluno() {
             <button type="submit" className="btn btn-primary">
               Entrar
             </button>
-            <Link to="/auth-aluno-recuperasenha">Esqueci minha Senha</Link>
+            <Link to="/auth-colab-recuperasenha">Esqueci minha Senha</Link>
           </div>
         </form>
       </ContainerApp>
