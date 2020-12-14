@@ -24,6 +24,9 @@ module.exports = {
             const validatorWork = yup.object().shape({ informedWorkload: yup.string().required() })
             const validatorActivity = yup.object().shape({ activityName: yup.string().required() })
 
+            if (iduser == 0) {
+                return response.json({ msg: "", erro: 'Aluno Senai é campo obrigatório.' })
+            }
 
             if (!(await validatorInstitution.isValid(request.body))) {
                 return response.status(200).json({ msg: "", erro: 'Nome da Instituição é campo obrigatório.' })
@@ -179,7 +182,7 @@ module.exports = {
     async visualizarAtividade(request, response) {
         try {
             const { id } = request.params;
-            
+
             const file = await knex('form').select('attachment').where('idform', id).first();
 
             const { attachment } = file
@@ -187,11 +190,11 @@ module.exports = {
             const download = {
                 image_url: `http://localhost:3333/uploads/${attachment}`
             }
-            
+
             console.log(download)
 
             const atividades = await knex('form')
-                .select('form.institutionName', 'form.activityName', 'form.informedWorkload', 'form.attachment', 'category.name_cat', 'activity.description', 'category.idcategory', 'activity.idactivity', 'form.workload', 'form.date_end', 'status.status', 'user.name as userName', 'userSenai.name', 'form.iduserSenai', 'form.idcategory', 'form.idactivity', 'form.idstatus')
+                .select('form.institutionName', 'form.activityName', 'form.informedWorkload', 'form.attachment', 'category.name_cat', 'activity.description', 'category.idcategory', 'activity.idactivity', 'form.workload', 'form.date_end', 'status.status', 'user.name as userName', 'userSenai.name', 'form.iduserSenai', 'form.idcategory', 'form.idactivity', 'form.idstatus', 'form.iduser')
                 .join('category', 'form.idcategory', '=', 'category.idcategory')
                 .join('activity', 'form.idactivity', '=', 'activity.idactivity')
                 .join('userSenai', 'form.iduserSenai', '=', 'userSenai.iduserSenai')
@@ -201,7 +204,7 @@ module.exports = {
 
             console.log(atividades)
             return response.json({
-                atividades, 
+                atividades,
                 download
             })
 
@@ -214,29 +217,40 @@ module.exports = {
     async updateAtividade(request, response) {
 
         try {
-            const { idform } = request.query
+            const { id } = request.params;
+            console.log(id)
 
-            const { iduser, iduserSenai, idactivity, idcategory, institutionName, date_end, workloadT, activityName, idstatus } = request.body
+            const idform = id
+
+            console.log(idform)
+
+            var erro
+            let mensagem = ""
+
+            console.log(request.body)
+
+            const { idactivity, idcategory, institutionName, date_end, informedWorkloadT, activityName, idstatus, iduser } = request.body
+
             const validatorInstitution = yup.object().shape({ institutionName: yup.string().required() })
             const validatorDate = yup.object().shape({ date_end: yup.date().required() })
-            const validatorWork = yup.object().shape({ workload: yup.string().required() })
+            const validatorWork = yup.object().shape({ informedWorkloadT: yup.string().required() })
             const validatorActivity = yup.object().shape({ activityName: yup.string().required() })
 
 
             if (!(await validatorInstitution.isValid(request.body))) {
-                return response.status(400).json({ error: 'Nome da Instituição é campo obrigatório.' })
-            }
-
-            if (!(await validatorDate.isValid(request.body))) {
-                return response.status(400).json({ error: 'Data é campo obrigatório.' })
-            }
-
-            if (!(await validatorWork.isValid(request.body))) {
-                return response.status(400).json({ error: 'Horas validadas é campo obrigatório.' })
+                return response.status(200).json({ msg: "", erro: 'Nome da Instituição é campo obrigatório.' })
             }
 
             if (!(await validatorActivity.isValid(request.body))) {
-                return response.status(400).json({ error: 'Nome da Atividade é campo obrigatório.' })
+                return response.status(200).json({ msg: "", erro: 'Atividade Complementar é campo obrigatório.' })
+            }
+
+            if (!(await validatorDate.isValid(request.body))) {
+                return response.status(200).json({ msg: "", erro: 'Data de Conclusão é campo obrigatório.' })
+            }
+
+            if (!(await validatorWork.isValid(request.body))) {
+                return response.status(200).json({ msg: "", erro: 'Quantidade de horas é campo obriagtório.' })
             }
 
 
@@ -245,9 +259,12 @@ module.exports = {
             //Buscando o Workload registrado nas outras atividades
             const buscaWorkload = await knex('form').sum('workload as workload').where('iduser', iduser).where('idactivity', idactivity).where("idstatus", 3)
 
-            //Buscando o InformedWorkload na ativade que será realizado o Update
+            console.log(buscaWorkload)
+
+            // Buscando o InformedWorkload na ativade que será realizado o Update
             const buscaInformedWorkload = await knex('form').sum('informedWorkload as informedWorkload').where('idform', idform)
 
+            console.log(buscaInformedWorkload)
 
             //Buscando as regras de carga horaria, por atividade e categoria
             const selectAtividade = await knex('activity')
@@ -259,12 +276,30 @@ module.exports = {
             //Desestrurando os select
             let [{ hoursPerActivity, totalHour }] = selectAtividade
             let [{ workload }] = buscaWorkload
-            let [{ informedWorkload }] = buscaInformedWorkload
+            // let [{ informedWorkload }] = buscaInformedWorkload
             let restante
 
             console.log("Horas por atividade: " + hoursPerActivity)
             console.log("Hora total: " + totalHour)
             console.log("Workload: " + workload)
+
+            if (workload === null) {
+                const updateAtividade = await knex('form')
+                    .update({
+                        idactivity: idactivity,
+                        idcategory: idcategory,
+                        institutionName: institutionName,
+                        date_end: date_end,
+                        activityName: activityName,
+                        idstatus: idstatus 
+                    })
+                    .where('idform', idform)
+
+                return response.json({
+                    msg: mensagem,
+                    erro,
+                })
+            }
 
             if (idstatus === 3) {
                 if (hoursPerActivity === null) {
@@ -292,11 +327,14 @@ module.exports = {
                 }
             }
 
-            // const updateAtividade = await knex('form')
-            // .update({ iduserSenai, idactivity, idcategory, institutionName, date_end, workload, activityName, idstatus })
-            // .where('idform', idform)
+            const updateAtividade = await knex('form')
+                .update({ idactivity, idcategory, institutionName, date_end, activityName, idstatus })
+                .where('idform', idform)
 
-            // return response.json({ msg: "kasinoo" })
+            return response.json({
+                msg: mensagem,
+                erro,
+            })
 
         } catch (erros) {
             return response.json({ error: erros.message })
@@ -327,7 +365,7 @@ module.exports = {
     },
 
     async indexStatus(request, response) {
-        try {            
+        try {
             const status = await knex('status').select('idstatus', 'status')
             console.log(status)
             return response.json(status)
@@ -337,8 +375,8 @@ module.exports = {
     },
 
     async showFile(request, response) {
-        try {            
-            const { id } = request.params;       
+        try {
+            const { id } = request.params;
             const file = await knex('form').select('attachment').where('idform', id).first();
             const { attachment } = file
             const directory = `tmp/uploads/${attachment}`;
@@ -351,7 +389,7 @@ module.exports = {
         }
     },
 
-    async aprovaAtividade(request, response){
-        
+    async aprovaAtividade(request, response) {
+
     }
 }

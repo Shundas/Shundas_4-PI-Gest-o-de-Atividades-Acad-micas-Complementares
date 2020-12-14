@@ -51,6 +51,12 @@ export default function ColaboradorVisualizaAtividades() {
   const [status, setStatus] = useState([]);
   const [user, setUser] = useState([]);
 
+  const [erros, setErros] = useState({
+    msg: '',
+    erro: '',
+  });
+
+  const validacao = Object.entries(erros).length;
 
   const [download, setDownload] = useState({
     image_url: ""
@@ -72,12 +78,13 @@ export default function ColaboradorVisualizaAtividades() {
     idcategory: '',
     idactivity: '',
     iduserSenai: '',
+    iduser: '',
     idstatus: ''
   });
 
   const [selectedCategory, setSelectedCategory] = useState('0');
   const [selectedUser, setSelectedUser] = useState('0');
-  const [selectedStatus, setSelectedStatus] = useState(0);
+  const [selectedStatus, setSelectedStatus] = useState('0');
   const [selectedActivity, setSelectedActivity] = useState('0');
 
   useEffect(() => {
@@ -119,16 +126,8 @@ export default function ColaboradorVisualizaAtividades() {
       console.log(response.data);
       setAtividade(response.data.atividades)
       setDownload(response.data.download)
-      // setSelectedActivity(atividade.idactivity)
-      // setSelectedCategory(atividade.idcategory)
-      // setSelectedUser(atividade.iduserSenai)
-      // setSelectedStatus(atividade.idstatus)
-
     });
   }, []);
-
-  console.log("Id da Atividade antes do HTML: " + atividade.idactivity)
-
 
   //Formatação da Data
   function adicionaZero(numero) {
@@ -161,60 +160,76 @@ export default function ColaboradorVisualizaAtividades() {
     setAtividade({ ...atividade, [name]: value });
   }
 
+
   //Função para fazer a requisição de update no backend
   async function handleSubmmit(event) {
     event.preventDefault();
-
     const {
       institutionName,
       informedWorkload,
       activityName,
       date_end,
+      iduser
     } = atividade;
-    
-    const category = selectedCategory;
-    const ativity = selectedActivity.activity;
-    const status = selectedStatus;
-    const iduserSenai = selectedUser;
 
-    console.log("Nome da Instituição: " + institutionName)
-    console.log("Nome da Atividade: " + activityName)
-    console.log("Id da Categoria: " + selectedCategory)
-    console.log("Id da Atividade: " + ativity)
-    console.log("Informed Workload: " + informedWorkload)
-    console.log("Date_end: " + date_end)
-    console.log("Id do Status: " + status)
-    console.log("User Senai: " + iduserSenai)
-    
-    const data = new FormData();
+    var category = selectedCategory;
+    var activity = selectedActivity;
+    var status = selectedStatus;
 
-    data.append('institutionName', institutionName);
-    data.append('informedWorkload', informedWorkload);
-    data.append('activityName', activityName);
-    data.append('date_end', date_end);
-    data.append('idcategory', category);
-    data.append('idactivity', activity);
+    if( category == 0) {
+      category = atividade.idcategory
+      console.log(category)
+    }
 
-    console.log(data);
+    if( activity == 0) {
+      activity = atividade.idactivity
+      console.log(activity)
+    }
 
-    // await axios
-    //   .post('/criarAtividade', data, {
-    //     params: {
-    //       iduser: '966092399a4e0d32',
-    //       iduserSenai: '9865183800ef0d83',
-    //     },
-    //   })
-    //   .then(response => {
-    //     setErros(response.data);
-    //   });
+    if( status == 0) {
+      status = atividade.idstatus
+      console.log(status)
+    }
+
+    const data = {
+      institutionName: institutionName,
+      informedWorkloadT: informedWorkload,
+      activityName: activityName,
+      date_end: dataFormatada,
+      iduser: iduser,
+      idcategory: category,
+      idactivity: activity,
+      idstatus: status
+    }
+
+    await axios.put(`/updateAtividade/${id}`, data)
+      .then(response => {
+        setErros(response.data);
+    });
   }
 
   return (
     <>
-      {console.log("id da atividade no html: " + atividade.idactivity)}
       <Header />
       <TitleH2>Vizualizar Atividade</TitleH2>
       <ContainerApp className="container">
+      {
+          erros.msg === "" && erros.erro === "" ? (
+            ""
+          ) : (
+              ""
+            )
+        }
+        {erros.msg === "" && validacao === 2 ? (
+          ""
+        ) : (
+              <div className="alert alert-success">Alteração Registrada com Sucesso! {erros.msg}</div>          
+          )}
+        {erros.erro === "" || validacao == 1 ? (
+          ''
+        ) : (
+            <div className="alert alert-danger">{erros.erro}</div>
+          )}
         <form className="form" onSubmit={handleSubmmit}>
           <SubTitle>Detalhes</SubTitle>
           <div className="form-column">
@@ -278,8 +293,7 @@ export default function ColaboradorVisualizaAtividades() {
                   <select
                     onChange={e => setSelectedActivity(e.target.value)}
                     className="form-control"
-                    id="profile"
-                    value={atividade.description}
+                    id="activity"
                   >
                     <option value={atividade.idactivity} selected disabled >{atividade.description}</option>
                     {activity.map(act => (
@@ -316,7 +330,7 @@ export default function ColaboradorVisualizaAtividades() {
                     name="workload"
                     id="workload"
                     value={atividade.workload}
-                    disabled  
+                    disabled
                   />
                 </div>
               </div>

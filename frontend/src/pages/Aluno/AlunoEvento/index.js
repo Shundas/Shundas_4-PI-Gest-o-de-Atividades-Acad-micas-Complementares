@@ -81,7 +81,6 @@ export default function AlunoEvento() {
     data.append('idcategory', category);
     data.append('idactivity', activity);
 
-    console.log(data);
 
     await axios
       .post('/criarAtividade', data, {

@@ -194,4 +194,13 @@ module.exports = {
         .json({ error: 'Usuário ou senha inválidos.***' })
     }
   },
+
+  async indexAluno(request, response) {
+    try {
+      const result = await knex('user').select('iduser', 'name')
+      return response.json(result)
+    } catch (error) {
+      return response.json({ error: error.message })
+    }
+  }
 }
