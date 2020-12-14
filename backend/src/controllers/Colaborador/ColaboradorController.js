@@ -76,8 +76,12 @@ module.exports = {
 
       const hash = await bcrypt.hash(novaSenha, 10)
 
-      const updateSenha = await knex('userSenai').update({ senha: hash }).where('iduserSenai', id)
-      await knex("userSenai").update({ isReset: false }).where("iduserSenai", iduserSenai)
+      const updateSenha = await knex('userSenai')
+        .update({ senha: hash })
+        .where('iduserSenai', id)
+      await knex('userSenai')
+        .update({ isReset: false })
+        .where('iduserSenai', iduserSenai)
       return response.status(200).json({ msg: 'Senha alterada com sucesso!' })
     } catch (erros) {
       return response.json({ error: erros.message })
@@ -86,7 +90,10 @@ module.exports = {
 
   async sessionColaborador(request, response) {
     const data = request.body
-    const verifica = await knex('userSenai').count('email as existe').where('email', data['email']).where('isActive', true)
+    const verifica = await knex('userSenai')
+      .count('email as existe')
+      .where('email', data['email'])
+      .where('isActive', true)
     var [{ existe }] = verifica
 
     if (existe === 1) {
@@ -108,7 +115,7 @@ module.exports = {
               process.env.APP_SECRET,
               { expiresIn: '1d' },
             )
-            return response.status(200).json({ token: token })
+            return response.status(200).json({ token: token, senhaTemp: true })
           } else {
             bcrypt.compare(data['senha'], senha).then(async ctx => {
               if (ctx) {
@@ -121,10 +128,16 @@ module.exports = {
                   process.env.APP_SECRET,
                   { expiresIn: '1d' },
                 )
-                await knex("userSenai").update({ isReset: false }).where("iduserSenai", iduserSenai)
-                return response.status(200).json({ token: token })
+                await knex('userSenai')
+                  .update({ isReset: false })
+                  .where('iduserSenai', iduserSenai)
+                return response
+                  .status(200)
+                  .json({ token: token, senhaTemp: true })
               } else {
-                return response.status(400).json({ error: 'Usuário ou senha inválido.*' })
+                return response
+                  .status(400)
+                  .json({ error: 'Usuário ou senha inválido.*' })
               }
             })
           }
@@ -141,14 +154,18 @@ module.exports = {
               process.env.APP_SECRET,
               { expiresIn: '1d' },
             )
-            return response.status(200).json({ token: token })
+            return response.status(200).json({ token: token, senhaTemp: false })
           } else {
-            return response.status(400).json({ error: 'Usuário ou senha inválido.**' })
+            return response
+              .status(400)
+              .json({ error: 'Usuário ou senha inválido.**' })
           }
         })
       }
     } else {
-      return response.status(400).json({ error: 'Usuário ou senha inválido.***' })
+      return response
+        .status(400)
+        .json({ error: 'Usuário ou senha inválido.***' })
     }
   },
 
@@ -162,15 +179,20 @@ module.exports = {
         .where('iduserSenai', id)
       var [{ isReset }] = reset
       if (isReset === 1) {
-
         if (novaSenha !== confirmaSenha) {
           return response.status(400).json({ error: 'Senhas não conferem!' })
         }
 
         const hash = await bcrypt.hash(novaSenha, 10)
-        const updateSenha = await knex('userSenai').update({ senha: hash }).where('iduserSenai', id)
-        await knex("userSenai").update({ isReset: false }).where("iduserSenai", iduserSenai)
-        return response.status(201).json({ msg: 'Senha atualizada com sucesso!' })
+        const updateSenha = await knex('userSenai')
+          .update({ senha: hash })
+          .where('iduserSenai', id)
+        await knex('userSenai')
+          .update({ isReset: false })
+          .where('iduserSenai', iduserSenai)
+        return response
+          .status(201)
+          .json({ msg: 'Senha atualizada com sucesso!' })
       } else {
         return response.status(400).json({ error: 'Acesso não permitido.' })
       }
@@ -188,29 +210,29 @@ module.exports = {
     }
   },
 
-  async indexCoord(request, response){
+  async indexCoord(request, response) {
     try {
-      const result = await knex('userSenai').select('iduserSenai', 'name').where('idrole', 1111)
+      const result = await knex('userSenai')
+        .select('iduserSenai', 'name')
+        .where('idrole', 1111)
       return response.json(result)
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   },
-  
-  async indexAssist(request, response){
+
+  async indexAssist(request, response) {
     try {
-      const result = await knex('userSenai').select('iduserSenai', 'name').where('idrole', 4444)
+      const result = await knex('userSenai')
+        .select('iduserSenai', 'name')
+        .where('idrole', 4444)
       return response.json(result)
-    } catch (error) {
-      
-    }
+    } catch (error) {}
   },
-  async indexSec(request, response){
+  async indexSec(request, response) {
     try {
-      const result = await knex('userSenai').select('iduserSenai', 'name').where('idrole', 2222)
+      const result = await knex('userSenai')
+        .select('iduserSenai', 'name')
+        .where('idrole', 2222)
       return response.json(result)
-    } catch (error) {
-      
-    }
-  }
+    } catch (error) {}
+  },
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from '../../services/api';
 import 'bootstrap/dist/css/bootstrap.css';
 
 import Header from '../../components/HeaderLogin';
@@ -38,6 +39,44 @@ const ContainerApp = styled.div`
 `;
 
 export default function PageSessionAluno() {
+  const [formData, setFormData] = React.useState({
+    email: '',
+    senha: '',
+  });
+
+  const [erros, setErros] = React.useState({
+    msg: '',
+    erro: '',
+  });
+
+  const validacao = Object.entries(erros).length;
+
+  function handleInputChange(event) {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const { email, senha } = formData;
+    const data = new FormData();
+
+    data.append('email', email);
+    data.append('senha', senha);
+
+    const response = await axios.post('/colaborador-login', data);
+    const { senhaTemp } = response.data;
+
+    if ((response.status = 200)) {
+      if (senhaTemp === false) {
+        return;
+      } else if (senhaTemp === true) {
+        return;
+      }
+    }
+  }
+
   return (
     <>
       <Header />
@@ -46,13 +85,29 @@ export default function PageSessionAluno() {
         Olá Colaborador, Faça o seu login!
       </h1>
 
+      {console.log(erros)}
+      {erros.msg === '' && erros.erro === '' ? '' : ''}
+      {erros.msg === '' && validacao === 2 ? (
+        ''
+      ) : (
+        <div className="alert alert-success">
+          Atividade Registrada com Sucesso! {erros.msg}
+        </div>
+      )}
+      {erros.erro === '' || validacao == 1 ? (
+        ''
+      ) : (
+        <div className="alert alert-danger">{erros.erro}</div>
+      )}
+
       <ContainerApp className="container">
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="email">Email</label>
             <input
               type="email"
               name="email"
+              onChange={handleInputChange}
               id="email"
               className="form-control"
             />
@@ -62,6 +117,7 @@ export default function PageSessionAluno() {
             <input
               type="password"
               name="pass"
+              onChange={handleInputChange}
               id="pass"
               className="form-control"
             />
