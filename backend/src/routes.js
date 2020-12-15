@@ -69,12 +69,17 @@ routes.get('/userAluno', AlunoController.indexAluno)
 //Download Arquivo
 routes.get('/download/:id', AtividadeController.showFile)
 
+//Calcula horas
+routes.get('/calculaHoras', AtividadeController.calculaHoras)
 
 //reset senha
 routes.post('/resetSenha', UserController.resetSenha)
 routes.post('/resetSenhaColab', UserController.resetSenhaColab)
 routes.post('/novaSenhaAluno', AlunoController.novaSenhaAluno)
 routes.post('/novaSenhaColab', ColaboradorController.novaSenhaColab)
+
+//encaminhaCoordenador
+routes.post('/encaminhaCoordenador', AtividadeController.encaminhaCoordenador)
 
 
 module.exports = routes
