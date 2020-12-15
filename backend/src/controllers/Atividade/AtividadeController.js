@@ -395,14 +395,18 @@ module.exports = {
 
     async calculaHoras(request, response){
 
-        const atividades = await knex('form')
-                .select('form.institutionName', 'form.activityName', 'form.informedWorkload', 'form.attachment', 'category.name_cat', 'activity.description', 'category.idcategory', 'activity.idactivity', 'form.workload', 'form.date_end', 'status.status', 'user.name as userName', 'userSenai.name', 'form.iduserSenai', 'form.idcategory', 'form.idactivity', 'form.idstatus', 'form.iduser')
-                .join('category', 'form.idcategory', '=', 'category.idcategory')
-                .join('activity', 'form.idactivity', '=', 'activity.idactivity')
-                .join('userSenai', 'form.iduserSenai', '=', 'userSenai.iduserSenai')
-                .join('user', 'form.iduser', '=', 'user.iduser')
-                .join('status', 'form.idstatus', '=', 'status.idstatus')
-                .where('idform', id).first()
+        const { id } = request.headers
 
+        const ensino = await knex('form').sum('workload as somaEnsino').where('idcategory',1).where({iduser: id})
+        const pesquisa = await knex('form').sum('workload as somaPesquisa').where('idcategory',2).where({iduser: id})
+        const extensao = await knex('form').sum('workload as somaExtensao').where('idcategory',3).where({iduser: id})
+        
+        var [{somaEnsino}] = ensino
+        var [{somaPesquisa}] = pesquisa
+        var [{somaExtensao}] = extensao
+
+        var total = somaEnsino + somaExtensao + somaPesquisa
+        
+        return response.json({ensino: ensino, pesquisa: pesquisa, extensao: extensao, total: total})        
     }
 }

@@ -69,6 +69,8 @@ routes.get('/userAluno', AlunoController.indexAluno)
 //Download Arquivo
 routes.get('/download/:id', AtividadeController.showFile)
 
+//Calcula horas
+routes.get('/calculaHoras', AtividadeController.calculaHoras)
 
 //reset senha
 routes.post('/resetSenha', UserController.resetSenha)
