@@ -104,7 +104,7 @@ module.exports = {
             const formAtividade = await knex('form').insert({
                 idform: id,
                 iduser,
-                iduserSenai,
+                iduserSenai:"63e02be21c18344d",
                 idactivity,
                 idcategory,
                 institutionName,
@@ -390,6 +390,19 @@ module.exports = {
     },
 
     async aprovaAtividade(request, response) {
+
+    },
+
+    async calculaHoras(request, response){
+
+        const atividades = await knex('form')
+                .select('form.institutionName', 'form.activityName', 'form.informedWorkload', 'form.attachment', 'category.name_cat', 'activity.description', 'category.idcategory', 'activity.idactivity', 'form.workload', 'form.date_end', 'status.status', 'user.name as userName', 'userSenai.name', 'form.iduserSenai', 'form.idcategory', 'form.idactivity', 'form.idstatus', 'form.iduser')
+                .join('category', 'form.idcategory', '=', 'category.idcategory')
+                .join('activity', 'form.idactivity', '=', 'activity.idactivity')
+                .join('userSenai', 'form.iduserSenai', '=', 'userSenai.iduserSenai')
+                .join('user', 'form.iduser', '=', 'user.iduser')
+                .join('status', 'form.idstatus', '=', 'status.idstatus')
+                .where('idform', id).first()
 
     }
 }
