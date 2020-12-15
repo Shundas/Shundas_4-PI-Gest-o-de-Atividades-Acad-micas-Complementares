@@ -78,5 +78,8 @@ routes.post('/resetSenhaColab', UserController.resetSenhaColab)
 routes.post('/novaSenhaAluno', AlunoController.novaSenhaAluno)
 routes.post('/novaSenhaColab', ColaboradorController.novaSenhaColab)
 
+//encaminhaCoordenador
+routes.post('/encaminhaCoordenador', AtividadeController.encaminhaCoordenador)
+
 
 module.exports = routes

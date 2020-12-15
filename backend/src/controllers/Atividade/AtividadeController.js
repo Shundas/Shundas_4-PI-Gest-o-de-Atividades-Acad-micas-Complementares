@@ -1,6 +1,7 @@
 const knex = require('../../database/connection');
 const yup = require('yup');
 const crypto = require('crypto');
+const { info } = require('console');
 
 
 
@@ -84,7 +85,7 @@ module.exports = {
                 const verificaTotal = await knex.sum("workload as workloadTotal").from("form").where("iduser", iduser).where("idactivity", idactivity).where("idstatus", 3)
                 const [{ workloadTotal }] = verificaTotal
                 if (workloadTotal === totalHour) {
-                    return response.json({ msg: "", erro: `Vocẽ já validou todas as horas possíveis para este tipo de atividade: ${totalHour}h.` })
+                    return response.json({ msg: "", erro: `Você já validou todas as horas possíveis para este tipo de atividade: ${totalHour}h.` })
                 }
             }
             console.log(hoursPerActivity)
@@ -104,7 +105,7 @@ module.exports = {
             const formAtividade = await knex('form').insert({
                 idform: id,
                 iduser,
-                iduserSenai:"63e02be21c18344d",
+                iduserSenai: "63e02be21c18344d",
                 idactivity,
                 idcategory,
                 institutionName,
@@ -113,6 +114,7 @@ module.exports = {
                 attachment: filename,
                 activityName,
                 idstatus: 1,
+                senaiEvent: false
             })
 
             return response.json({
@@ -152,6 +154,7 @@ module.exports = {
                 idcategory,
                 date_end,
                 activityName,
+                senaiEvent: true
             })
 
             return response.json(formAtividadeSenai)
@@ -250,7 +253,7 @@ module.exports = {
             }
 
             if (!(await validatorWork.isValid(request.body))) {
-                return response.status(200).json({ msg: "", erro: 'Quantidade de horas é campo obriagtório.' })
+                return response.status(200).json({ msg: "", erro: 'Quantidade de horas é campo obrigatório.' })
             }
 
 
@@ -291,7 +294,7 @@ module.exports = {
                         institutionName: institutionName,
                         date_end: date_end,
                         activityName: activityName,
-                        idstatus: idstatus 
+                        idstatus: idstatus
                     })
                     .where('idform', idform)
 
@@ -391,22 +394,69 @@ module.exports = {
 
     async aprovaAtividade(request, response) {
 
-    },
-
-    async calculaHoras(request, response){
-
         const { id } = request.headers
 
-        const ensino = await knex('form').sum('workload as somaEnsino').where('idcategory',1).where({iduser: id})
-        const pesquisa = await knex('form').sum('workload as somaPesquisa').where('idcategory',2).where({iduser: id})
-        const extensao = await knex('form').sum('workload as somaExtensao').where('idcategory',3).where({iduser: id})
-        
-        var [{somaEnsino}] = ensino
-        var [{somaPesquisa}] = pesquisa
-        var [{somaExtensao}] = extensao
 
-        var total = somaEnsino + somaExtensao + somaPesquisa
-        
-        return response.json({ensino: ensino, pesquisa: pesquisa, extensao: extensao, total: total})        
+
+    },
+
+    async encaminhaCoordenador(request, response) {
+
+        try {
+            const { idCoord, idform } = request.body
+
+            const result = await knex('form').select('idactivity', 'idcategory', 'senaiEvent', 'informedWorkload', 'idstatus').where('idform', idform)
+            const [{ idactivity, idcategory, senaiEvent, informedWorkload, idstatus }] = result
+            var msg = ""
+
+            if (idstatus === 2) {
+                return response.status(400).json({ error: 'Esta atividade já está aguardando aprovação do coordenador.' })
+            } else {
+
+                if (senaiEvent === 1) {
+                    if (idactivity === null || idcategory === null) {
+                        msg += "Você precisa preencher a categoria e tipo de atividade. "
+                    }
+                    if (informedWorkload === null) {
+                        msg += "Você precisa preencher a quantidade de horas a serem validadas. "
+                    }
+                }
+                if (msg !== "") {
+                    return response.status(400).json({ error: msg })
+                } else {
+                    await knex('form').update({ iduserSenai: idCoord, idstatus: 2 }).where('idform', idform)
+                    return response.status(200).json({ msg: 'Atividade encaminhada para aprovação do coordenador' })
+                }
+            }
+
+
+        } catch (error) {
+            return response.json({ error: error.message })
+        }
+
+    },
+
+    async calculaHoras(request, response) {
+        try {
+
+            const { id } = request.headers
+
+            const ensino = await knex('form').sum('workload as somaEnsino').where('idcategory', 1).where({ iduser: id })
+            const pesquisa = await knex('form').sum('workload as somaPesquisa').where('idcategory', 2).where({ iduser: id })
+            const extensao = await knex('form').sum('workload as somaExtensao').where('idcategory', 3).where({ iduser: id })
+
+            var [{ somaEnsino }] = ensino
+            var [{ somaPesquisa }] = pesquisa
+            var [{ somaExtensao }] = extensao
+
+            var total = somaEnsino + somaExtensao + somaPesquisa
+
+            return response.json({ ensino: ensino, pesquisa: pesquisa, extensao: extensao, total: total })
+
+        } catch (error) {
+
+            return response.json({ error: error.message })
+
+        }
     }
 }
