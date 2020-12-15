@@ -13,6 +13,7 @@ import AdminConsultaColborador from '../pages/Admin/AdminConsultaColaborador';
 // Aluno
 import AlunoEvento from '../pages/Aluno/AlunoEvento';
 import AlunoEventoSenai from '../pages/Aluno/AlunoEventoSenai';
+import PageAlunoEventoSenai from '../pages/Aluno/AlunoeventoSenai';
 import AlunoPerfil from '../pages/Aluno/AlunoPerfil';
 import AlunoHome from '../pages/Aluno/AlunoHome';
 import AlunoConsultaAtividades from '../pages/Aluno/AlunoConsultaAtividades';
@@ -49,6 +50,7 @@ export default function RoutesAplication() {
         <Route path="/consultcolaborador" component={AdminConsultaColborador} />
         /**Aluno */
         <Route path="/atividade" component={AlunoEvento} />
+        <Route path="/senai-atividade" component={PageAlunoEventoSenai} />
         <Route path="/evento-senai" component={AlunoEventoSenai} />
         <Route path="/consulta-atividade" component={AlunoConsultaAtividades} />
         <Route

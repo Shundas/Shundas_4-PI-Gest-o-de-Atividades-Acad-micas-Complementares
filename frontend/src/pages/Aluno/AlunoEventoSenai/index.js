@@ -26,7 +26,7 @@ const Title = styled.h2`
   margin-top: 2em;
 `;
 
-export default function PageAlunoEventoSenai() {
+export default function AlunoEventoSenai() {
   return (
     <>
       <Header image={logo} text="Imagem Logo" />

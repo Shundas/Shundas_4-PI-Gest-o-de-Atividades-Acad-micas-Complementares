@@ -97,9 +97,7 @@ export default function AlunoEvento() {
   return (
     <>
       <Header image={logo} text="Imagem da Logo" />
-
       <Title>Adicionar Atividade</Title>
-
       <Container className="container">
         {console.log(erros)}
         {
@@ -112,8 +110,17 @@ export default function AlunoEvento() {
         {erros.msg === "" && validacao === 2 ? (
           ""
         ) : (
-              <div className="alert alert-success">Atividade Registrada com Sucesso! {erros.msg}</div>          
+            <>
+              <div className="alert alert-success">Atividade Registrada com Sucesso! {erros.msg}</div>
+              {console.log(erros.msg)}
+              {
+                setTimeout(() => {
+                  history.push('/aluno-home')
+                }, 5000)
+              }
+            </>
           )}
+
         {erros.erro === "" || validacao == 1 ? (
           ''
         ) : (
