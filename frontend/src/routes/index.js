@@ -34,6 +34,9 @@ import ResetSenhaForm from '../pages/sessions/AlunoResetSenha';
 import ResetColaborador from '../pages/sessions/ColaboradorReset';
 import ResetSenhaColabForm from '../pages/sessions/ColaboradorResetSenha';
 
+// Coordenador
+import CoordenadorVisualizaAtividade from '../pages/CoordernadorVisualizaAtividade/Coordenador';
+
 export default function RoutesAplication() {
   return (
     <BrowserRouter>
@@ -76,6 +79,11 @@ export default function RoutesAplication() {
         <Route
           path="/form-auth-recuperasenhaColab"
           component={ResetSenhaColabForm}
+        />
+        // Coordenador
+        <Route
+          path="/coordenador-visualiza-atividade"
+          component={CoordenadorVisualizaAtividade}
         />
       </Switch>
     </BrowserRouter>
