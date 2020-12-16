@@ -141,7 +141,7 @@ module.exports = {
               process.env.APP_SECRET,
               { expiresIn: '1d' },
             )
-            return response.status(200).json({ token: token, senhaTemp: true })
+            return response.status(200).json({ token: token, senhaTemp: true,  userId: iduser})
           } else {
             await bcrypt.compare(data['senha'], senha).then(async ctx => {
               if (ctx) {
@@ -155,7 +155,7 @@ module.exports = {
                   { expiresIn: '1d' },
                 )
                 await knex('user').update({ isReset: false }).where('iduser', iduser)
-                return response.status(200).json({ token: token, senhaTemp: false })
+                return response.status(200).json({ token: token, senhaTemp: false, userId: iduser })
               } else {
                 return response.status(400).json({ error: 'Usuário ou senha inválido.*' })
               }
@@ -174,7 +174,7 @@ module.exports = {
               process.env.APP_SECRET,
               { expiresIn: '1d' },
             )
-            return response.status(200).json({ token: token, senhaTemp: false })
+            return response.status(200).json({ token: token, senhaTemp: false, userId: iduser })
           } else {
             return response
               .status(400)
