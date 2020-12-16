@@ -2,7 +2,6 @@ const knex = require('../../database/connection');
 const yup = require('yup');
 const crypto = require('crypto');
 const { info } = require('console');
-const nodemailer = require('nodemailer')
 
 
 
@@ -395,6 +394,7 @@ module.exports = {
 
     async aprovaAtividade(request, response) {
 
+<<<<<<< HEAD
         try {
             const { idSec, idform, iduser } = request.body
             const result = await knex('form').select('idactivity', 'idcategory', 'senaiEvent', 'informedWorkload', 'idstatus', 'activityName').where('idform', idform)
@@ -404,11 +404,12 @@ module.exports = {
             const [{ email }] = user
             const [{ idactivity, idcategory, senaiEvent, informedWorkload, idstatus, activityName }] = result
             var msg = ""
+=======
+        const { id } = request.headers
+>>>>>>> 30585a53285811928bf05a959e0e654ffb805f53
 
-            if (idstatus === 3) {
-                return response.status(400).json({ error: 'Esta atividade já está aguardando retorno da secretaria.' })
-            } else {
 
+<<<<<<< HEAD
                 if (senaiEvent === 1) {
                     if (idactivity === null || idcategory === null) {
                         msg += "Você precisa preencher a categoria e tipo de atividade. "
@@ -454,18 +455,18 @@ module.exports = {
         } catch (error) {
             return response.json({ error: error.message })
         }
+=======
+>>>>>>> 30585a53285811928bf05a959e0e654ffb805f53
 
     },
 
     async encaminhaCoordenador(request, response) {
 
         try {
-            const { idCoord, idform, iduser  } = request.body
+            const { idCoord, idform } = request.body
 
-            const result = await knex('form').select('idactivity', 'idcategory', 'senaiEvent', 'informedWorkload', 'idstatus', 'activityName').where('idform', idform)
-            const user = await knex('user').select('email').where('iduser',iduser)
-            const [{ email }] = user
-            const [{ idactivity, idcategory, senaiEvent, informedWorkload, idstatus, activityName }] = result
+            const result = await knex('form').select('idactivity', 'idcategory', 'senaiEvent', 'informedWorkload', 'idstatus').where('idform', idform)
+            const [{ idactivity, idcategory, senaiEvent, informedWorkload, idstatus }] = result
             var msg = ""
 
             if (idstatus === 2) {
@@ -483,25 +484,6 @@ module.exports = {
                 if (msg !== "") {
                     return response.status(400).json({ error: msg })
                 } else {
-
-                    let transport = nodemailer.createTransport({
-                        host: process.env.APP_HOST,
-                        port: process.env.APP_PORT,
-                        secure: false,
-                        auth: {
-                          user: process.env.APP_USER,
-                          pass: process.env.APP_PASS,
-                        },
-                      })
-              
-                      let info = await transport.sendMail({
-                        from: '<noreplay@senai.com>',
-                        to: email,
-                        subject: `O status de validação da atividade \"${activityName}\" mudou.`,
-                        text: `A validação da atividade está aguardando a aprovação da coordenação. \n Qualquer novidade, lhe manteremos informado(a).`,
-                        html: `A validação da atividade está aguardando a aprovação da coordenação. <br><br> Qualquer novidade, lhe manteremos informado(a).`,
-                      })
-
                     await knex('form').update({ iduserSenai: idCoord, idstatus: 2 }).where('idform', idform)
                     return response.status(200).json({ msg: 'Atividade encaminhada para aprovação do coordenador' })
                 }
@@ -512,59 +494,6 @@ module.exports = {
             return response.json({ error: error.message })
         }
 
-    },
-
-    async rejeitaAtividade(request, response) {
-        try {
-
-            const { idusersenai, idform } = request.headers
-            const { comment } = request.body
-            const check = yup.object().shape({ comment: yup.string().required() })
-
-            const result = await knex('form').select('idactivity', 'idcategory', 'senaiEvent', 'informedWorkload', 'idstatus').where('idform', idform)
-            const [{ idactivity, idcategory, senaiEvent, informedWorkload, idstatus }] = result
-
-            if (idstatus === 4 || idstatus === 5) {
-                return response.status(400).json({ error: 'A validação desta atividade já está finalizada.' })
-            } else {
-
-                if (!(await check.isValid(request.body))) {
-                    return response.status(400).json({ error: 'Você deve enviar um comentário com o motivo da rejeição.' })
-                } else {
-                    const idcomment = crypto.randomBytes(8).toString('hex')
-                    await knex('form').update({ iduserSenai: idusersenai, idstatus: 5 }).where('idform', idform)
-                    await knex('comments').insert({ idcomments: idcomment, idform: idform, public: true, comment: comment, iduserSenai: idusersenai })
-
-                    return response.status(200).json({ msg: 'Atividade rejeitada.' })
-                }
-            }
-
-        } catch (error) {
-            return response.json({ error: error.message })
-        }
-    },
-
-    async concluiAtividade(request, response) {
-        try {
-            const { iduserSenai, idform } = request.headers
-
-            const result = await knex('form').select('idactivity', 'idcategory', 'senaiEvent', 'informedWorkload', 'idstatus').where('idform', idform)
-            const [{ idactivity, idcategory, senaiEvent, informedWorkload, idstatus }] = result
-
-            if (idstatus === 4 || idstatus === 5) {
-                return response.status(400).json({ error: 'A validação desta atividade já está finalizada.' })
-            } else {
-
-                const idcomment = crypto.randomBytes(8).toString('hex')
-                await knex('form').update({ iduserSenai: iduserSenai, idstatus: 4 }).where('idform', idform)
-
-                return response.status(200).json({ msg: 'Validação concluída.' })
-            }
-
-
-        } catch (error) {
-            return response.json({ error: error.message })
-        }
     },
 
     async calculaHoras(request, response) {
@@ -589,43 +518,5 @@ module.exports = {
             return response.json({ error: error.message })
 
         }
-    },
-
-    async listaCoordenadores(request, response) {
-        try {
-
-            const result = await knex('userSenai').select('idusersenai', 'name').where('idrole', 1111)
-            console.log(result)
-
-            return response.json(result)
-
-        } catch (error) {
-            return response.json({ error: error.message })
-        }
-    },
-
-    async listaAssistentes(request, response) {
-        try {
-
-            const result = await knex('userSenai').select('idusersenai', 'name').where('idrole', 4444)
-
-            return response.json(result)
-
-        } catch (error) {
-            return response.json({ error: error.message })
-        }
-    },
-
-    async listaSecretaria(request, response) {
-        try {
-
-            const result = await knex('userSenai').select('idusersenai', 'name').where('idrole', 2222)
-
-            return response.json(result)
-
-        } catch (error) {
-            return response.json({ error: error.message })
-        }
     }
-
 }

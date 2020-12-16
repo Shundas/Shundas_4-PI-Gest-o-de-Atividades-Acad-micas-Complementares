@@ -8,8 +8,6 @@ import { useHistory, Link } from 'react-router-dom';
 import { FiHome, FiArrowLeft } from 'react-icons/fi';
 import styled from 'styled-components';
 
-
-
 const Nopit = styled.div`
   position: absolute;
 
@@ -107,12 +105,11 @@ export default function AlunoEvento() {
     data.append('idcategory', category);
     data.append('idactivity', activity);
 
-
     await axios
       .post('/criarAtividade', data, {
         params: {
-          iduser: '283ed9c58b81d66a',
-          iduserSenai: '63e02be21c18344d',
+          iduser: '2180d6ffa058e697',
+          iduserSenai: '76649b06d9d8eaa5',
         },
       })
       .then(response => {
@@ -136,32 +133,26 @@ export default function AlunoEvento() {
       <Title>Adicionar Atividade</Title>
       <Container className="container">
         {console.log(erros)}
-        {
-          erros.msg === "" && erros.erro === "" ? (
-            ""
-          ) : (
-              ""
-            )
-        }
-        {erros.msg === "" && validacao === 2 ? (
-          ""
-        ) : (
-            <>
-              <div className="alert alert-success">Atividade Registrada com Sucesso! {erros.msg}</div>
-              {console.log(erros.msg)}
-              {
-                setTimeout(() => {
-                  history.push('/aluno-home')
-                }, 5000)
-              }
-            </>
-          )}
-
-        {erros.erro === "" || validacao == 1 ? (
+        {erros.msg === '' && erros.erro === '' ? '' : ''}
+        {erros.msg === '' && validacao === 2 ? (
           ''
         ) : (
-            <div className="alert alert-danger">{erros.erro}</div>
-          )}
+          <>
+            <div className="alert alert-success">
+              Atividade Registrada com Sucesso! {erros.msg}
+            </div>
+            {console.log(erros.msg)}
+            {setTimeout(() => {
+              history.push('/aluno-home');
+            }, 5000)}
+          </>
+        )}
+
+        {erros.erro === '' || validacao == 1 ? (
+          ''
+        ) : (
+          <div className="alert alert-danger">{erros.erro}</div>
+        )}
         <form onSubmit={handleSubmmit}>
           <div className="form-column raw">
             <div className="drop-raw">
