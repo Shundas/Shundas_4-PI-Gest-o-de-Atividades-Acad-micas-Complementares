@@ -154,16 +154,10 @@ module.exports = {
                   process.env.APP_SECRET,
                   { expiresIn: '1d' },
                 )
-                await knex('user')
-                  .update({ isReset: false })
-                  .where('iduser', iduser)
-                return response
-                  .status(200)
-                  .json({ token: token, senhaTemp: false })
+                await knex('user').update({ isReset: false }).where('iduser', iduser)
+                return response.status(200).json({ token: token, senhaTemp: false })
               } else {
-                return response
-                  .status(400)
-                  .json({ error: 'Usuário ou senha inválido.*' })
+                return response.status(400).json({ error: 'Usuário ou senha inválido.*' })
               }
             })
           }
@@ -189,9 +183,7 @@ module.exports = {
         })
       }
     } else {
-      return response
-        .status(400)
-        .json({ error: 'Usuário ou senha inválidos.***' })
+      return response.status(400).json({ error: 'Usuário ou senha inválidos.***' })
     }
   },
 

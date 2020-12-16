@@ -84,7 +84,7 @@ export default function PageSessionAluno() {
       <Header />
 
       <h1 style={{ marginTop: '1.7em' }} className="text-center">
-        Acesso Aluno!
+        Acesso Aluno
       </h1>
 
       {!toggle && ''}

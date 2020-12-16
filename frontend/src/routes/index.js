@@ -44,7 +44,7 @@ export default function RoutesAplication() {
     <BrowserRouter>
       <Switch>
         /** Admin */
-        <Route path="/" exact component={AdminHome} />
+        <Route path="/" exact component={AlunoLogin} />
         <Route path="/question" component={AdminTipoUser} />
         <Route path="/aluno" component={AdminCadastroAluno} />
         <Route path="/colaborador" component={AdminCadastroColaborador} />

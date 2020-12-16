@@ -84,7 +84,7 @@ module.exports = {
                 //Testado -- OK
                 const verificaTotal = await knex.sum("workload as workloadTotal").from("form").where("iduser", iduser).where("idactivity", idactivity).where("idstatus", 3)
                 const [{ workloadTotal }] = verificaTotal
-                if (workloadTotal === totalHour) {
+                if (workloadTotal >= totalHour) {
                     return response.json({ msg: "", erro: `Você já validou todas as horas possíveis para este tipo de atividade: ${totalHour}h.` })
                 }
             }
@@ -489,7 +489,7 @@ module.exports = {
                             pass: process.env.APP_PASS,
                         },
                     })
-    
+
                     await transport.sendMail({
                         from: '<noreplay@senai.com>',
                         to: email,
@@ -497,7 +497,7 @@ module.exports = {
                         text: `A validação da atividade está aguardando aprovação da coordenação do seu curso. \n\n Qualquer novidade, lhe manteremos atualizado!`,
                         html: `A validação da atividade está aguardando aprovação da coordenação do seu curso. <br><br> Qualquer novidade, lhe manteremos atualizado!`,
                     })
-    
+
                     await transport.sendMail({
                         from: '<noreplay@senai.com>',
                         to: emailSenai,
@@ -550,7 +550,7 @@ module.exports = {
                             pass: process.env.APP_PASS,
                         },
                     })
-    
+
                     await transport.sendMail({
                         from: '<noreplay@senai.com>',
                         to: email,
@@ -558,7 +558,7 @@ module.exports = {
                         text: `A validação da atividade "${activityName}" foi rejeitada. Motivo: ${comment}.`,
                         html: `A validação da atividade "${activityName}" foi rejeitada. <br><br> Motivo: ${comment}.`,
                     })
-    
+
                     // await transport.sendMail({
                     //     from: '<noreplay@senai.com>',
                     //     to: emailSenai,
@@ -581,21 +581,29 @@ module.exports = {
 
     async concluiAtividade(request, response) {
         try {
-            const { iduserSenai, idform } = request.headers
+            const { iduserSenai, idform, iduser } = request.headers
 
             const result = await knex('form').select('idactivity', 'idcategory', 'senaiEvent', 'informedWorkload', 'idstatus').where('idform', idform)
             const [{ idactivity, idcategory, senaiEvent, informedWorkload, idstatus }] = result
+            const activity = await knex('activity').select('*').where('idactivity', idactivity)
+            const [{ hoursPerActivity, totalHour }] = activity
 
-            if (idstatus === 4 || idstatus === 5) {
+            if (idstatus === 3 || idstatus === 5) {
                 return response.status(400).json({ error: 'A validação desta atividade já está finalizada.' })
             } else {
-
-                await knex('form').update({ iduserSenai: iduserSenai, idstatus: 4 }).where('idform', idform)
-
-                return response.status(200).json({ msg: 'Validação concluída.' })
+                const verificaTotal = await knex.sum("workload as workloadTotal").from("form").where("iduser", iduser).where("idactivity", idactivity).where("idstatus", 3)
+                const [{ workloadTotal }] = verificaTotal
+                if (workloadTotal >= totalHour) {
+                    return response.json({ msg: "", erro: `Você já validou todas as horas possíveis para este tipo de atividade: ${totalHour}h.` })
+                }
+                if (informedWorkload <= hoursPerActivity) {
+                    await knex('form').update({ iduserSenai: iduserSenai, idstatus: 3, workload: informedWorkload }).where('idform', idform)
+                    return response.status(200).json({ msg: `Validação concluída. ${informedWorkload}h validadas.` })
+                } else {
+                    await knex('form').update({ iduserSenai: iduserSenai, idstatus: 3, workload: hoursPerActivity }).where('idform', idform)
+                    return response.status(200).json({ msg: `Validação concluída. ${hoursPerActivity}h validadas.` })
+                }
             }
-
-
         } catch (error) {
             return response.json({ error: error.message })
         }
@@ -624,6 +632,7 @@ module.exports = {
 
         }
     },
+
     async listaCoordenadores(request, response) {
         try {
 
