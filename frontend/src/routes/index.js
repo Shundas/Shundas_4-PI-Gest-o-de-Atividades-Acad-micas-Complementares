@@ -13,7 +13,7 @@ import AdminConsultaColborador from '../pages/Admin/AdminConsultaColaborador';
 // Aluno
 import AlunoEvento from '../pages/Aluno/AlunoEvento';
 import AlunoEventoSenai from '../pages/Aluno/AlunoEventoSenai';
-import PageAlunoEventoSenai from '../pages/Aluno/AlunoeventoSenai';
+import PageAlunoEventoSenai from '../pages/Aluno/AlunoEventoSenai';
 import AlunoPerfil from '../pages/Aluno/AlunoPerfil';
 import AlunoHome from '../pages/Aluno/AlunoHome';
 import AlunoConsultaAtividades from '../pages/Aluno/AlunoConsultaAtividades';
@@ -23,7 +23,7 @@ import AlunoVisualisarAtividades from '../pages/Aluno/AlunoVisualizarAtividade';
 import ColaboradorHome from '../pages/Colaborador/ColaboradorHome';
 import ColaboradorConsultaAtividades from '../pages/Colaborador/ColaboradorConsultaAtividade';
 import ColaboradorVisualizaAtividades from '../pages/Colaborador/ColaboradorVisualizarAtividade';
-import ColaboradorAdicionarAtividade from '../pages/Colaborador/ColaboradorAdicionarAtividade'
+import ColaboradorAdicionarAtividade from '../pages/Colaborador/ColaboradorAdicionarAtividade';
 
 // Login
 import AlunoLogin from '../pages/sessions/Aluno';
@@ -64,7 +64,10 @@ export default function RoutesAplication() {
         <Route path="/aluno-home" component={AlunoHome} />
         /**Colaborador */
         <Route path="/colaborador-home" component={ColaboradorHome} />
-        <Route path="/atividade-colaborador" component={ColaboradorAdicionarAtividade} />
+        <Route
+          path="/atividade-colaborador"
+          component={ColaboradorAdicionarAtividade}
+        />
         <Route
           path="/consulta-atividade-colaborador"
           component={ColaboradorConsultaAtividades}
