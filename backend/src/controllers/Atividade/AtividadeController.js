@@ -394,129 +394,122 @@ module.exports = {
 
     async aprovaAtividade(request, response) {
 
-<<<<<<< HEAD
         try {
             const { idSec, idform, iduser } = request.body
             const result = await knex('form').select('idactivity', 'idcategory', 'senaiEvent', 'informedWorkload', 'idstatus', 'activityName').where('idform', idform)
-            const user = await knex('user').select('email').where('iduser',iduser)
-            const userSenai = await knex('userSenai').select('email as emailSenai').where('iduserSenai',idSec)
+            const user = await knex('user').select('email').where('iduser', iduser)
+            const userSenai = await knex('userSenai').select('email as emailSenai').where('iduserSenai', idSec)
             const [{ emailSenai }] = userSenai
             const [{ email }] = user
             const [{ idactivity, idcategory, senaiEvent, informedWorkload, idstatus, activityName }] = result
             var msg = ""
-=======
-        const { id } = request.headers
->>>>>>> 30585a53285811928bf05a959e0e654ffb805f53
+            const { id } = request.headers
 
 
-<<<<<<< HEAD
-                if (senaiEvent === 1) {
-                    if (idactivity === null || idcategory === null) {
-                        msg += "Você precisa preencher a categoria e tipo de atividade. "
-                    }
-                    if (informedWorkload === null) {
-                        msg += "Você precisa preencher a quantidade de horas a serem validadas. "
-                    }
+            if (senaiEvent === 1) {
+                if (idactivity === null || idcategory === null) {
+                    msg += "Você precisa preencher a categoria e tipo de atividade. "
                 }
-                if (msg !== "") {
-                    return response.status(400).json({ error: msg })
-                } else {
-
-                    let transport = nodemailer.createTransport({
-                        host: process.env.APP_HOST,
-                        port: process.env.APP_PORT,
-                        secure: false,
-                        auth: {
-                          user: process.env.APP_USER,
-                          pass: process.env.APP_PASS,
-                        },
-                      })
-              
-                      await transport.sendMail({
-                        from: '<noreplay@senai.com>',
-                        to: email,
-                        subject: `O status de validação da atividade \"${activityName}\" mudou`,
-                        text: `A validação da atividade está aguardando a conclusão por parte da secretaria. \n\n Qualquer novidade, lhe manteremos atualizado!`,
-                        html: `A validação da atividade está aguardando a conclusão por parte da secretaria. <br><br> Qualquer novidade, lhe manteremos atualizado!`,
-                      })
-
-                      await transport.sendMail({
-                        from: '<noreplay@senai.com>',
-                        to: emailSenai,
-                        subject: `Você recebeu uma nova tarefa de validação de atividade`,
-                        text: `ID: ${idform} \n Nome da atividade: ${activityName}\n`,
-                        html: `ID: ${idform}<br> Nome da atividade: ${activityName}<br> Link: <a href="https://localhost:3000/visualiza-atividade/${idform}"> Aqui </a>`,
-                      })
-
-                    await knex('form').update({ iduserSenai: idSec, idstatus: 3 }).where('idform', idform)
-                    return response.status(200).json({ msg: 'Atividade encaminhada para aprovação da secretaria acadêmica.' })
+                if (informedWorkload === null) {
+                    msg += "Você precisa preencher a quantidade de horas a serem validadas. "
                 }
             }
-        } catch (error) {
-            return response.json({ error: error.message })
-        }
-=======
->>>>>>> 30585a53285811928bf05a959e0e654ffb805f53
+            if (msg !== "") {
+                return response.status(400).json({ error: msg })
+            } else {
 
-    },
+                let transport = nodemailer.createTransport({
+                    host: process.env.APP_HOST,
+                    port: process.env.APP_PORT,
+                    secure: false,
+                    auth: {
+                        user: process.env.APP_USER,
+                        pass: process.env.APP_PASS,
+                    },
+                })
+
+                await transport.sendMail({
+                    from: '<noreplay@senai.com>',
+                    to: email,
+                    subject: `O status de validação da atividade \"${activityName}\" mudou`,
+                    text: `A validação da atividade está aguardando a conclusão por parte da secretaria. \n\n Qualquer novidade, lhe manteremos atualizado!`,
+                    html: `A validação da atividade está aguardando a conclusão por parte da secretaria. <br><br> Qualquer novidade, lhe manteremos atualizado!`,
+                })
+
+                await transport.sendMail({
+                    from: '<noreplay@senai.com>',
+                    to: emailSenai,
+                    subject: `Você recebeu uma nova tarefa de validação de atividade`,
+                    text: `ID: ${idform} \n Nome da atividade: ${activityName}\n`,
+                    html: `ID: ${idform}<br> Nome da atividade: ${activityName}<br> Link: <a href="https://localhost:3000/visualiza-atividade/${idform}"> Aqui </a>`,
+                })
+
+                await knex('form').update({ iduserSenai: idSec, idstatus: 3 }).where('idform', idform)
+                return response.status(200).json({ msg: 'Atividade encaminhada para aprovação da secretaria acadêmica.' })
+            }
+        } catch(error) {
+        return response.json({ error: error.message })
+    }
+
+},
 
     async encaminhaCoordenador(request, response) {
 
-        try {
-            const { idCoord, idform } = request.body
+    try {
+        const { idCoord, idform } = request.body
 
-            const result = await knex('form').select('idactivity', 'idcategory', 'senaiEvent', 'informedWorkload', 'idstatus').where('idform', idform)
-            const [{ idactivity, idcategory, senaiEvent, informedWorkload, idstatus }] = result
-            var msg = ""
+        const result = await knex('form').select('idactivity', 'idcategory', 'senaiEvent', 'informedWorkload', 'idstatus').where('idform', idform)
+        const [{ idactivity, idcategory, senaiEvent, informedWorkload, idstatus }] = result
+        var msg = ""
 
-            if (idstatus === 2) {
-                return response.status(400).json({ error: 'Esta atividade já está aguardando aprovação do coordenador.' })
-            } else {
+        if (idstatus === 2) {
+            return response.status(400).json({ error: 'Esta atividade já está aguardando aprovação do coordenador.' })
+        } else {
 
-                if (senaiEvent === 1) {
-                    if (idactivity === null || idcategory === null) {
-                        msg += "Você precisa preencher a categoria e tipo de atividade. "
-                    }
-                    if (informedWorkload === null) {
-                        msg += "Você precisa preencher a quantidade de horas a serem validadas. "
-                    }
+            if (senaiEvent === 1) {
+                if (idactivity === null || idcategory === null) {
+                    msg += "Você precisa preencher a categoria e tipo de atividade. "
                 }
-                if (msg !== "") {
-                    return response.status(400).json({ error: msg })
-                } else {
-                    await knex('form').update({ iduserSenai: idCoord, idstatus: 2 }).where('idform', idform)
-                    return response.status(200).json({ msg: 'Atividade encaminhada para aprovação do coordenador' })
+                if (informedWorkload === null) {
+                    msg += "Você precisa preencher a quantidade de horas a serem validadas. "
                 }
             }
-
-
-        } catch (error) {
-            return response.json({ error: error.message })
+            if (msg !== "") {
+                return response.status(400).json({ error: msg })
+            } else {
+                await knex('form').update({ iduserSenai: idCoord, idstatus: 2 }).where('idform', idform)
+                return response.status(200).json({ msg: 'Atividade encaminhada para aprovação do coordenador' })
+            }
         }
 
-    },
 
-    async calculaHoras(request, response) {
-        try {
-
-            const { id } = request.headers
-
-            const ensino = await knex('form').sum('workload as somaEnsino').where('idcategory', 1).where({ iduser: id })
-            const pesquisa = await knex('form').sum('workload as somaPesquisa').where('idcategory', 2).where({ iduser: id })
-            const extensao = await knex('form').sum('workload as somaExtensao').where('idcategory', 3).where({ iduser: id })
-
-            var [{ somaEnsino }] = ensino
-            var [{ somaPesquisa }] = pesquisa
-            var [{ somaExtensao }] = extensao
-
-            var total = somaEnsino + somaExtensao + somaPesquisa
-
-            return response.json({ ensino: ensino, pesquisa: pesquisa, extensao: extensao, total: total })
-
-        } catch (error) {
-
-            return response.json({ error: error.message })
-
-        }
+    } catch (error) {
+        return response.json({ error: error.message })
     }
+
+},
+
+async calculaHoras(request, response) {
+    try {
+
+        const { id } = request.headers
+
+        const ensino = await knex('form').sum('workload as somaEnsino').where('idcategory', 1).where({ iduser: id })
+        const pesquisa = await knex('form').sum('workload as somaPesquisa').where('idcategory', 2).where({ iduser: id })
+        const extensao = await knex('form').sum('workload as somaExtensao').where('idcategory', 3).where({ iduser: id })
+
+        var [{ somaEnsino }] = ensino
+        var [{ somaPesquisa }] = pesquisa
+        var [{ somaExtensao }] = extensao
+
+        var total = somaEnsino + somaExtensao + somaPesquisa
+
+        return response.json({ ensino: ensino, pesquisa: pesquisa, extensao: extensao, total: total })
+
+    } catch (error) {
+
+        return response.json({ error: error.message })
+
+    }
+}
 }
