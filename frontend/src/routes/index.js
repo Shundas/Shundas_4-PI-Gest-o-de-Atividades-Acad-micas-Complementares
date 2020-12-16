@@ -39,12 +39,15 @@ import ResetSenhaColabForm from '../pages/sessions/ColaboradorResetSenha';
 // Coordenador
 import CoordenadorVisualizaAtividade from '../pages/CoordernadorVisualizaAtividade/Coordenador';
 
+import HomeQuestion from '../pages/Home';
+
 export default function RoutesAplication() {
   return (
     <BrowserRouter>
       <Switch>
         /** Admin */
-        <Route path="/" exact component={AlunoLogin} />
+        <Route path="/" exact component={HomeQuestion} />
+        <Route path="/aluno-login" component={AlunoLogin} />
         <Route path="/question" component={AdminTipoUser} />
         <Route path="/aluno" component={AdminCadastroAluno} />
         <Route path="/colaborador" component={AdminCadastroColaborador} />
@@ -77,8 +80,7 @@ export default function RoutesAplication() {
           component={ColaboradorVisualizaAtividades}
         />
         /**Login */
-        <Route path="/auth-aluno" component={AlunoLogin} />
-        <Route path="/auth-colaborador" component={ColaboradorLogin} />
+        <Route path="/colaborador-login" component={ColaboradorLogin} />
         /**Reset Senha */
         <Route path="/auth-aluno-recuperasenha" component={ResetAluno} />
         <Route path="/form-auth-recuperasenha" component={ResetSenhaForm} />
