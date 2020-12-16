@@ -36,7 +36,7 @@ const Nopit = styled.div`
 
   cursor: pointer;
 `;
-export default function PageAlunoEventoSenai() {
+export default function AlunoQuestionEvento() {
   return (
     <>
       <Header image={logo} text="Imagem da Logo" />
