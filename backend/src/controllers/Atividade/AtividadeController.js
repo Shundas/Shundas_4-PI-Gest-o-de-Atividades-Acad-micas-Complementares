@@ -2,7 +2,7 @@ const knex = require('../../database/connection');
 const yup = require('yup');
 const crypto = require('crypto');
 const { info } = require('console');
-
+const nodemailer = require('nodemailer')
 
 
 module.exports = {
@@ -403,8 +403,6 @@ module.exports = {
             const [{ email }] = user
             const [{ idactivity, idcategory, senaiEvent, informedWorkload, idstatus, activityName }] = result
             var msg = ""
-            const { id } = request.headers
-
 
             if (senaiEvent === 1) {
                 if (idactivity === null || idcategory === null) {
@@ -441,7 +439,7 @@ module.exports = {
                     to: emailSenai,
                     subject: `Você recebeu uma nova tarefa de validação de atividade`,
                     text: `ID: ${idform} \n Nome da atividade: ${activityName}\n`,
-                    html: `ID: ${idform}<br> Nome da atividade: ${activityName}<br> Link: <a href="https://localhost:3000/visualiza-atividade/${idform}"> Aqui </a>`,
+                    html: `ID: ${idform}<br> Nome da atividade: ${activityName}<br> Link: <a href="http://localhost:3000/visualiza-atividade-colaborador/${idform}"> Aqui </a>`,
                 })
 
                 await knex('form').update({ iduserSenai: idSec, idstatus: 3 }).where('idform', idform)
@@ -458,8 +456,12 @@ module.exports = {
         try {
             const { idCoord, idform } = request.body
 
-            const result = await knex('form').select('idactivity', 'idcategory', 'senaiEvent', 'informedWorkload', 'idstatus').where('idform', idform)
+            const result = await knex('form').select('idactivity', 'idcategory', 'senaiEvent', 'informedWorkload', 'idstatus', 'activityName').where('idform', idform)
+            const user = await knex('user').select('email').where('iduser', iduser)
+            const userSenai = await knex('userSenai').select('email as emailSenai').where('iduserSenai', idSec)
             const [{ idactivity, idcategory, senaiEvent, informedWorkload, idstatus }] = result
+            const [{ emailSenai }] = userSenai
+            const [{ email }] = user
             var msg = ""
 
             if (idstatus === 2) {
@@ -477,6 +479,33 @@ module.exports = {
                 if (msg !== "") {
                     return response.status(400).json({ error: msg })
                 } else {
+
+                    let transport = nodemailer.createTransport({
+                        host: process.env.APP_HOST,
+                        port: process.env.APP_PORT,
+                        secure: false,
+                        auth: {
+                            user: process.env.APP_USER,
+                            pass: process.env.APP_PASS,
+                        },
+                    })
+    
+                    await transport.sendMail({
+                        from: '<noreplay@senai.com>',
+                        to: email,
+                        subject: `O status de validação da atividade \"${activityName}\" mudou`,
+                        text: `A validação da atividade está aguardando aprovação da coordenação do seu curso. \n\n Qualquer novidade, lhe manteremos atualizado!`,
+                        html: `A validação da atividade está aguardando aprovação da coordenação do seu curso. <br><br> Qualquer novidade, lhe manteremos atualizado!`,
+                    })
+    
+                    await transport.sendMail({
+                        from: '<noreplay@senai.com>',
+                        to: emailSenai,
+                        subject: `Você recebeu uma nova tarefa de validação de atividade`,
+                        text: `ID: ${idform} \n Nome da atividade: ${activityName}\n`,
+                        html: `ID: ${idform}<br> Nome da atividade: ${activityName}<br> Link: <a href="http://localhost:3000/visualiza-atividade-colaborador/${idform}"> Aqui </a>`,
+                    })
+
                     await knex('form').update({ iduserSenai: idCoord, idstatus: 2 }).where('idform', idform)
                     return response.status(200).json({ msg: 'Atividade encaminhada para aprovação do coordenador' })
                 }
@@ -497,7 +526,11 @@ module.exports = {
             const check = yup.object().shape({ comment: yup.string().required() })
 
             const result = await knex('form').select('idactivity', 'idcategory', 'senaiEvent', 'informedWorkload', 'idstatus').where('idform', idform)
+            const user = await knex('user').select('email').where('iduser', iduser)
+            // const userSenai = await knex('userSenai').select('email as emailSenai').where('iduserSenai', idSec)
             const [{ idactivity, idcategory, senaiEvent, informedWorkload, idstatus }] = result
+            // const [{ emailSenai }] = userSenai
+            const [{ email }] = user
 
             if (idstatus === 4 || idstatus === 5) {
                 return response.status(400).json({ error: 'A validação desta atividade já está finalizada.' })
@@ -507,6 +540,33 @@ module.exports = {
                     return response.status(400).json({ error: 'Você deve enviar um comentário com o motivo da rejeição.' })
                 } else {
                     const idcomment = crypto.randomBytes(8).toString('hex')
+
+                    let transport = nodemailer.createTransport({
+                        host: process.env.APP_HOST,
+                        port: process.env.APP_PORT,
+                        secure: false,
+                        auth: {
+                            user: process.env.APP_USER,
+                            pass: process.env.APP_PASS,
+                        },
+                    })
+    
+                    await transport.sendMail({
+                        from: '<noreplay@senai.com>',
+                        to: email,
+                        subject: `O status de validação da atividade \"${activityName}\" mudou`,
+                        text: `A validação da atividade "${activityName}" foi rejeitada. Motivo: ${comment}.`,
+                        html: `A validação da atividade "${activityName}" foi rejeitada. <br><br> Motivo: ${comment}.`,
+                    })
+    
+                    // await transport.sendMail({
+                    //     from: '<noreplay@senai.com>',
+                    //     to: emailSenai,
+                    //     subject: `Você recebeu uma nova tarefa de validação de atividade`,
+                    //     text: `ID: ${idform} \n Nome da atividade: ${activityName}\n`,
+                    //     html: `ID: ${idform}<br> Nome da atividade: ${activityName}<br> Link: <a href="http://localhost:3000/visualiza-atividade-colaborador/${idform}"> Aqui </a>`,
+                    // })
+
                     await knex('form').update({ iduserSenai: idusersenai, idstatus: 5 }).where('idform', idform)
                     await knex('comments').insert({ idcomments: idcomment, idform: idform, public: true, comment: comment, iduserSenai: idusersenai })
 
@@ -530,7 +590,6 @@ module.exports = {
                 return response.status(400).json({ error: 'A validação desta atividade já está finalizada.' })
             } else {
 
-                const idcomment = crypto.randomBytes(8).toString('hex')
                 await knex('form').update({ iduserSenai: iduserSenai, idstatus: 4 }).where('idform', idform)
 
                 return response.status(200).json({ msg: 'Validação concluída.' })
