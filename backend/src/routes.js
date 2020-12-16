@@ -64,7 +64,9 @@ routes.get('/userCoord', ColaboradorController.indexCoord)
 routes.get('/userAssist', ColaboradorController.indexAssist)
 routes.get('/userSec', ColaboradorController.indexSec)
 routes.get('/userAluno', AlunoController.indexAluno)
-
+routes.get('/listaCoordenadores', AtividadeController.listaCoordenadores)
+routes.get('/listaSecretaria', AtividadeController.listaSecretaria)
+routes.get('/listaAssistentes', AtividadeController.listaAssistentes)
 
 //Download Arquivo
 routes.get('/download/:id', AtividadeController.showFile)
@@ -78,8 +80,12 @@ routes.post('/resetSenhaColab', UserController.resetSenhaColab)
 routes.post('/novaSenhaAluno', AlunoController.novaSenhaAluno)
 routes.post('/novaSenhaColab', ColaboradorController.novaSenhaColab)
 
-//encaminhaCoordenador
+//Fluxo de aprovação e rejeição
 routes.post('/encaminhaCoordenador', AtividadeController.encaminhaCoordenador)
+routes.post('/rejeitaAtividade', AtividadeController.rejeitaAtividade)
+routes.post('/aprovaAtividade', AtividadeController.aprovaAtividade)
+routes.post('/concluiAtividade', AtividadeController.concluiAtividade)
+routes.post('/rejeitaAtividade', AtividadeController.rejeitaAtividade)
 
 
 module.exports = routes
