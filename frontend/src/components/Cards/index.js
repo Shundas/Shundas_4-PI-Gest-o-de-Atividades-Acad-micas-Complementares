@@ -24,7 +24,7 @@ export default function Cards() {
 
             <Link
               className="tolink"
-              to="/atividade"
+              to="/senai-atividade"
             >
               <div className="card" style={{ width: '18rem' }}>
                 <div className="card-body">
