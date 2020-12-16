@@ -55,6 +55,9 @@ export default function PageSessionAluno() {
     try {
       const response = await axios.post('/aluno-login', data);
       const { senhaTemp } = response.data;
+      const { userId } = response.data;
+
+      localStorage.setItem('iduser', userId);
 
       if ((response.status = 200)) {
         if (senhaTemp === false) {
@@ -69,7 +72,6 @@ export default function PageSessionAluno() {
           () => {
             setErros('Usuário ou Senha Inválidos');
             setToggle(true);
-            console.log(Response.error);
           },
           setTimeout(() => {
             setToggle(false);
