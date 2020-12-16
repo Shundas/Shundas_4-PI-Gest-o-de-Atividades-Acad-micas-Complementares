@@ -1,6 +1,6 @@
 import React from 'react';
-import logo from '../../images/logo.svg';
-import Header from '../../components/Header';
+import logo from '../../../images/logo.svg';
+import Header from '../../../components/Header';
 import 'bootstrap/dist/css/bootstrap.css';
 import {
   Title,
@@ -10,7 +10,7 @@ import {
   Button,
   ButtonSim,
 } from './styled';
-export default function AlunoEventoSenai() {
+export default function PageAlunoEventoSenai() {
   return (
     <>
       <Header image={logo} text="Imagem da Logo" />

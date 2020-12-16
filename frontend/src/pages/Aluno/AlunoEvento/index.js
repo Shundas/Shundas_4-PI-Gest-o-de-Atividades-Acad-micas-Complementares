@@ -85,8 +85,8 @@ export default function AlunoEvento() {
     await axios
       .post('/criarAtividade', data, {
         params: {
-          iduser: '966092399a4e0d32',
-          iduserSenai: '9865183800ef0d83',
+          iduser: '283ed9c58b81d66a',
+          iduserSenai: '63e02be21c18344d',
         },
       })
       .then(response => {
@@ -97,9 +97,7 @@ export default function AlunoEvento() {
   return (
     <>
       <Header image={logo} text="Imagem da Logo" />
-
       <Title>Adicionar Atividade</Title>
-
       <Container className="container">
         {console.log(erros)}
         {
@@ -112,8 +110,17 @@ export default function AlunoEvento() {
         {erros.msg === "" && validacao === 2 ? (
           ""
         ) : (
-              <div className="alert alert-success">Atividade Registrada com Sucesso! {erros.msg}</div>          
+            <>
+              <div className="alert alert-success">Atividade Registrada com Sucesso! {erros.msg}</div>
+              {console.log(erros.msg)}
+              {
+                setTimeout(() => {
+                  history.push('/aluno-home')
+                }, 5000)
+              }
+            </>
           )}
+
         {erros.erro === "" || validacao == 1 ? (
           ''
         ) : (
