@@ -4,7 +4,33 @@ import axios from '../../../services/api';
 import logo from '../../../images/logo.svg';
 import Header from '../../../components/Header';
 import { Title, Container } from './styled';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
+import { FiHome, FiArrowLeft } from 'react-icons/fi';
+import styled from 'styled-components';
+
+
+
+const Nopit = styled.div`
+  position: absolute;
+
+  border: 0;
+
+  top: 90px;
+  left: 30px;
+
+  width: 38px;
+  height: 38px;
+  background: #28a745 !important;
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 10;
+
+  cursor: pointer;
+`;
 
 export default function AlunoEvento() {
   const history = useHistory();
@@ -97,6 +123,16 @@ export default function AlunoEvento() {
   return (
     <>
       <Header image={logo} text="Imagem da Logo" />
+
+      <Nopit>
+        <Link to="/senai-atividade" className="btn btn-primary button">
+          <FiArrowLeft />
+        </Link>
+        <Link to="/aluno-home" className="btn btn-success button">
+          <FiHome />
+        </Link>
+      </Nopit>
+
       <Title>Adicionar Atividade</Title>
       <Container className="container">
         {console.log(erros)}
