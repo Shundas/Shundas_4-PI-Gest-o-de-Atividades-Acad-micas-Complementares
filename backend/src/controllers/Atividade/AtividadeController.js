@@ -399,7 +399,7 @@ module.exports = {
             const { idSec, idform, iduser } = request.body
             const result = await knex('form').select('idactivity', 'idcategory', 'senaiEvent', 'informedWorkload', 'idstatus', 'activityName').where('idform', idform)
             const user = await knex('user').select('email').where('iduser',iduser)
-            const userSenai = await knex('userSenai').select('email').where('iduserSenai',idSec)
+            const userSenai = await knex('userSenai').select('email as emailSenai').where('iduserSenai',idSec)
             const [{ emailSenai }] = userSenai
             const [{ email }] = user
             const [{ idactivity, idcategory, senaiEvent, informedWorkload, idstatus, activityName }] = result
@@ -443,8 +443,8 @@ module.exports = {
                         from: '<noreplay@senai.com>',
                         to: emailSenai,
                         subject: `Você recebeu uma nova tarefa de validação de atividade`,
-                        text: ``,
-                        html: `ID: ${idform}<br> Nome da atividade: ${activityName}<br>`,
+                        text: `ID: ${idform} \n Nome da atividade: ${activityName}\n`,
+                        html: `ID: ${idform}<br> Nome da atividade: ${activityName}<br> Link: <a href="https://localhost:3000/visualiza-atividade/${idform}"> Aqui </a>`,
                       })
 
                     await knex('form').update({ iduserSenai: idSec, idstatus: 3 }).where('idform', idform)
