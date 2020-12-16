@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.css';
 import { FiHome, FiArrowLeft } from 'react-icons/fi';
 import { Link, useHistory } from 'react-router-dom';
 import Header from '../../../components/Header';
 import logo from '../../../images/logo.svg';
+import axios from '../../../services/api';
+
 
 const ContainerApp = styled.div`
   width: 100%;
@@ -50,6 +52,40 @@ const Nopit = styled.div`
 `;
 
 export default function AlunoEventoSenai() {
+  
+  const [formData, setFormData] = useState({
+    activityName: '',
+    date_end: '',
+  });
+
+  function handleInputChange(event) {
+    const { name, value } = event.target;
+
+    setFormData({ ...formData, [name]: value });
+  }
+
+  async function handleSubmmit(event) {
+    event.preventDefault();
+
+    const { activityName, date_end } = formData;
+
+    const data = {
+      activityName: activityName,
+      date_end: date_end
+    }
+
+    await axios
+      .post('/criarAtividadeSenai', data, {
+        params: {
+          iduser: '283ed9c58b81d66a',
+          iduserSenai: '63e02be21c18344d',
+        },
+      })
+      .then(response => {
+        console.log(response.data);
+      });
+  }
+
   return (
     <>
       <Header image={logo} text="Imagem Logo" />
@@ -66,15 +102,15 @@ export default function AlunoEventoSenai() {
       <Title>Solicitar certificado evento Senai</Title>
 
       <ContainerApp className="container">
-        <form>
+        <form onSubmit={handleSubmmit}>
           <div className="form-group">
             <label htmlFor="event">Evento</label>
-            <input type="text" id="event" className="form-control" />
+            <input type="text" id="activityName" className="form-control" onChange={handleInputChange} name="activityName" />
           </div>
 
           <div className="form-group">
             <label htmlFor="date">Data do Evento</label>
-            <input type="date" id="date" className="form-control" />
+            <input type="date" id="date" className="form-control" onChange={handleInputChange} name="date_end" />
           </div>
 
           <div className="btns">
