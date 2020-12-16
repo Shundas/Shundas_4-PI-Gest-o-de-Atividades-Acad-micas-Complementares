@@ -121,7 +121,7 @@ export default function PageSessionAluno() {
           </div>
           <div className="opt">
             <button className="btn btn-primary">Enviar</button>
-            <Link to="/auth-aluno">Voltar</Link>
+            <Link to="/aluno-login">Voltar</Link>
           </div>
         </form>
       </ContainerApp>
