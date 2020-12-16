@@ -85,7 +85,6 @@ routes.post('/encaminhaCoordenador', AtividadeController.encaminhaCoordenador)
 routes.post('/rejeitaAtividade', AtividadeController.rejeitaAtividade)
 routes.post('/aprovaAtividade', AtividadeController.aprovaAtividade)
 routes.post('/concluiAtividade', AtividadeController.concluiAtividade)
-routes.post('/rejeitaAtividade', AtividadeController.rejeitaAtividade)
 
 
 module.exports = routes
