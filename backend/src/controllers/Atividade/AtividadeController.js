@@ -84,8 +84,10 @@ module.exports = {
                 //Testado -- OK
                 const verificaTotal = await knex.sum("workload as workloadTotal").from("form").where("iduser", iduser).where("idactivity", idactivity).where("idstatus", 3)
                 const [{ workloadTotal }] = verificaTotal
-                if (workloadTotal >= totalHour) {
-                    return response.json({ msg: "", erro: `Você já validou todas as horas possíveis para este tipo de atividade: ${totalHour}h.` })
+                if (workloadTotal !== null) {
+                    if (workloadTotal >= totalHour) {
+                        return response.json({ msg: "", erro: `Você já validou todas as horas possíveis para este tipo de atividade: ${totalHour}h.` })
+                    }
                 }
             }
             console.log(hoursPerActivity)
