@@ -17,8 +17,12 @@ export default function TelaHome() {
       <ContainerApp className="container">
         <Title>Seja bem vindo ao sistema!</Title>
         <Divider>
-          <Link to="/aluno-login">Sou Aluno</Link>
-          <Link to="/colaborador-login">Sou Colaborador</Link>
+          <Link className="btn btn-primary" to="/aluno-login">
+            Sou Aluno
+          </Link>
+          <Link className="btn btn-primary" to="/colaborador-login">
+            Sou Colaborador
+          </Link>
         </Divider>
       </ContainerApp>
     </>
