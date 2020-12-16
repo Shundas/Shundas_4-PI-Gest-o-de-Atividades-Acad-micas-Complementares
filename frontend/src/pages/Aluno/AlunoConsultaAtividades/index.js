@@ -28,6 +28,7 @@ export default function AlunoConsultaAtividades() {
 
   return (
     <>
+    
       <Header image={logo} text="Imagem da Logo" />
       <Text>Consulta de Atividades</Text>
 
