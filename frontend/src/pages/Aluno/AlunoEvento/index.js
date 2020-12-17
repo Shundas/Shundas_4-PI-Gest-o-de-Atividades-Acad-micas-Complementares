@@ -108,8 +108,8 @@ export default function AlunoEvento() {
     await axios
       .post('/criarAtividade', data, {
         params: {
-          iduser: '349661b4b4d2b9f2',
-          iduserSenai: '9865183800ef0d83',
+          iduser: '283ed9c58b81d66a',
+          iduserSenai: '520589a09a2ecd73',
         },
       })
       .then(response => {
