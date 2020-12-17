@@ -1,5 +1,7 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import axios from '../../services/api';
 import 'bootstrap/dist/css/bootstrap.css';
 
 import Header from '../../components/HeaderLogin';
@@ -48,16 +50,17 @@ export default function ResetSenhaAluno() {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const iduser = localStorage.getItem('iduser');
-    console.log(iduser);
+    const iduserSenai = localStorage.getItem('iduser');
+    console.log(iduserSenai);
 
     try {
-      const response = await axios.post(`/novaSenhaColab/${iduser}`, data);
+      const response = await axios.post(`/novaSenhaColab/${iduserSenai}`, data);
       if ((response.status = 200)) {
         setTimeout(
           () => {
             setMsgConfirm('Senha atualizada com sucesso!');
             setConfirm(true);
+            historyReturn('/colaborador-login');
           },
           setTimeout(() => {
             setConfirm(false);
@@ -106,14 +109,26 @@ export default function ResetSenhaAluno() {
       )}
 
       <Container className="container">
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label htmlFor="new-senha">Nova Senha</label>
-            <input type="text" id="new-senha" className="form-control" />
+            <input
+              type="text"
+              id="new-senha"
+              className="form-control"
+              value={novaSenha}
+              onChange={e => setNovaSenha(e.target.value)}
+            />
           </div>
           <div className="form-group">
             <label htmlFor="confirm-senha">Confirmar Senha</label>
-            <input type="text" id="confirm-senha" className="form-control" />
+            <input
+              type="text"
+              id="confirm-senha"
+              className="form-control"
+              value={confirmaSenha}
+              onChange={e => setConfirmaSenha(e.target.value)}
+            />
           </div>
           <button className="btn btn-primary">Salvar</button>
         </form>
