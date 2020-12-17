@@ -105,7 +105,7 @@ export default function AlunoEvento() {
     data.append('idcategory', category);
     data.append('idactivity', activity);
 
-    const idU = localStorage.getItem("iduser")
+    const idU = localStorage.getItem('iduser');
 
     await axios
       .post('/criarAtividade', data, {
@@ -140,25 +140,23 @@ export default function AlunoEvento() {
           {erros.msg === '' && validacao === 2 ? (
             ''
           ) : (
-              <>
-                <div className="alert alert-success">
-                  Atividade Registrada com Sucesso! {erros.msg}
-                </div>
-                {setTimeout(() => {
-                  history.push('/aluno-home');
-                }, 3000)}
-              </>
-            )}
+            <>
+              <div className="alert alert-success">
+                Atividade Registrada com Sucesso! {erros.msg}
+              </div>
+              {setTimeout(() => {
+                history.push('/aluno-home');
+              }, 3000)}
+            </>
+          )}
 
           {erros.erro === '' || validacao == 1 ? (
             ''
           ) : (
-              <div className="alert alert-danger">{erros.erro}</div>
-            )}
+            <div className="alert alert-danger">{erros.erro}</div>
+          )}
         </div>
         <form onSubmit={handleSubmmit}>
-
-
           <div className="form-column raw">
             <div className="drop-raw">
               <div className="form-group col-md-6">
