@@ -87,7 +87,7 @@ module.exports = {
   async novaSenhaAluno(request, response) {
     try {
       const { novaSenha, confirmaSenha } = request.body
-      const { id } = request.query
+      const { id } = request.params
       const reset = await knex
         .select('isReset')
         .from('user')
