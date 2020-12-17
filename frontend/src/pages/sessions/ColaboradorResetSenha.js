@@ -27,6 +27,58 @@ const Container = styled.div`
 `;
 
 export default function ResetSenhaAluno() {
+  const [novaSenha, setNovaSenha] = React.useState('');
+  const [confirmaSenha, setConfirmaSenha] = React.useState('');
+
+  const [msgConfirm, setMsgConfirm] = React.useState('');
+  const [toggle, setToggle] = React.useState(false);
+  const [confirm, setConfirm] = React.useState(false);
+  const [erros, setErros] = React.useState('');
+  const history = useHistory();
+
+  function historyReturn(path) {
+    return history.push(`/${path}`);
+  }
+
+  const data = {
+    novaSenha,
+    confirmaSenha,
+  };
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const iduser = localStorage.getItem('iduser');
+    console.log(iduser);
+
+    try {
+      const response = await axios.post(`/novaSenhaColab/${iduser}`, data);
+      if ((response.status = 200)) {
+        setTimeout(
+          () => {
+            setMsgConfirm('Senha atualizada com sucesso!');
+            setConfirm(true);
+          },
+          setTimeout(() => {
+            setConfirm(false);
+          }, 4000)
+        );
+      }
+    } catch (error) {
+      if ((error.status = 400)) {
+        setTimeout(
+          () => {
+            setErros('Senhas não Conferem');
+            setToggle(true);
+          },
+          setTimeout(() => {
+            setToggle(false);
+          }, 4000)
+        );
+      }
+    }
+  }
+
   return (
     <>
       <Header />
@@ -34,6 +86,24 @@ export default function ResetSenhaAluno() {
       <h1 style={{ marginTop: '1.7em' }} className="text-center">
         Digite uma nova senha!
       </h1>
+
+      {!toggle && ''}
+      {toggle && (
+        <div className="container">
+          <div style={{ textAlign: 'center' }} className="alert alert-danger">
+            {erros}
+          </div>
+        </div>
+      )}
+
+      {!confirm && ''}
+      {confirm && (
+        <div className="container">
+          <div style={{ textAlign: 'center' }} className="alert alert-success">
+            {msgConfirm}
+          </div>
+        </div>
+      )}
 
       <Container className="container">
         <form>

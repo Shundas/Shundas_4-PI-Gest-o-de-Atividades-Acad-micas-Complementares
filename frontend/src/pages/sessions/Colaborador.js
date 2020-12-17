@@ -61,6 +61,9 @@ export default function PageSessionAluno() {
     try {
       const response = await axios.post('/colaborador-login', data);
       const { senhaTemp } = response.data;
+      const { userId } = response.data;
+
+      localStorage.setItem('iduserSenai', userId);
 
       if ((response.status = 200)) {
         if (senhaTemp === false) {
