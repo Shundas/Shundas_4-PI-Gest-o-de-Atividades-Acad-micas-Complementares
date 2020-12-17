@@ -1,5 +1,6 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
+import axios from '../../services/api';
 import { MdMenu } from 'react-icons/md';
 import { FiLogOut, FiUser } from 'react-icons/fi';
 import { MdFace, MdAccessTime } from 'react-icons/md';
@@ -7,6 +8,28 @@ import { MdFace, MdAccessTime } from 'react-icons/md';
 import { Background, HeroTitle, HeaderWrapper } from './styled';
 
 export default function Header({ image, text }) {
+  const [hourValid, setHourValid] = React.useState([
+    {
+      total: '',
+      somaEnsino: '',
+      somaExtensao: '',
+      somaPesquisa: '',
+    },
+  ]);
+
+  React.useEffect(() => {
+    axios.get('/calculaHoras').then(
+      response => {
+        console.log(response.data);
+      },
+      {
+        headers: {
+          id: localStorage.getItem('iduser'),
+        },
+      }
+    );
+  }, []);
+
   return (
     <>
       <HeaderWrapper>
@@ -95,25 +118,7 @@ export default function Header({ image, text }) {
               </button>
             </div>
             <div class="modal-body">
-              <ul className="navbar-nav mr-auto">
-                <li className="nav-item">
-                  Ensino:
-                  <h5 className="badge badge-ligth">15h</h5>
-                </li>
-                <li className="nav-item">
-                  Pesquisa:
-                  <h5 className="badge badge-ligth">15h</h5>
-                </li>
-                <li className="nav-item">
-                  Extencao:
-                  <h5 className="badge badge-ligth">25h</h5>
-                </li>
-                <hr />
-                <li className="nav-item">
-                  Total:
-                  <h5 class="badge badge-ligth">55h</h5>
-                </li>
-              </ul>
+              <ul className="navbar-nav mr-auto"></ul>
             </div>
           </div>
         </div>
