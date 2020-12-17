@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import axios from '../../services/api';
 import { MdMenu } from 'react-icons/md';
 import { FiLogOut, FiUser } from 'react-icons/fi';
 import { MdFace, MdAccessTime } from 'react-icons/md';
@@ -8,30 +7,6 @@ import { MdFace, MdAccessTime } from 'react-icons/md';
 import { Background, HeroTitle, HeaderWrapper } from './styled';
 
 export default function Header({ image, text }) {
-  const [horas, setHoras] = useState([
-    {
-      ensino: 0,
-      pesquisa: 0,
-      extensao: 0,
-      total: 0,
-    },
-  ]);
-
-  const idU = localStorage.getItem('iduser');
-
-  useEffect(() => {
-    axios
-      .get('/calculaHoras', {
-        headers: {
-          id: idU,
-        },
-      })
-      .then(response => {
-        console.log(response.data);
-        setHoras(response.data);
-      });
-  }, []);
-
   return (
     <>
       <HeaderWrapper>
@@ -123,20 +98,20 @@ export default function Header({ image, text }) {
               <ul className="navbar-nav mr-auto">
                 <li className="nav-item">
                   Ensino:
-                  <h2 className="badge badge-ligth">{horas.ensino}</h2>
+                  <h2 className="badge badge-ligth">ensino</h2>
                 </li>
                 <li className="nav-item">
                   Pesquisa:
-                  <h2 className="badge badge-ligth">{horas.pesquisa}</h2>
+                  <h2 className="badge badge-ligth">pesquisa</h2>
                 </li>
                 <li className="nav-item">
                   Extencao:
-                  <h2 className="badge badge-ligth">{horas.extensao}</h2>
+                  <h2 className="badge badge-ligth">extensao</h2>
                 </li>
                 <hr />
                 <li className="nav-item">
                   Total:
-                  <h2 class="badge badge-ligth">{horas.total}</h2>
+                  <h2 class="badge badge-ligth">total</h2>
                 </li>
               </ul>
             </div>
