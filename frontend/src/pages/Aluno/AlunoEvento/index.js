@@ -143,7 +143,6 @@ export default function AlunoEvento() {
             <div className="alert alert-success">
               Atividade Registrada com Sucesso! {erros.msg}
             </div>
-            {console.log(erros.msg)}
             {setTimeout(() => {
               history.push('/aluno-home');
             }, 5000)}

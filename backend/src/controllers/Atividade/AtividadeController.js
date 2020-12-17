@@ -136,18 +136,24 @@ module.exports = {
     async createAtividadeSenai(request, response) {
         try {
 
-            const { iduser } = request.query
-            const { iduserSenai, idactivity, idcategory, date_end, activityName } = request.body
+            var error
+
+            const filters = request.query
+            console.log(filters)
+
+            const { iduser, iduserSenai } = filters
+
+            const { idactivity, idcategory, date_end, activityName } = request.body
 
             const validator = yup.object().shape({ activityName: yup.string().required() })
             const validatorDate = yup.object().shape({ date_end: yup.date().required() })
 
             if (!(await validator.isValid(request.body))) {
-                return response.status(400).json({ error: 'Nome da Atividade é campo obrigatório.' })
+                return response.status(200).json({ msg: "", error: 'Nome da Atividade é campo obrigatório.' })
             }
 
             if (!(await validatorDate.isValid(request.body))) {
-                return response.status(400).json({ error: 'Data é campo obrigatório.' })
+                return response.status(200).json({ msg: "", error: 'Data é campo obrigatório.' })
             }
 
             const id = crypto.randomBytes(8).toString('hex')
@@ -160,10 +166,14 @@ module.exports = {
                 idcategory,
                 date_end,
                 activityName,
+                idstatus: 1,
                 senaiEvent: true
             })
 
-            return response.json(formAtividadeSenai)
+            return response.json({ 
+                msg: "Solicitação Registrada com Sucesso!",
+                error
+            })
 
         } catch (erros) {
             return response.json({ error: erros.message })

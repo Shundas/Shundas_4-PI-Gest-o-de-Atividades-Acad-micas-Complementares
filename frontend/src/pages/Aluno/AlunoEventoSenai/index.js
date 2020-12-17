@@ -52,11 +52,20 @@ const Nopit = styled.div`
 `;
 
 export default function AlunoEventoSenai() {
-  
+  const history = useHistory();
+
+
   const [formData, setFormData] = useState({
     activityName: '',
     date_end: '',
   });
+
+  const [erros, setErros] = useState({
+    msg: '',
+    error: '',
+  });
+
+  const validacao = Object.entries(erros).length;
 
   function handleInputChange(event) {
     const { name, value } = event.target;
@@ -74,15 +83,19 @@ export default function AlunoEventoSenai() {
       date_end: date_end
     }
 
+    const idU = localStorage.getItem("iduser")
+
+
     await axios
       .post('/criarAtividadeSenai', data, {
         params: {
-          iduser: '283ed9c58b81d66a',
-          iduserSenai: '63e02be21c18344d',
+          iduser: idU,
+          iduserSenai: '987654321',
         },
       })
       .then(response => {
-        console.log(response.data);
+        console.log(response.data)
+        setErros(response.data);
       });
   }
 
@@ -101,7 +114,30 @@ export default function AlunoEventoSenai() {
 
       <Title>Solicitar certificado evento Senai</Title>
 
+      {erros.msg === '' && erros.error === '' ? '' : ''}
+
+        {erros.msg === '' && validacao === 2 ? (
+          ''
+        ) : (
+            <>
+              <div className="alert alert-success">
+                {erros.msg}
+              </div>
+              {setTimeout(() => {
+                history.push('/aluno-home');
+              }, 5000)}
+            </>
+          )}
+
+        {erros.error === '' || validacao == 1 ? (
+          ''
+        ) : (
+            <div className="alert alert-danger">{erros.error}</div>
+          )}
+
       <ContainerApp className="container">
+
+        
         <form onSubmit={handleSubmmit}>
           <div className="form-group">
             <label htmlFor="event">Evento</label>
