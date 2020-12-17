@@ -30,7 +30,6 @@ export default function HeaderAdmin() {
               data-toggle="modal"
               data-target="#exampleModal"
             >
-              <span>Clique para ver perfil ou logout</span>
               <FiUser size={30} />
             </button>
           </div>
