@@ -38,6 +38,7 @@ import ResetSenhaColabForm from '../pages/sessions/ColaboradorResetSenha';
 
 // Coordenador
 import CoordenadorVisualizaAtividade from '../pages/CoordernadorVisualizaAtividade';
+import AdminHome from '../pages/Admin/AdminHome';
 
 import HomeQuestion from '../pages/Home';
 
