@@ -21,6 +21,11 @@ export const Container = styled.div`
       margin-top: 9px;
     }
   }
+
+  div {
+    display: flex;
+    
+  }
 `;
 
 export const Title = styled.h2`

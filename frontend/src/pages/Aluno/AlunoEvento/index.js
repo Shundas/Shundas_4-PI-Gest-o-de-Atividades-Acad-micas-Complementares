@@ -134,27 +134,31 @@ export default function AlunoEvento() {
 
       <Title>Adicionar Atividade</Title>
       <Container className="container">
-        {console.log(erros)}
-        {erros.msg === '' && erros.erro === '' ? '' : ''}
-        {erros.msg === '' && validacao === 2 ? (
-          ''
-        ) : (
-          <>
-            <div className="alert alert-success">
-              Atividade Registrada com Sucesso! {erros.msg}
-            </div>
-            {setTimeout(() => {
-              history.push('/aluno-home');
-            }, 5000)}
-          </>
-        )}
+        <div>
+          {console.log(erros)}
+          {erros.msg === '' && erros.erro === '' ? '' : ''}
+          {erros.msg === '' && validacao === 2 ? (
+            ''
+          ) : (
+              <>
+                <div className="alert alert-success">
+                  Atividade Registrada com Sucesso! {erros.msg}
+                </div>
+                {setTimeout(() => {
+                  history.push('/aluno-home');
+                }, 3000)}
+              </>
+            )}
 
-        {erros.erro === '' || validacao == 1 ? (
-          ''
-        ) : (
-          <div className="alert alert-danger">{erros.erro}</div>
-        )}
+          {erros.erro === '' || validacao == 1 ? (
+            ''
+          ) : (
+              <div className="alert alert-danger">{erros.erro}</div>
+            )}
+        </div>
         <form onSubmit={handleSubmmit}>
+
+
           <div className="form-column raw">
             <div className="drop-raw">
               <div className="form-group col-md-6">
