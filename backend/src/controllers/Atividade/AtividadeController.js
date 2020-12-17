@@ -576,7 +576,6 @@ module.exports = {
           msg +=
             'Você precisa preencher a quantidade de horas a serem validadas. '
         }
-<<<<<<< HEAD
     },
 
     async calculaHoras(request, response) {
@@ -602,7 +601,6 @@ module.exports = {
 
             return response.json({ error: error.message })
 
-=======
       }
       if (msg !== '') {
         return response.status(400).json({ error: msg })
@@ -689,7 +687,6 @@ module.exports = {
             msg +=
               'Você precisa preencher a quantidade de horas a serem validadas. '
           }
->>>>>>> 59378c07fdacf9855373b49f76dc289c053db9ef
         }
         if (msg !== '') {
           return response.status(400).json({ error: msg })
