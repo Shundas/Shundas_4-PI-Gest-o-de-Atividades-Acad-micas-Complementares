@@ -67,7 +67,7 @@ export default function PageSessionAluno() {
 
       if ((response.status = 200)) {
         if (senhaTemp === false) {
-          return historyReturn('colaboradorhome');
+          return historyReturn('colaborador-home');
         } else if (senhaTemp === true) {
           return historyReturn('form-auth-recuperasenhaColab');
         }
