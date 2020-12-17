@@ -43,19 +43,18 @@ export default function ResetSenhaAluno() {
   }
 
   const data = {
-    novaSenha: novaSenha,
-    confirmaSenha: confirmaSenha,
+    novaSenha,
+    confirmaSenha,
   };
 
   async function handleSubmit(event) {
     event.preventDefault();
 
+    const iduser = localStorage.getItem('iduser');
+    console.log(iduser);
+
     try {
-      const response = await axios.post('/novaSenhaAluno', data, {
-        query: {
-          iduser: 'afc4dbc4a7419538',
-        },
-      });
+      const response = await axios.post(`/novaSenhaAluno/${iduser}`, data);
       if ((response.status = 200)) {
         setTimeout(
           () => {

@@ -79,7 +79,7 @@ routes.get('/calculaHoras', AtividadeController.calculaHoras)
 //reset senha
 routes.post('/resetSenha', UserController.resetSenha)
 routes.post('/resetSenhaColab', UserController.resetSenhaColab)
-routes.post('/novaSenhaAluno', AlunoController.novaSenhaAluno)
+routes.post('/novaSenhaAluno/:id', AlunoController.novaSenhaAluno)
 routes.post('/novaSenhaColab', ColaboradorController.novaSenhaColab)
 
 //Fluxo de aprovação e rejeição
@@ -87,6 +87,5 @@ routes.post('/encaminhaCoordenador', AtividadeController.encaminhaCoordenador)
 routes.post('/rejeitaAtividade', AtividadeController.rejeitaAtividade)
 routes.post('/aprovaAtividade', AtividadeController.aprovaAtividade)
 routes.post('/concluiAtividade', AtividadeController.concluiAtividade)
-
 
 module.exports = routes
