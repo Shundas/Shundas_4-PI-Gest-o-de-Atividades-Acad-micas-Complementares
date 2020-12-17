@@ -167,6 +167,7 @@ module.exports = {
                 date_end,
                 activityName,
                 idstatus: 1,
+                institutionName: "SENAI - CTAI",
                 senaiEvent: true
             })
 
