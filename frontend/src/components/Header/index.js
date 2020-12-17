@@ -8,19 +8,21 @@ import { MdFace, MdAccessTime } from 'react-icons/md';
 import { Background, HeroTitle, HeaderWrapper } from './styled';
 
 export default function Header({ image, text }) {
-  const [horas, setHoras] = useState({
-    ensino: 0,
-    pesquisa: 0,
-    extensao: 0,
-    total: 0,
-  });
+  const [horas, setHoras] = useState([
+    {
+      ensino: 0,
+      pesquisa: 0,
+      extensao: 0,
+      total: 0,
+    },
+  ]);
 
   const idU = localStorage.getItem('iduser');
 
   useEffect(() => {
     axios
       .get('/calculaHoras', {
-        params: {
+        headers: {
           id: idU,
         },
       })
