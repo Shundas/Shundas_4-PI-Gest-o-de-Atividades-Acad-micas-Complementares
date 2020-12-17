@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import FileDown from 'js-file-download';
 import Header from '../../../components/Header';
 import { Text, Container, SubText, Nopit } from './styled';
 import logo from '../../../images/logo.svg';
 import 'bootstrap/dist/css/bootstrap.css';
 import axios from '../../../services/api';
+import { FiHome, FiArrowLeft } from 'react-icons/fi';
 
 //Tela pendente ainda!
 export default function AlunoVisualisarAtividades() {
