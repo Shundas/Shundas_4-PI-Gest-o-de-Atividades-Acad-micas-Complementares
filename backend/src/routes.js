@@ -80,7 +80,7 @@ routes.get('/calculaHoras', AtividadeController.calculaHoras)
 routes.post('/resetSenha', UserController.resetSenha)
 routes.post('/resetSenhaColab', UserController.resetSenhaColab)
 routes.post('/novaSenhaAluno/:id', AlunoController.novaSenhaAluno)
-routes.post('/novaSenhaColab', ColaboradorController.novaSenhaColab)
+routes.post('/novaSenhaColab/:id', ColaboradorController.novaSenhaColab)
 
 //Fluxo de aprovação e rejeição
 routes.post('/encaminhaCoordenador', AtividadeController.encaminhaCoordenador)

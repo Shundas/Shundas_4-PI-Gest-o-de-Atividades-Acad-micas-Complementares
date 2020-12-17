@@ -251,7 +251,7 @@ module.exports = {
     try {
 
       const { idrole } = request.query
-      const shunda = await knex('userSenai').select('iduserSenai', 'name').where('idrole', idrole)
+      const shunda = await knex('userSenai').select('iduserSenai', 'name').where('idrole', idrole).where('isActive',1)
 
       return response.json(shunda)
 
