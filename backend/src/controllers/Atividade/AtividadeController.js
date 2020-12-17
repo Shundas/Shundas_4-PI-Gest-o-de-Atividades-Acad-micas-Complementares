@@ -650,7 +650,7 @@ module.exports = {
 
     async encaminhaCoordenador(request, response) {
         try {
-            const { idCoord, idform, iduser } = request.body
+            const { iduserSenai, idform, iduser } = request.body
 
             const result = await knex('form')
                 .select(
@@ -729,6 +729,128 @@ module.exports = {
                         })
                 }
             }
+        } catch (error) {
+            return response.json({ error: error.message })
+        }
+    },
+
+    async updateResponsavel(request, response) {
+        try {
+            const { iduserSenai, iduser, idrole } = request.body
+            const { id } = request.params
+            const result = await knex('form')
+                .select(
+                    'idactivity',
+                    'idcategory',
+                    'senaiEvent',
+                    'informedWorkload',
+                    'idstatus',
+                    'activityName',
+                )
+                .where('idform', id)
+            const user = await knex('user').select('email').where('iduser', iduser)
+            const userSenai = await knex('userSenai')
+                .select('email as emailSenai')
+                .where('iduserSenai', iduserSenai)
+            const [
+                { idactivity, idcategory, senaiEvent, informedWorkload, idstatus },
+            ] = result
+            const [{ emailSenai }] = userSenai
+            const [{ email }] = user
+            var msg = ''
+
+            if (idrole === 1111) {
+                if (idstatus === 2) {
+                    return response
+                        .status(400)
+                        .json({
+                            error:
+                                'Esta atividade já está aguardando aprovação do coordenador.',
+                        })
+                } else {
+                    let transport = nodemailer.createTransport({
+                        host: process.env.APP_HOST,
+                        port: process.env.APP_PORT,
+                        secure: false,
+                        auth: {
+                            user: process.env.APP_USER,
+                            pass: process.env.APP_PASS,
+                        },
+                    })
+
+                    await transport.sendMail({
+                        from: '<noreplay@senai.com>',
+                        to: email,
+                        subject: `O status de validação da atividade \"${activityName}\" mudou`,
+                        text: `A validação da atividade está aguardando aprovação da coordenação do seu curso. \n\n Qualquer novidade, lhe manteremos atualizado!`,
+                        html: `A validação da atividade está aguardando aprovação da coordenação do seu curso. <br><br> Qualquer novidade, lhe manteremos atualizado!`,
+                    })
+
+                    await transport.sendMail({
+                        from: '<noreplay@senai.com>',
+                        to: emailSenai,
+                        subject: `Você recebeu uma nova tarefa de validação de atividade`,
+                        text: `ID: ${id} \n Nome da atividade: ${activityName}\n`,
+                        html: `ID: ${id}<br> Nome da atividade: ${activityName}<br> Link: <a href="http://localhost:3000/visualiza-atividade-colaborador/${idform}"> Aqui </a>`,
+                    })
+
+                    await knex('form')
+                        .update({ iduserSenai: iduserSenai, idstatus: 2 })
+                        .where('idform', id)
+                    return response
+                        .status(200)
+                        .json({
+                            msg: 'Atividade encaminhada para aprovação do coordenador',
+                        })
+                }
+            }
+            if (idrole === 2222) {
+                if (idstatus === 4) {
+                    return response
+                        .status(400)
+                        .json({
+                            error:
+                                'Esta atividade já está aguardando aprovação da secretaria.',
+                        })
+                } else {
+                    let transport = nodemailer.createTransport({
+                        host: process.env.APP_HOST,
+                        port: process.env.APP_PORT,
+                        secure: false,
+                        auth: {
+                            user: process.env.APP_USER,
+                            pass: process.env.APP_PASS,
+                        },
+                    })
+
+                    await transport.sendMail({
+                        from: '<noreplay@senai.com>',
+                        to: email,
+                        subject: `O status de validação da atividade \"${activityName}\" mudou`,
+                        text: `A validação da atividade está aguardando a conclusão por parte da secretaria. \n\n Qualquer novidade, lhe manteremos atualizado!`,
+                        html: `A validação da atividade está aguardando a conclusão por parte da secretaria. <br><br> Qualquer novidade, lhe manteremos atualizado!`,
+                    })
+
+                    await transport.sendMail({
+                        from: '<noreplay@senai.com>',
+                        to: emailSenai,
+                        subject: `Você recebeu uma nova tarefa de validação de atividade`,
+                        text: `ID: ${id} \n Nome da atividade: ${activityName}\n`,
+                        html: `ID: ${id}<br> Nome da atividade: ${activityName}<br> Link: <a href="http://localhost:3000/visualiza-atividade-colaborador/${idform}"> Aqui </a>`,
+                    })
+
+                    await knex('form')
+                        .update({ iduserSenai: iduserSenai, idstatus: 4 })
+                        .where('idform', id)
+                    return response
+                        .status(200)
+                        .json({
+                            msg:
+                                'Atividade encaminhada para aprovação da secretaria acadêmica.',
+                        })
+                }
+            }
+
         } catch (error) {
             return response.json({ error: error.message })
         }

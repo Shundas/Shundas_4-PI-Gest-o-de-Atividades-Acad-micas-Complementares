@@ -78,7 +78,7 @@ export default function AdminConsultaColaborador() {
         <Link to="/question-consult" className="btn btn-primary button">
           <FiArrowLeft />
         </Link>
-        <Link to="/" className="btn btn-success button">
+        <Link to="/admin-home" className="btn btn-success button">
           <FiHome />
         </Link>
       </Nopit>
