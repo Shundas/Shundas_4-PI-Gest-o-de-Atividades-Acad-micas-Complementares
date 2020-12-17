@@ -5,6 +5,32 @@ import logo from '../../../images/logo.svg';
 import Header from '../../../components/Header';
 import { Title, Container } from './styled';
 import { useHistory } from 'react-router-dom';
+import { FiHome, FiArrowLeft } from 'react-icons/fi';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+
+const Nopit = styled.div`
+  position: absolute;
+
+  border: 0;
+
+  top: 90px;
+  left: 30px;
+
+  width: 38px;
+  height: 38px;
+  background: #28a745 !important;
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 10;
+
+  cursor: pointer;
+`;
+
 
 export default function ColaboradorAdicionarAtividade() {
   const history = useHistory();
@@ -106,7 +132,11 @@ export default function ColaboradorAdicionarAtividade() {
   return (
     <>
       <Header image={logo} text="Imagem da Logo" />
-
+      <Nopit>
+        <Link to="/colaborador-home" className="btn btn-primary button">
+          <FiArrowLeft />
+        </Link>
+      </Nopit>
       <Title>Adicionar Atividade</Title>
 
       <Container className="container">

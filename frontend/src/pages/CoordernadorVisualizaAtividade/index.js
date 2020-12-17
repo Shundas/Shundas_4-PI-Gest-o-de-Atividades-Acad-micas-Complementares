@@ -4,6 +4,8 @@ import axios from '../../services/api';
 import styled from 'styled-components';
 import 'bootstrap/dist/css/bootstrap.css';
 import FileDown from 'js-file-download';
+import { FiHome, FiArrowLeft } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
 
 import Header from '../../components/HeaderAdmin';
 
@@ -233,6 +235,8 @@ export default function CoordenadorVisualizaAtividades() {
   return (
     <>
       <Header />
+
+      
       <TitleH2>Vizualizar Atividade</TitleH2>
       <ContainerApp className="container">
       {

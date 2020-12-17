@@ -70,7 +70,7 @@ export default function AlunoVisualisarAtividades() {
       <Header image={logo} text="Imagem da Logo" />
 
       <Nopit>
-        <Link to="/senai-atividade" className="btn btn-primary button">
+        <Link to="/consulta-atividade" className="btn btn-primary button">
           <FiArrowLeft />
         </Link>
         <Link to="/aluno-home" className="btn btn-success button">

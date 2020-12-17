@@ -6,6 +6,30 @@ import logo from '../../../images/logo.svg';
 import 'bootstrap/dist/css/bootstrap.css';
 import { Text, Container } from './styled';
 import axios from '../../../services/api';
+import { FiHome, FiArrowLeft } from 'react-icons/fi';
+import styled from 'styled-components';
+
+const Nopit = styled.div`
+  position: absolute;
+
+  border: 0;
+
+  top: 90px;
+  left: 30px;
+
+  width: 38px;
+  height: 38px;
+  background: #28a745 !important;
+  border-radius: 50%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 10;
+
+  cursor: pointer;
+`;
 
 
 export default function ColaboradorConsultaAtividades() {
@@ -30,6 +54,13 @@ export default function ColaboradorConsultaAtividades() {
   return (
     <>
       <Header image={logo} text="Imagem da Logo" />
+
+      <Nopit>
+        <Link to="/colaborador-home" className="btn btn-primary button">
+          <FiArrowLeft />
+        </Link>
+      </Nopit>
+
       <Text>Consulta de Atividades</Text>
 
       <Container className="container-fluid">
@@ -74,7 +105,7 @@ export default function ColaboradorConsultaAtividades() {
                 <td>{atv.name}</td>
                 <Link
                   className="tolink"
-                  to={`/visualiza-atividade-colaborador/${atv.idform}`}
+                  to={`/coordenador-visualiza-atividade/${atv.idform}`}
                 >
                   <button className="btn btn-outline-success">
                     Visualizar

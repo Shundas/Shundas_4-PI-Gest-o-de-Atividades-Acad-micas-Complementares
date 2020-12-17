@@ -149,7 +149,7 @@ export default function AdminCadastroColab() {
             class="alert alert-success"
             role="alert"
           >
-            Aluno Cadastrado com Sucesso!
+            Colaborador Cadastrado com Sucesso!
           </div>
         )}
 
