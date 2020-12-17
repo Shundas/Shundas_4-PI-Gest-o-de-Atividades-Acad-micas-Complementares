@@ -19,3 +19,19 @@ export const Container = styled.div`
     margin-bottom: 1rem;
   }
 `;
+
+export const Nopit = styled.div`
+  position: absolute;
+  border: 0;
+  top: 90px;
+  left: 30px;
+  width: 38px;
+  height: 38px;
+  background: #28a745 !important;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  cursor: pointer;
+`;
