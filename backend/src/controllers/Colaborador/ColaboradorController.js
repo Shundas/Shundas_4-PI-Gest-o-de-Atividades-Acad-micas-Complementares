@@ -216,7 +216,7 @@ module.exports = {
         .select('iduserSenai', 'name')
         .where('idrole', 1111)
       return response.json(result)
-    } catch (error) {}
+    } catch (error) { }
   },
 
   async indexAssist(request, response) {
@@ -225,7 +225,7 @@ module.exports = {
         .select('iduserSenai', 'name')
         .where('idrole', 4444)
       return response.json(result)
-    } catch (error) {}
+    } catch (error) { }
   },
   async indexSec(request, response) {
     try {
@@ -233,6 +233,31 @@ module.exports = {
         .select('iduserSenai', 'name')
         .where('idrole', 2222)
       return response.json(result)
-    } catch (error) {}
+    } catch (error) { }
   },
+
+  async listaCargos(request, response) {
+    try {
+      const result = await knex('role').select('*')
+
+      return response.json(result)
+    } catch (error) {
+      return response.json({ error: erros.message })
+    }
+  },
+
+  async listaGalera(request, response) {
+
+    try {
+
+      const { idrole } = request.query
+      const shunda = await knex('userSenai').select('iduserSenai', 'name').where('idrole', idrole)
+
+      return response.json(shunda)
+
+    } catch (error) {
+      return response.json({ error: erros.message })
+    }
+  }
+
 }

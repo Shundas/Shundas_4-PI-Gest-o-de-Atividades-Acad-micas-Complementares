@@ -176,7 +176,7 @@ module.exports = {
                 .join('userSenai', 'form.iduserSenai', '=', 'userSenai.iduserSenai')
                 .join('user', 'form.iduser', '=', 'user.iduser')
                 .join('status', 'form.idstatus', '=', 'status.idstatus')
-                console.log(atividades)
+            console.log(atividades)
 
             return response.json(atividades)
 
@@ -457,7 +457,7 @@ module.exports = {
     async encaminhaCoordenador(request, response) {
 
         try {
-            const { idCoord, idform , iduser} = request.body
+            const { idCoord, idform, iduser } = request.body
 
             const result = await knex('form').select('idactivity', 'idcategory', 'senaiEvent', 'informedWorkload', 'idstatus', 'activityName').where('idform', idform)
             const user = await knex('user').select('email').where('iduser', iduser)
@@ -524,7 +524,7 @@ module.exports = {
     async rejeitaAtividade(request, response) {
         try {
 
-            const { idusersenai, idform , comment} = request.body
+            const { idusersenai, idform, comment } = request.body
             const check = yup.object().shape({ comment: yup.string().required() })
 
             const result = await knex('form').select('idactivity', 'idcategory', 'senaiEvent', 'informedWorkload', 'idstatus').where('idform', idform)
