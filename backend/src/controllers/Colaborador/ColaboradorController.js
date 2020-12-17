@@ -172,7 +172,7 @@ module.exports = {
   async novaSenhaColab(request, response) {
     try {
       const { novaSenha, confirmaSenha } = request.body
-      const { id } = request.query
+      const { id } = request.params
       const reset = await knex
         .select('isReset')
         .from('userSenai')
