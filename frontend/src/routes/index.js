@@ -47,6 +47,7 @@ export default function RoutesAplication() {
       <Switch>
         /** Admin */
         <Route path="/" exact component={HomeQuestion} />
+        <Route path="/admin-home" exact component={AdminHome} />
         <Route path="/aluno-login" component={AlunoLogin} />
         <Route path="/question" component={AdminTipoUser} />
         <Route path="/aluno" component={AdminCadastroAluno} />

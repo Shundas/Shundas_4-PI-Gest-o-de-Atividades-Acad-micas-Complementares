@@ -65,7 +65,7 @@ export default function AdminTipoUser() {
         </div>
 
         <div>
-          <Link className="back" to="/">
+          <Link className="back" to="/admin-home">
             <FiArrowLeft size={25} color="#fff" />
           </Link>
         </div>

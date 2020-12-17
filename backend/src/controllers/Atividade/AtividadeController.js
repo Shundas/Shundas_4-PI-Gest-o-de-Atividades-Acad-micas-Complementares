@@ -737,7 +737,7 @@ module.exports = {
     async updateResponsavel(request, response) {
         try {
             const { iduserSenai, iduser, idrole } = request.body
-            const { idform } = request.params
+            const { id } = request.params
             const result = await knex('form')
                 .select(
                     'idactivity',
@@ -747,11 +747,11 @@ module.exports = {
                     'idstatus',
                     'activityName',
                 )
-                .where('idform', idform)
+                .where('idform', id)
             const user = await knex('user').select('email').where('iduser', iduser)
             const userSenai = await knex('userSenai')
                 .select('email as emailSenai')
-                .where('iduserSenai', idSec)
+                .where('iduserSenai', iduserSenai)
             const [
                 { idactivity, idcategory, senaiEvent, informedWorkload, idstatus },
             ] = result
@@ -790,13 +790,13 @@ module.exports = {
                         from: '<noreplay@senai.com>',
                         to: emailSenai,
                         subject: `Você recebeu uma nova tarefa de validação de atividade`,
-                        text: `ID: ${idform} \n Nome da atividade: ${activityName}\n`,
-                        html: `ID: ${idform}<br> Nome da atividade: ${activityName}<br> Link: <a href="http://localhost:3000/visualiza-atividade-colaborador/${idform}"> Aqui </a>`,
+                        text: `ID: ${id} \n Nome da atividade: ${activityName}\n`,
+                        html: `ID: ${id}<br> Nome da atividade: ${activityName}<br> Link: <a href="http://localhost:3000/visualiza-atividade-colaborador/${idform}"> Aqui </a>`,
                     })
 
                     await knex('form')
                         .update({ iduserSenai: iduserSenai, idstatus: 2 })
-                        .where('idform', idform)
+                        .where('idform', id)
                     return response
                         .status(200)
                         .json({
@@ -835,13 +835,13 @@ module.exports = {
                         from: '<noreplay@senai.com>',
                         to: emailSenai,
                         subject: `Você recebeu uma nova tarefa de validação de atividade`,
-                        text: `ID: ${idform} \n Nome da atividade: ${activityName}\n`,
-                        html: `ID: ${idform}<br> Nome da atividade: ${activityName}<br> Link: <a href="http://localhost:3000/visualiza-atividade-colaborador/${idform}"> Aqui </a>`,
+                        text: `ID: ${id} \n Nome da atividade: ${activityName}\n`,
+                        html: `ID: ${id}<br> Nome da atividade: ${activityName}<br> Link: <a href="http://localhost:3000/visualiza-atividade-colaborador/${idform}"> Aqui </a>`,
                     })
 
                     await knex('form')
                         .update({ iduserSenai: iduserSenai, idstatus: 4 })
-                        .where('idform', idform)
+                        .where('idform', id)
                     return response
                         .status(200)
                         .json({

@@ -54,7 +54,7 @@ export default function AdminCadastroUser() {
   const history = useHistory();
 
   const historyReturn = () => {
-    return history.push('/');
+    return history.push('/admin-home');
   };
 
   const handleSubmit = React.useCallback(
