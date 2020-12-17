@@ -11,10 +11,14 @@ module.exports = {
         try {
 
             const filters = request.query
+            console.log(filters)
+
             var erro
 
             //Verificar
             const { iduser, iduserSenai } = filters
+
+            console.log(iduser, iduserSenai)
 
             console.log(request.body)
 

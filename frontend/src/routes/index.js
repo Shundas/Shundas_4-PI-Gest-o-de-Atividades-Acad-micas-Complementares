@@ -37,7 +37,7 @@ import ResetColaborador from '../pages/sessions/ColaboradorReset';
 import ResetSenhaColabForm from '../pages/sessions/ColaboradorResetSenha';
 
 // Coordenador
-import CoordenadorVisualizaAtividade from '../pages/CoordernadorVisualizaAtividade/Coordenador';
+import CoordenadorVisualizaAtividade from '../pages/CoordernadorVisualizaAtividade';
 
 import HomeQuestion from '../pages/Home';
 
@@ -91,7 +91,7 @@ export default function RoutesAplication() {
         />
         // Coordenador
         <Route
-          path="/coordenador-visualiza-atividade"
+          path="/coordenador-visualiza-atividade/:id"
           component={CoordenadorVisualizaAtividade}
         />
       </Switch>
