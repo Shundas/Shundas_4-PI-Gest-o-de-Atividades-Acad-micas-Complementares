@@ -8,8 +8,6 @@ import * as Yup from 'yup';
 import Header from '../../../components/HeaderAdmin';
 import 'bootstrap/dist/css/bootstrap.css';
 
-import Footer from '../../../components/Footer';
-
 const Container = styled.div`
   display: flex;
   align-items: center;
@@ -197,8 +195,6 @@ export default function AdminCadastroUser() {
           </form>
         </div>
       </Container>
-
-      <Footer />
     </>
   );
 }
