@@ -105,11 +105,13 @@ export default function AlunoEvento() {
     data.append('idcategory', category);
     data.append('idactivity', activity);
 
+    const idU = localStorage.getItem("iduser")
+
     await axios
       .post('/criarAtividade', data, {
         params: {
-          iduser: '283ed9c58b81d66a',
-          iduserSenai: '520589a09a2ecd73',
+          iduser: idU,
+          iduserSenai: '987654321',
         },
       })
       .then(response => {

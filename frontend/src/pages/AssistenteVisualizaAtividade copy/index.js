@@ -43,15 +43,13 @@ const TitleH2 = styled.h2`
 const SubTitle = styled.h4``;
 
 
-export default function CoordenadorVisualizaAtividades() {
+export default function AssistenteVisualizaAtividades() {
   const { id } = useParams();
 
   const [category, setCategory] = useState([]);
   const [activity, setActivity] = useState([]);
   const [status, setStatus] = useState([]);
   const [user, setUser] = useState([]);
-  const [cargo, setCargo] = useState([]);
-
 
   const [erros, setErros] = useState({
     msg: '',
@@ -86,31 +84,8 @@ export default function CoordenadorVisualizaAtividades() {
 
   const [selectedCategory, setSelectedCategory] = useState('0');
   const [selectedUser, setSelectedUser] = useState('0');
-  const [selectedCargo, setSelectedCargo] = useState('0');
   const [selectedStatus, setSelectedStatus] = useState('0');
   const [selectedActivity, setSelectedActivity] = useState('0');
-
-  useEffect(() => {
-    axios.get('/listaCargo').then(response => {
-      setCargo(response.data);
-    });
-  }, []);
-
-  useEffect(() => {
-    if (selectedCargo === '0') {
-      return;
-    }
-
-    axios
-      .get('/listaGalera', {
-        params: {
-          idcargo: selectedCargo,
-        },
-      })
-      .then(response => {
-        setUser(response.data);
-      });
-  }, [selectedCargo]);
 
   useEffect(() => {
     axios.get('/category').then(response => {
@@ -123,7 +98,12 @@ export default function CoordenadorVisualizaAtividades() {
       setStatus(response.data);
     });
   }, []);
- 
+
+  useEffect(() => {
+    axios.get('/userSenai').then(response => {
+      setUser(response.data);
+    });
+  }, []);
 
   useEffect(() => {
     if (selectedCategory === '0') {
@@ -391,14 +371,13 @@ export default function CoordenadorVisualizaAtividades() {
                   </select>
                 </div>
                 <div className="form-group col-md-6">
-                  <label htmlFor="fil">Responsável Atual</label>
+                  <label htmlFor="fil">Responsavel</label>
                   <input
                     className="form-control"
                     type="text"
                     name="userSenai"
                     id="userSenai"
                     value={atividade.name}
-                    disabled
                   />
                 </div>
               </div>
@@ -412,14 +391,6 @@ export default function CoordenadorVisualizaAtividades() {
                 data-target="#exampleModalLong"
               >
                 Enviar Para
-              </button>
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-toggle="modal"
-                data-target="#exampleModalReject"
-              >
-                Rejeitar
               </button>
             </div>
           </div>
@@ -454,22 +425,6 @@ export default function CoordenadorVisualizaAtividades() {
               <h5>Selecione o Colaborador</h5>
 
               <form>
-              <div className="form-group">
-                  <label htmlFor="assunto">Cargo</label>
-                  <select
-                    onChange={e => setSelectedCargo(e.target.value)}
-                    className="form-control"
-                    id="profile"
-                  >
-                    <option value={atividade.iduserSenai}>{atividade.name}</option>
-                    {
-                      cargo.map(car => (
-                        <option key={car.idrole} value={car.idrole}>
-                          {car.name}
-                        </option>
-                      ))}
-                  </select>
-                </div>
                 <div className="form-group">
                   <label htmlFor="assunto">Responsável</label>
                   <select
@@ -495,48 +450,6 @@ export default function CoordenadorVisualizaAtividades() {
                   ></textarea>
                 </div>
                 <button className="btn btn-primary">Enviar</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div
-        class="modal fade"
-        id="exampleModalReject"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="exampleModalRejectTitle"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalLongTitle">
-                Enviar Atividade Para
-              </h5>
-              <button
-                type="button"
-                className="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div className="modal-body">
-              <h5>Rejeitar a Atividade</h5>
-
-              <form>
-                <div className="form-group">
-                  <label htmlFor="assunto">Comentario</label>
-                  <textarea
-                    class="form-control"
-                    id="exampleFormControlTextarea1"
-                    rows="3"
-                  ></textarea>
-                </div>
-                <button className="btn btn-primary">Rejeitar</button>
               </form>
             </div>
           </div>
