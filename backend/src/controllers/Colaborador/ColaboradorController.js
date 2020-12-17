@@ -115,7 +115,7 @@ module.exports = {
               process.env.APP_SECRET,
               { expiresIn: '1d' },
             )
-            return response.status(200).json({ token: token, senhaTemp: true })
+            return response.status(200).json({ token: token, senhaTemp: true, userId: iduserSenai })
           } else {
             bcrypt.compare(data['senha'], senha).then(async ctx => {
               if (ctx) {
@@ -133,7 +133,7 @@ module.exports = {
                   .where('iduserSenai', iduserSenai)
                 return response
                   .status(200)
-                  .json({ token: token, senhaTemp: true })
+                  .json({ token: token, senhaTemp: true, userId: iduserSenai })
               } else {
                 return response
                   .status(400)
@@ -154,7 +154,7 @@ module.exports = {
               process.env.APP_SECRET,
               { expiresIn: '1d' },
             )
-            return response.status(200).json({ token: token, senhaTemp: false })
+            return response.status(200).json({ token: token, senhaTemp: false, userId: iduserSenai })
           } else {
             return response
               .status(400)

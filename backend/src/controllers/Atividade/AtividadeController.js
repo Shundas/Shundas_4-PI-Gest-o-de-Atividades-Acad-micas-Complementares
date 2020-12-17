@@ -180,6 +180,7 @@ module.exports = {
                 .join('userSenai', 'form.iduserSenai', '=', 'userSenai.iduserSenai')
                 .join('user', 'form.iduser', '=', 'user.iduser')
                 .join('status', 'form.idstatus', '=', 'status.idstatus')
+                console.log(atividades)
 
             return response.json(atividades)
 
