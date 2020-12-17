@@ -156,8 +156,8 @@ module.exports = {
                 idform: id,
                 iduser,
                 iduserSenai,
-                idactivity,
-                idcategory,
+                idactivity: "27",
+                idcategory: "4",
                 date_end,
                 activityName,
                 senaiEvent: true
