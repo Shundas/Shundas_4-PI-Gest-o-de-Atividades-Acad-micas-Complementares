@@ -629,7 +629,9 @@ module.exports = {
     async calculaHoras(request, response) {
         try {
 
-            const { id } = request.headers
+            const filters = request.query
+
+            const { id } = filters
 
             const ensino = await knex('form').sum('workload as somaEnsino').where('idcategory', 1).where({ iduser: id })
             const pesquisa = await knex('form').sum('workload as somaPesquisa').where('idcategory', 2).where({ iduser: id })
@@ -641,7 +643,7 @@ module.exports = {
 
             var total = somaEnsino + somaExtensao + somaPesquisa
 
-            return response.json({ ensino: ensino, pesquisa: pesquisa, extensao: extensao, total: total })
+            return response.json({ ensino: somaEnsino, pesquisa: somaPesquisa, extensao: somaExtensao, total: total })
 
         } catch (error) {
 
