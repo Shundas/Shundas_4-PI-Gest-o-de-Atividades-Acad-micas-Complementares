@@ -5,52 +5,31 @@ import { MdMenu } from 'react-icons/md';
 import { FiLogOut, FiUser } from 'react-icons/fi';
 import { MdFace, MdAccessTime } from 'react-icons/md';
 
-
 import { Background, HeroTitle, HeaderWrapper } from './styled';
 
 export default function Header({ image, text }) {
-
-  const [horas, setHoras] = useState({
-    ensino: 0,
-    pesquisa: 0,
-    extensao: 0,
-    total: 0,
-  });
-
-  const idU = localStorage.getItem("iduser")
-
-  useEffect(() => {
-    axios.get('/calculaHoras', {
-      params: {
-        id: idU,
-      }
-    }).then(response => {
-      console.log(response.data)
-      setHoras(response.data);
-    });
-  }, []);
-
-
-  const [hourValid, setHourValid] = React.useState([
+  const [horas, setHoras] = useState([
     {
-      total: '',
-      somaEnsino: '',
-      somaExtensao: '',
-      somaPesquisa: '',
+      ensino: 0,
+      pesquisa: 0,
+      extensao: 0,
+      total: 0,
     },
   ]);
 
-  React.useEffect(() => {
-    axios.get('/calculaHoras').then(
-      response => {
-        console.log(response.data);
-      },
-      {
+  const idU = localStorage.getItem('iduser');
+
+  useEffect(() => {
+    axios
+      .get('/calculaHoras', {
         headers: {
-          id: localStorage.getItem('iduser'),
+          id: idU,
         },
-      }
-    );
+      })
+      .then(response => {
+        console.log(response.data);
+        setHoras(response.data);
+      });
   }, []);
 
   return (
