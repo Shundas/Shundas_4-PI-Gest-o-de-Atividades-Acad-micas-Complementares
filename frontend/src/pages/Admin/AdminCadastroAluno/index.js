@@ -167,16 +167,16 @@ export default function AdminCadastroUser() {
 
               <label htmlFor="telefone">CPF</label>
               <InputMask
-                mask="999.999.999-99"
                 className="form-control"
+                mask="999.999.999-99"
                 placeholder="Digite apenas números"
                 onChange={e => setCpf(e.target.value)}
               />
 
               <label htmlFor="fone">Telefone</label>
               <InputMask
-                mask="(99)9999-9999"
                 className="form-control"
+                mask="(99)9999-9999"
                 placeholder="(99)9999-9999"
                 id="telefone"
                 onChange={e => setPhone(e.target.value)}
@@ -184,8 +184,8 @@ export default function AdminCadastroUser() {
 
               <label htmlFor="cel">Celular</label>
               <InputMask
-                mask="(99)99999-9999"
                 className="form-control"
+                mask="(99)99999-9999"
                 placeholder="(99)99999-9999"
                 id="celular"
                 onChange={e => setCelular(e.target.value)}

@@ -2,7 +2,7 @@ import React, { Fragment, useCallback, useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import api from '../../../services/api';
 import { FiHome, FiArrowLeft } from 'react-icons/fi';
-import Swal from 'sweetalert2';
+import InputMask from 'react-input-mask';
 import styled from 'styled-components';
 import Header from '../../../components/HeaderAdmin';
 import 'bootstrap/dist/css/bootstrap.css';
@@ -19,6 +19,9 @@ const Container = styled.div`
 
   .btns button:nth-child(1) {
     margin-bottom: 1rem;
+  }
+  input {
+    width: 530px;
   }
 `;
 
@@ -44,28 +47,6 @@ const Nopit = styled.div`
   cursor: pointer;
 `;
 
-const swalMessage = () => {
-  return Swal.fire({
-    position: 'top-end',
-    text: 'Todos os campos devem estar preenchidos!',
-    showConfirmButton: false,
-    timer: 3000,
-    background: '#fd951f',
-    timerProgressBar: true,
-  });
-};
-
-const swalMessageConfirm = () => {
-  return Swal.fire({
-    position: 'top-end',
-    text: 'Colaborador Cadastrado com sucesso!',
-    showConfirmButton: false,
-    timer: 3000,
-    background: '#04d361',
-    timerProgressBar: true,
-  });
-};
-
 export default function AdminCadastroColab() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -73,6 +54,9 @@ export default function AdminCadastroColab() {
   const [celular, setCelular] = useState('');
   const [cpf, setCpf] = useState('');
   const [selectRole, setSelectRole] = useState('0');
+
+  const [showalerterror, setShowAlertError] = React.useState(false);
+  const [showalertsuccess, setShowAlertSuccess] = React.useState(false);
 
   const [roles, setRoles] = useState([]);
 
@@ -100,7 +84,12 @@ export default function AdminCadastroColab() {
         celular === '' ||
         cpf === ''
       ) {
-        return swalMessage();
+        return setTimeout(
+          () => {
+            setShowAlertError(true);
+          },
+          setTimeout(() => setShowAlertError(false), 4000)
+        );
       } else {
         await api.post('/criarColaborador', {
           name,
@@ -112,8 +101,14 @@ export default function AdminCadastroColab() {
         });
       }
 
-      swalMessageConfirm();
-      history.push('/');
+      return setTimeout(
+        () => {
+          setShowAlertSuccess(true);
+        },
+        setTimeout(() => {
+          setShowAlertSuccess(false);
+        }, 4000)
+      );
     },
     [name, email, phone, celular, cpf, selectRole]
   );
@@ -135,6 +130,29 @@ export default function AdminCadastroColab() {
       </Nopit>
 
       <div className="container">
+        {!showalerterror && ''}
+        {showalerterror && (
+          <div
+            style={{ textAlign: 'center' }}
+            class="alert alert-danger"
+            role="alert"
+          >
+            Alguns campos são obrigatórios, verifique se todos estão
+            preenchidos!
+          </div>
+        )}
+
+        {!showalertsuccess && ''}
+        {showalertsuccess && (
+          <div
+            style={{ textAlign: 'center' }}
+            class="alert alert-success"
+            role="alert"
+          >
+            Aluno Cadastrado com Sucesso!
+          </div>
+        )}
+
         <Container>
           <form onSubmit={handleSubmit} className="form">
             <div className="form-group">
@@ -153,23 +171,29 @@ export default function AdminCadastroColab() {
                 onChange={e => setEmail(e.target.value)}
               />
               <label htmlFor="telefone">Telefone</label>
-              <input
+              <InputMask
                 className="form-control"
+                mask="(99)9999-9999"
+                placeholder="(99)9999-9999"
                 type="text"
                 id="telefone"
                 onChange={e => setPhone(e.target.value)}
               />
               <label htmlFor="celular">Celular</label>
-              <input
+              <InputMask
                 className="form-control"
+                mask="(99)99999-9999"
+                placeholder="(99)99999-9999"
                 type="text"
                 id="celular"
                 onChange={e => setCelular(e.target.value)}
               />
 
               <label htmlFor="celular">CPF</label>
-              <input
+              <InputMask
                 className="form-control"
+                mask="999.999.999-99"
+                placeholder="Digite apenas números"
                 type="text"
                 id="cpf"
                 onChange={e => setCpf(e.target.value)}
