@@ -91,7 +91,8 @@ export default function CoordenadorVisualizaAtividades() {
   const [selectedActivity, setSelectedActivity] = useState('0');
 
   useEffect(() => {
-    axios.get('/listaCargo').then(response => {
+    axios.get('/listaCargos').then(response => {
+      console.log(response.data)
       setCargo(response.data);
     });
   }, []);
@@ -104,10 +105,11 @@ export default function CoordenadorVisualizaAtividades() {
     axios
       .get('/listaGalera', {
         params: {
-          idcargo: selectedCargo,
+          idrole: selectedCargo,
         },
       })
       .then(response => {
+        console.log(response.data)
         setUser(response.data);
       });
   }, [selectedCargo]);
@@ -461,7 +463,7 @@ export default function CoordenadorVisualizaAtividades() {
                     className="form-control"
                     id="profile"
                   >
-                    <option value={atividade.iduserSenai}>{atividade.name}</option>
+                    <option disabled selected>Selecione</option>
                     {
                       cargo.map(car => (
                         <option key={car.idrole} value={car.idrole}>
@@ -477,7 +479,7 @@ export default function CoordenadorVisualizaAtividades() {
                     className="form-control"
                     id="profile"
                   >
-                    <option value={atividade.iduserSenai}>{atividade.name}</option>
+                    <option disabled selected>Selecione</option>
                     {
                       user.map(us => (
                         <option key={us.iduserSenai} value={us.iduserSenai}>
