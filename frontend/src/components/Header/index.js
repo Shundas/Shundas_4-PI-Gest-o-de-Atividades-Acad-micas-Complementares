@@ -4,7 +4,6 @@ import axios from '../../services/api';
 import { MdMenu } from 'react-icons/md';
 import { FiLogOut, FiUser } from 'react-icons/fi';
 import { MdFace, MdAccessTime } from 'react-icons/md';
-import axios from '../../services/api';
 
 
 import { Background, HeroTitle, HeaderWrapper } from './styled';
@@ -142,7 +141,6 @@ export default function Header({ image, text }) {
               </button>
             </div>
             <div class="modal-body">
-<<<<<<< HEAD
               <ul className="navbar-nav mr-auto">
                 <li className="nav-item">
                   Ensino:
@@ -162,9 +160,6 @@ export default function Header({ image, text }) {
                   <h2 class="badge badge-ligth">{horas.total}</h2>
                 </li>
               </ul>
-=======
-              <ul className="navbar-nav mr-auto"></ul>
->>>>>>> 59378c07fdacf9855373b49f76dc289c053db9ef
             </div>
           </div>
         </div>
