@@ -736,7 +736,8 @@ module.exports = {
 
     async updateResponsavel(request, response) {
         try {
-            const { iduserSenai, idform, iduser, idrole } = request.body
+            const { iduserSenai, iduser, idrole } = request.body
+            const { idform } = request.params
             const result = await knex('form')
                 .select(
                     'idactivity',
